@@ -29,10 +29,10 @@ public class Compress {
 
         if (singleCharCount == 0) return new String(A, 0, write);
         int newLen = write + singleCharCount;
-        return round2(A, write - 1, newLen > A.length ? new char[newLen] : A, newLen);
+        return round2(A, write - 1, newLen, newLen > A.length ? new char[newLen] : A);
     }
 
-    private static String round2(char[] src, int read, char[] dest, int newLen) {
+    private static String round2(char[] src, int read, int newLen, char[] dest) {
         int write = newLen - 1;
         while (read >= 0) {
             if (!Character.isDigit(src[read])) dest[write--] = '1'; // either write '1' or write all digits

@@ -6,7 +6,7 @@
 //
 //        The characters used in the original string are guaranteed to be ‘a’ - ‘z’
 //
-//        There are no adjacent repeated characters with length > 9
+//        There are no adjacently repeated characters with length > 9
 //
 //        Examples
 //
