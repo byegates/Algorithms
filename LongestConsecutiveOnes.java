@@ -11,14 +11,14 @@
 //        Output: 7
 //
 //        Explanation: flip 0s at index 2 and 3, then the array becomes [1,1,1,1,1,1,1,0,0,0],
-//        so that the length of longest subarray that contains only integer 1 is 7.
+//        so that the length of the longest subarray that contains only integer 1 is 7.
 //
 //        Example 2:
 //        Input: array = [1,1,0,0,1,1,1,0,0,0], k = 0
 //        Output: 3
 //
-//        Explanation: k is 0 so you can not flip any 0 to 1,
-//        then the length of longest subarray that contains only integer 1 is 3.
+//        Explanation: k is 0, so you can not flip any 0 to 1,
+//        then the length of the longest subarray that contains only integer 1 is 3.
 
 public class LongestConsecutiveOnes {
     public static int longestConsecutiveOnes(int[] A, int k) {
