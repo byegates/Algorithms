@@ -23,17 +23,36 @@
 public class LongestConsecutiveOnes {
     public static int longestConsecutiveOnes(int[] A, int k) {
         int longest = 0;
-        int end = 0;
-        for (int start = 0; start < A.length; start++) {
-            if (A[start] == 1 || k-- > 0) longest = Math.max(longest, start - end + 1);
-            while (k == -1) if (A[end++] == 0) k++;
+        int slow = 0;
+        for (int fast = 0; fast < A.length; fast++) {
+            if (A[fast] == 1 || k-- > 0) // keep moving while its 1 or k is greater than 0
+                longest = Math.max(longest, fast - slow + 1);
+            while (k == -1) if (A[slow++] == 0) k++; // k == -1 so we move slow to after one 0(throw one 0 out)
         }
         return longest;
     } // TC: O(n) n is length of A, SC: O(1)
 
+    public static int solution2(int[] A, int k) {
+        int longest = 0;
+        int slow = 0;
+        for (int fast = 0; fast < A.length; fast++) {
+            if (A[fast] == 0) // When the Snake eats a 0, reduce k first, when k is done, move slow until after one 0
+                if (k > 0) k--;
+                else while (A[slow++] != 0) ; // move slow to after 0, when never fast eats one 0, slow throw one 0 out
+            longest = Math.max(longest, fast - slow + 1); // slow is always at the right position, so we always update
+        }
+        return longest;
+    }
+
     public static void main(String[] args) {
-        System.out.println(longestConsecutiveOnes(new int[]{1,1,0,0,1,1,1,0,0,0}, 2));
-        System.out.println(longestConsecutiveOnes(new int[]{1,1,0,0,1,1,1,0,0,0}, 0));
-        System.out.println(longestConsecutiveOnes(new int[]{1,0,0,1,1,1,0,1,0,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,0,0,1,1,1,1,1,1,0,0,1,1,1,0,0,1,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,1,0,0,0,1,1,0,1,0,1,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,1,0,1,1,1,1,0,0,1,0,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,1,0,0,0,1,1,1,0,1,0,1,1,1,0,1,1,1,0,1,1,0,1,0,1,0,1,1,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,0,0,0,1,1,1,0,0,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,1,0,1,0,1,1,0,1,0,0,0,1,0,1,1,1,0,1,1,1,0,1,0,1,1,0,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,0,1,0,0,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,1,0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,0,0,0,0}, 76));
+        int[] A1 = new int[]{1,1,0,0,1,1,1,0,0,0};
+        int[] A2 = new int[]{1,1,0,0,1,1,1,0,0,0};
+        int[] A3 = new int[]{1,0,0,1,1,1,0,1,0,1,1,0,1,0,1,1,1,0,1,0,1,1,1,0,0,0,1,1,1,1,1,1,0,0,1,1,1,0,0,1,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,0,1,0,0,0,1,1,0,1,0,1,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,0,1,0,0,0,1,0,1,1,1,1,0,0,1,0,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,1,0,0,0,1,1,1,0,1,0,1,1,1,0,1,1,1,0,1,1,0,1,0,1,0,1,1,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,1,0,1,1,0,0,0,1,1,1,0,0,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,1,0,1,0,1,1,0,1,0,0,0,1,0,1,1,1,0,1,1,1,0,1,0,1,1,0,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,0,1,0,0,0,0,0,1,1,1,0,1,0,0,0,1,0,0,1,1,0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,0,0,0,0};
+        System.out.println(longestConsecutiveOnes(A1, 2));
+        System.out.println(longestConsecutiveOnes(A2, 0));
+        System.out.println(longestConsecutiveOnes(A3, 76));
+        System.out.println(solution2(A1, 2));
+        System.out.println(solution2(A2, 0));
+        System.out.println(solution2(A3, 76));
     }
 }
