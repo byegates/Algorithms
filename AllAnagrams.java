@@ -24,7 +24,7 @@ public class AllAnagrams {
         int charsToMatch = map.size();
         for (int j = 0; j < l.length(); j++) {
             if (updateCount(l.charAt(j), -1, map) == 0) charsToMatch--;
-            if (j - s.length() >= 0 && updateCount(l.charAt(j - s.length()), 1, map) == 1) charsToMatch++;
+            if (j >= s.length() && updateCount(l.charAt(j - s.length()), 1, map) == 1) charsToMatch++;
             if (charsToMatch == 0) res.add(j - s.length() + 1);
         }
 
