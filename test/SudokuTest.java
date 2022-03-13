@@ -84,10 +84,7 @@ class SudokuTest {
     
     // below are Sudoku validation method tests
     @Test
-    void Case1Maker() {
-        char[][] board = SudokuBoards.Results.MAKER;
-        assertTrue(new Sudoku().isValidSudoku(board));
-    }
+    void Case1Maker() {assertTrue(new Sudoku().isValidSudoku(SudokuBoards.Results.MAKER));}
 
     @Test
     void LeetBoard() {assertTrue(new Sudoku().isValidSudoku(Leet1));}
