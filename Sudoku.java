@@ -36,7 +36,7 @@ import static resources.SudokuBoards.*;
 
 public class Sudoku {
 
-    class Cell {
+    static class Cell {
         int r, c, b; // the row, col and box number for each cell
         Cell(int r, int c, int b) {
             this.r = r;
