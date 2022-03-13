@@ -32,7 +32,7 @@ public class AllAnagrams {
         Integer count = map.get(ch);
         if (count == null) return toMatch;
         if (count == 0) toMatch++;
-        if (count == 1 && val == -1 || count == -1 && val == 1) toMatch--;
+        if (val == -1 && count == 1 || val == 1 && count == -1) toMatch--;
         map.put(ch, count + val);
         return toMatch;
     } // TC: O(m + n), SC: O(m), m is the length of s and n is the length of l
