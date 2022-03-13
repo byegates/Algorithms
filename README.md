@@ -1,1 +1,1 @@
-# Algos
+# Algorithms Practices in Java
