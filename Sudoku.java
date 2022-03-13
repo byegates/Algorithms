@@ -1,6 +1,6 @@
 //Write a program to solve a Sudoku puzzle by filling the empty cells.
 //
-//        A sudoku solution must satisfy all of the following rules:
+//        A sudoku solution must satisfy all the following rules:
 //
 //        Each of the digits 1-9 must occur exactly once in each row.
 //        Each of the digits 1-9 must occur exactly once in each column.
@@ -32,12 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static resources.ConsoleColors.*;
-import static resources.SudokuBoards.Easy1;
-import static resources.SudokuBoards.MAKER;
+import static resources.SudokuBoards.*;
 
 public class Sudoku {
 
-    static class Cell {
+    class Cell {
         int r, c, b; // the row, col and box number for each cell
         Cell(int r, int c, int b) {
             this.r = r;
@@ -46,13 +45,13 @@ public class Sudoku {
         }
     }
 
-    private static int depth;
-    static List<Cell> emptyCells = new ArrayList<>(); // search space, int[] for interview, class is better
-    static int[] row = new int[9]; // for each row what numbers have been used
-    static int[] col = new int[9]; // for each col what numbers have been used
-    static int[] box = new int[9]; // for each box what numbers have been used
+    int depth;
+    List<Cell> emptyCells = new ArrayList<>(); // search space, int[] for interview, class is better
+    int[] row = new int[9]; // for each row what numbers have been used
+    int[] col = new int[9]; // for each col what numbers have been used
+    int[] box = new int[9]; // for each box what numbers have been used
 
-    public static void solveSudoku(char[][] board) {
+    public void solveSudoku(char[][] board) {
         depth = 0;
         // initialization
         for (int r = 0; r < 9; r++)
@@ -66,7 +65,7 @@ public class Sudoku {
         System.out.printf("\n" + BLUE + "Depth of Search: " + RED_BOLD_BRIGHT + "%d" + RESET + '\n', depth);
     }
 
-    private static boolean dfs(char[][] board, int d) {
+    private boolean dfs(char[][] board, int d) {
         if (d == emptyCells.size()) return true;
         depth++;
         Cell cell = emptyCells.get(d);
@@ -81,24 +80,24 @@ public class Sudoku {
         return false;
     }
 
-    private static void recoverBeforeStatus(Cell cell, int[] beforeStatus) {
+    private void recoverBeforeStatus(Cell cell, int[] beforeStatus) {
         row[cell.r] = beforeStatus[0];
         col[cell.c] = beforeStatus[1];
         box[cell.b] = beforeStatus[2];
     }
 
-    private static boolean cellUsed(Cell cell, int i) {
+    private boolean cellUsed(Cell cell, int i) {
         return used(row[cell.r], i) || used(col[cell.c], i) || used(box[cell.b], i);
     }
-    private static boolean used(int x, int i) {
+    private boolean used(int x, int i) {
         return ((x >> i) & 1) == 1;
     }
 
-    private static int boxNumber(int c, int r) {
+    private int boxNumber(int c, int r) {
         return r / 3 * 3 + c / 3;
     }
 
-    private static void setBitUsed(Cell cell, int bitUsed) {
+    private void setBitUsed(Cell cell, int bitUsed) {
         row[cell.r] |= bitUsed;
         col[cell.c] |= bitUsed;
         box[cell.b] |= bitUsed;
@@ -106,7 +105,62 @@ public class Sudoku {
 // TC: 9^81 → 9^n where n is the number of empty Cells
 // SC: 3 * n + 27 + 81, what do you say this is…
 
-    private static void printSudoku(char[][] board, char[][] b2) {
+// above are solution for Sudoku Solver only
+// below are for Sudoku board validations
+
+    public boolean isValidSudoku(char[][] board){
+        int N = 9;
+        int[] row = new int[N], col = new int[N], box = new int[N];
+
+        for (int r = 0;r < N;r++)
+            for (int c = 0;c < N;c++) {
+                if (board[r][c] == '.') continue;
+                int i = board[r][c] - '1';
+                int b = r/3*3+c/3;
+                if (used(row[r], i) || used(col[c], i) || used(box[b], i)) return false;
+                row[r] |= 1 << i;
+                col[c] |= 1 << i;
+                box[b] |= 1 << i;
+            }
+        return true;
+
+    }
+
+    private void printRes(boolean isValid) {
+        String s = (isValid) ? "" : "NOT ";
+        System.out.print(RED_BOLD_BRIGHT + "\n\n" + s + "VALID" + RESET);
+    }
+
+    private void printValidSudoku(char[][] board) {
+
+        System.out.print("\n");
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[r].length; c++) {
+                String coloredNumber = switch (board[r][c]) {
+                    case '1' -> RED + board[r][c] + "  " + RESET;
+                    case '2' -> GREEN + board[r][c] + "  " + RESET;
+                    case '3' -> YELLOW + board[r][c] + "  " + RESET;
+                    case '4' -> BLUE + board[r][c] + "  " + RESET;
+                    case '5' -> PURPLE + board[r][c] + "  " + RESET;
+                    case '6' -> CYAN + board[r][c] + "  " + RESET;
+                    case '7' -> BLACK + board[r][c] + "  " + RESET;
+                    case '8' -> WHITE + board[r][c] + "  " + RESET;
+                    case '9' -> CYAN_BOLD_BRIGHT + board[r][c] + "  " + RESET;
+                    default -> ".  ";
+                };
+                System.out.print(coloredNumber);
+
+                if ( (c + 1) % 3 == 0 && c != 8)
+                    System.out.print("|  ");
+            }
+            System.out.print("\n");
+
+            if ( (r + 1) % 3 == 0 && r != 8)
+                System.out.print("-------------------------------\n");
+        }
+    }
+
+    private void printSudoku(char[][] board, char[][] b2) {
 
         System.out.print("\n");
         for (int r = 0; r < board.length; r++) {
@@ -123,7 +177,7 @@ public class Sudoku {
         System.out.println();
     }
 
-    private static void printSudokuAsArray(char[][] board, char[][] b2) {
+    private void printSudokuAsArray(char[][] board, char[][] b2) {
 
         System.out.print("\n{\n");
         for (int r = 0; r < board.length; r++) {
@@ -142,7 +196,7 @@ public class Sudoku {
 
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         // solve a sudoku and print the comparison
         char[][] board = MAKER;
         char[][] b2 = new char[board.length][];
@@ -152,6 +206,12 @@ public class Sudoku {
         solveSudoku(board);
         printSudoku(board, b2);
         printSudokuAsArray(board, b2);
+
+        char[][] b3 = Leet1;
+        boolean isValid = isValidSudoku(b3);
+
+        printValidSudoku(b3);
+        printRes(isValid);
     }
 
 }
