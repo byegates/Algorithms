@@ -70,8 +70,16 @@ public class EditDistance {
     public static void main(String[] args) {
         EditDistance ed = new EditDistance();
         System.out.println(ed.editDistance("ab", "dbbabc")); // 4
-        System.out.println(ed.MByNSpace("", "")); // 0
-        System.out.println(ed.recursion("dbbabc", "")); // 6
+        System.out.println(ed.editDistance("", "")); // 0
+        System.out.println(ed.editDistance("dbbabc", "")); // 6
         System.out.println(ed.editDistance("", "dbbabc")); // 6
+        System.out.println(ed.MByNSpace("ab", "dbbabc")); // 4
+        System.out.println(ed.MByNSpace("", "")); // 0
+        System.out.println(ed.MByNSpace("dbbabc", "")); // 6
+        System.out.println(ed.MByNSpace("", "dbbabc")); // 6
+        System.out.println(ed.recursion("ab", "dbbabc")); // 4
+        System.out.println(ed.recursion("", "")); // 0
+        System.out.println(ed.recursion("dbbabc", "")); // 6
+        System.out.println(ed.recursion("", "dbbabc")); // 6
     }
 }
