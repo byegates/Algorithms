@@ -59,13 +59,11 @@ public class EditDistance {
         if (i == A.length) return B.length - j;
         if (j == B.length) return A.length - i;
 
-        if (A[i] == B[j]) return editDistance(A, i + 1, B, j + 1);
-        else {
-            int rep = editDistance(A, i + 1, B, j + 1);
-            int del = editDistance(A, i + 1, B, j);
-            int ins = editDistance(A, i, B, j + 1);
-            return Math.min(Math.min(rep, del), ins) + 1;
-        }
+        int rep = editDistance(A, i + 1, B, j + 1);
+        if (A[i] == B[j]) return rep;
+        int del = editDistance(A, i + 1, B, j);
+        int ins = editDistance(A, i, B, j + 1);
+        return Math.min(Math.min(rep, del), ins) + 1;
     } // TC: 3^(m + n), SC: m + n
 
 
