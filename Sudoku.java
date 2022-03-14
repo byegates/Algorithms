@@ -196,22 +196,24 @@ public class Sudoku {
 
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         // solve a sudoku and print the comparison
         char[][] board = MAKER;
         char[][] b2 = new char[board.length][];
         for (int i = 0; i < board.length; i++)
             b2[i] = board[i].clone();
 
-        solveSudoku(board);
-        printSudoku(board, b2);
-        printSudokuAsArray(board, b2);
+        Sudoku sudoku = new Sudoku();
+
+        sudoku.solveSudoku(board);
+        sudoku.printSudoku(board, b2);
+        sudoku.printSudokuAsArray(board, b2);
 
         char[][] b3 = Leet1;
-        boolean isValid = isValidSudoku(b3);
+        boolean isValid = sudoku.isValidSudoku(b3);
 
-        printValidSudoku(b3);
-        printRes(isValid);
+        sudoku.printValidSudoku(b3);
+        sudoku.printRes(isValid);
     }
 
 }
