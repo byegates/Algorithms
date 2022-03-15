@@ -12,8 +12,7 @@
 // in all complexity analysis: m is s1.length(), n is s2.length()
 public class EditDistance {
     public int editDistance(String s1, String s2) { // TC: O(m*n), SC: O(n)
-        int len1 = s1.length();
-        int len2 = s2.length();
+        int len1 = s1.length(), len2 = s2.length();
         if (len2 == 0) return len1;
 
         int[] dp = new int[len2 + 1];
@@ -22,11 +21,10 @@ public class EditDistance {
 
         // real business, filling row 1 to len1 of imaging matrix
         for (int i = 1; i <= len1; i++) {
-            int left = i, prevDiagonal = i - 1;
+            int left = i, diagonal = i - 1;
             for (int j = 1; j <= len2; j++) {
-                int curDiagonal = prevDiagonal;
-                int fromDiagonal = curDiagonal + (s1.charAt(i - 1) == s2.charAt(j - 1) ? 0 : 1);
-                prevDiagonal = dp[j];
+                int fromDiagonal = diagonal + (s1.charAt(i - 1) == s2.charAt(j - 1) ? 0 : 1);
+                diagonal = dp[j];
                 dp[j] = Math.min(fromDiagonal, Math.min(left, dp[j]) + 1);
                 left = dp[j];
             }
