@@ -74,16 +74,16 @@ public class LargestSquareOfOnes {
     public static void main(String[] args) {
         LargestSquareOfOnes lso = new LargestSquareOfOnes();
         int[][] mx1 = new int[][]{
-              {1,1,1,1},
-              {1,1,1,1},
-              {0,1,1,1},
-              {1,1,1,1},
+                {1, 1, 1, 1},
+                {1, 1, 1, 1},
+                {0, 1, 1, 1},
+                {1, 1, 1, 1},
         };
         System.out.println(lso.MByNSpace(mx1)); // 3
         int[][] mx2 = new int[][]{
-                {1,0,0},
-                {0,0,0},
-                {0,0,0},
+                {1, 0, 0},
+                {0, 0, 0},
+                {0, 0, 0},
         };
         System.out.println(lso.MByNSpace(mx2)); // 1
         int[][] mx3 = new int[][]{
@@ -94,10 +94,12 @@ public class LargestSquareOfOnes {
         };
         System.out.println(lso.MByNSpace(mx3)); //2
         int[][] mx4 = new int[][]{
-                {1,1,1,1},
-                {1,1,1,1},
-                {1,1,1,1},
-                {1,1,1,1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
         };
         System.out.println(lso.largest(mx4)); // 4
     }
