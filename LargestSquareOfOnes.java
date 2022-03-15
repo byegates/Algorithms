@@ -92,7 +92,7 @@ public class LargestSquareOfOnes {
                 {0, 1, 1, 1, 1},
                 {1, 0, 1, 1, 1},
         };
-        System.out.println(lso.MByNSpace(mx3)); //2
+        System.out.println(lso.MByNSpace(mx3)); //3
         int[][] mx4 = new int[][]{
                 {1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1},
@@ -101,6 +101,6 @@ public class LargestSquareOfOnes {
                 {1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1},
         };
-        System.out.println(lso.largest(mx4)); // 4
+        System.out.println(lso.largest(mx4)); // 5
     }
 }
