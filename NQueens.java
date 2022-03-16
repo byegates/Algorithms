@@ -17,9 +17,12 @@
 //        the Queen on the third row is at y index 3 and the Queen on the fourth row is at y index 1.
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class NQueens {
+    // default solution
     public static List<List<Integer>> nqueens(int n) {
         List<List<Integer>> res = new ArrayList<>();
         int[] cur = new int[n];
@@ -47,10 +50,33 @@ public class NQueens {
         return true;
     }
 
+    // this method is used by both the default solution and solution 2
     private static List<Integer> toList(int[] cur) {
         List<Integer> l = new ArrayList<>(cur.length);
         for (int i : cur) l.add(i);
         return l;
+    }
+
+    // Solution 2 with set storages(using a helper class), for demonstration purpose only
+    public static List<List<Integer>> withStorage(int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        Helper H = new Helper(n);
+        dfs(0, H, res);
+        return res;
+    }
+
+    private static void dfs(int row, Helper H, List<List<Integer>> res) {
+        if (row == H.cur.length) {
+            res.add(toList(H.cur));
+            return;
+        }
+
+        for (int col = 0; col < H.cur.length; col++) {
+            if (H.invalid(row, col)) continue;
+            H.add(row, col);
+            dfs(row + 1, H, res);
+            H.remove(row, col);
+        }
     }
 
     // TC: n! * 1 ? n, SC: O(n)
@@ -68,9 +94,63 @@ public class NQueens {
         }
     }
 
+    static class Helper{
+
+        Set<Integer> cols;
+        Set<Integer> diag1;
+        Set<Integer> diag2;
+        int[] cur;
+
+        Helper(int n) {
+            cols = new HashSet<>();
+            diag1 = new HashSet<>();
+            diag2 = new HashSet<>();
+            cur = new int[n];
+        }
+
+        void add(int r, int c) {
+            cur[r] = c;
+            cols.add(c);
+            diag1.add(c + r);
+            diag2.add(c - r);
+        }
+
+        void remove(int r, int c) {
+            cols.remove(c);
+            diag1.remove(c + r);
+            diag2.remove(c - r);
+        }
+
+        boolean invalid(int r, int c) {
+            return cols.contains(c) || diag1.contains(c + r) || diag2.contains(c - r);
+        }
+    }
+    // Solution 2 ends here
+
+    // some print methods for demo only
     private static void printNQueens(List<List<Integer>> res){for (List<Integer> l : res) printQueens(l);}
+
+    private static void printDiags(int n) {
+        System.out.println();
+        printDiagsHelper(1, n);
+        System.out.println("\n---------------------------------------\n");
+        printDiagsHelper(-1, n);
+    }
+
+    private static void printDiagsHelper(int sign, int n) {
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++)
+                System.out.printf("%2d|", (row + col * sign));
+            System.out.print("\n");
+        }
+    }
 
     public static void main(String[] args) {
         printNQueens(nqueens(4));
+        System.out.println();
+        //printNQueens(withStorage(4));
+        System.out.println(nqueens(5));
+        System.out.println(withStorage(5));
+        printDiags(8);
     }
 }
