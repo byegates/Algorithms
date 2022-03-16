@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class NQueens {
     // default solution
-    public static List<List<Integer>> nqueens(int n) {
+    public static List<List<Integer>> nqueens(int n) { // TC: n! * 1 ? n, SC: O(n)
         List<List<Integer>> res = new ArrayList<>();
         int[] cur = new int[n];
         nQueens(0, cur, res);
@@ -58,14 +58,14 @@ public class NQueens {
     }
 
     // Solution 2 with set storages(using a helper class), for demonstration purpose only
-    public static List<List<Integer>> withStorage(int n) {
+    public static List<List<Integer>> nQueens(int n) {
         List<List<Integer>> res = new ArrayList<>();
         Helper H = new Helper(n);
-        dfs(0, H, res);
+        nQueens(0, H, res);
         return res;
     }
 
-    private static void dfs(int row, Helper H, List<List<Integer>> res) {
+    private static void nQueens(int row, Helper H, List<List<Integer>> res) {
         if (row == H.cur.length) {
             res.add(toList(H.cur));
             return;
@@ -74,23 +74,8 @@ public class NQueens {
         for (int col = 0; col < H.cur.length; col++) {
             if (H.invalid(row, col)) continue;
             H.add(row, col);
-            dfs(row + 1, H, res);
+            nQueens(row + 1, H, res);
             H.remove(row, col);
-        }
-    }
-
-    // TC: n! * 1 ? n, SC: O(n)
-
-    private static void printQueens(List<Integer> l) {
-        System.out.println();
-        System.out.println(l);
-        System.out.println();
-        for (int x = 0; x < l.size(); x++) {
-            for (int y = 0; y < l.size(); y++) {
-                String token = l.get(x) == y ? String.format("%s", y) : "-";
-                System.out.printf("[%s]", token);
-            }
-            System.out.println();
         }
     }
 
@@ -128,6 +113,19 @@ public class NQueens {
     // Solution 2 ends here
 
     // some print methods for demo only
+    private static void printQueens(List<Integer> l) {
+        System.out.println();
+        System.out.println(l);
+        System.out.println();
+        for (int x = 0; x < l.size(); x++) {
+            for (int y = 0; y < l.size(); y++) {
+                String token = l.get(x) == y ? String.format("%s", y) : "-";
+                System.out.printf("[%s]", token);
+            }
+            System.out.println();
+        }
+    }
+
     private static void printNQueens(List<List<Integer>> res){for (List<Integer> l : res) printQueens(l);}
 
     private static void printDiags(int n) {
@@ -150,7 +148,7 @@ public class NQueens {
         System.out.println();
         //printNQueens(withStorage(4));
         System.out.println(nqueens(5));
-        System.out.println(withStorage(5));
+        System.out.println(nQueens(5));
         printDiags(8);
     }
 }
