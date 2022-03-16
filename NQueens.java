@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class NQueens {
     // default solution
-    public static List<List<Integer>> nqueens(int n) { // TC: n! * 1 ? n, SC: O(n)
+    public static List<List<Integer>> nqueens(int n) { // TC: n! * n, SC: O(1)
         List<List<Integer>> res = new ArrayList<>();
         int[] cur = new int[n];
         nQueens(0, cur, res);
@@ -58,7 +58,7 @@ public class NQueens {
     }
 
     // Solution 2 with set storages(using a helper class), for demonstration purpose only
-    public static List<List<Integer>> nQueens(int n) {
+    public static List<List<Integer>> nQueens(int n) { // TC: n!, SC: O(n)
         List<List<Integer>> res = new ArrayList<>();
         Helper H = new Helper(n);
         nQueens(0, H, res);
