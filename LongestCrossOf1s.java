@@ -16,19 +16,19 @@
 
 public class LongestCrossOf1s {
     public int largest(int[][] mx) { // TC: 5*O(n^2), SC: 4*O(n^2)
-        int m = mx.length;
-        if (m == 0) return 0;
-        int n = mx[0].length;
+        int n = mx.length;
         if (n == 0) return 0;
+        int m = mx[0].length;
+        if (m == 0) return 0;
 
-        int[][] M1 = createM1(mx, new int[m][n], m, n);
-        int[][] M2 = createM2(mx, new int[m][n], m, n);
-        int[][] M3 = createM3(mx, new int[m][n], m, n);
-        int[][] M4 = createM4(mx, new int[m][n], m, n);
+        int[][] M1 = createM1(mx, new int[n][m], n, m);
+        int[][] M2 = createM2(mx, new int[n][m], n, m);
+        int[][] M3 = createM3(mx, new int[n][m], n, m);
+        int[][] M4 = createM4(mx, new int[n][m], n, m);
 
         int largest = 0;
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
                 largest = Math.max(min(new int[]{M1[i][j], M2[i][j], M3[i][j], M4[i][j]}), largest);
 
         return largest;
@@ -40,38 +40,38 @@ public class LongestCrossOf1s {
         return smallest;
     }
 
-    private int[][] createM1(int[][] mx, int[][] M, int m, int n) {
-        for (int i = 0; i < m; i++) M[i][0] = mx[i][0];
+    private int[][] createM1(int[][] mx, int[][] M, int n, int m) {
+        for (int i = 0; i < n; i++) M[i][0] = mx[i][0];
 
-        for (int i = 0; i < m; i++)
-            for (int j = 1; j < n; j++)
+        for (int i = 0; i < n; i++)
+            for (int j = 1; j < m; j++)
                 M[i][j] = mx[i][j] == 0 ? 0 : M[i][j - 1] + 1;
         return M;
     }
 
-    private int[][] createM2(int[][] mx, int[][] M, int m, int n) {
-        for (int i = 0; i < m; i++) M[i][n - 1] = mx[i][n - 1];
+    private int[][] createM2(int[][] mx, int[][] M, int n, int m) {
+        for (int i = 0; i < n; i++) M[i][m - 1] = mx[i][m - 1];
 
-        for (int i = 0; i < m; i++)
-            for (int j = n - 2; j >= 0; j--)
+        for (int i = 0; i < n; i++)
+            for (int j = m - 2; j >= 0; j--)
                 M[i][j] = mx[i][j] == 0 ? 0 : M[i][j + 1] + 1;
         return M;
     }
 
-    private int[][] createM3(int[][] mx, int[][] M, int m, int n) {
-        for (int j = 0; j < n; j++) M[0][j] = mx[0][j];
+    private int[][] createM3(int[][] mx, int[][] M, int n, int m) {
+        for (int j = 0; j < m; j++) M[0][j] = mx[0][j];
 
-        for (int i = 1; i < m; i++)
-            for (int j = 0; j <n ; j++)
+        for (int i = 1; i < n; i++)
+            for (int j = 0; j < m ; j++)
                 M[i][j] = mx[i][j] == 0 ? 0 : M[i - 1][j] + 1;
         return M;
     }
 
-    private int[][] createM4(int[][] mx, int[][] M, int m, int n) {
-        for (int j = 0; j < n; j++) M[m - 1][j] = mx[m - 1][j];
+    private int[][] createM4(int[][] mx, int[][] M, int n, int m) {
+        for (int j = 0; j < m; j++) M[n - 1][j] = mx[n - 1][j];
 
-        for (int i = m - 2; i >= 0; i--)
-            for (int j = 0; j < n ; j++)
+        for (int i = n - 2; i >= 0; i--)
+            for (int j = 0; j < m ; j++)
                 M[i][j] = mx[i][j] == 0 ? 0 : M[i + 1][j] + 1;
         return M;
     }
