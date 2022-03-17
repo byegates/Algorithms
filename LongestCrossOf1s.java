@@ -15,7 +15,7 @@
 //        the largest cross of 1s has arm length 2.
 
 public class LongestCrossOf1s {
-    public int largest(int[][] mx) { // TC: 5*O(n^2), SC: 4*O(n^2)
+    public int largest(int[][] mx) { // TC: 5*n^2--> O(n^2), SC: 4*n^2 --> O(n^2)
         int n = mx.length;
         if (n == 0) return 0;
         int m = mx[0].length;
