@@ -59,21 +59,21 @@ public class NQueens {
 
     // Solution 2 with set storages(using a helper class), for demonstration purpose only
     public static List<List<Integer>> nQueens(int n) { // TC: n!, SC: O(n)
-        Helper H = new Helper(n);
-        nQueens(0, H);
-        return H.res;
+        List<List<Integer>> res = new ArrayList<>();
+        nQueens(0, new Helper(n), res);
+        return res;
     }
 
-    private static void nQueens(int row, Helper H) {
+    private static void nQueens(int row, Helper H, List<List<Integer>> res) {
         if (row == H.cur.length) {
-            H.res.add(toList(H.cur));
+            res.add(toList(H.cur));
             return;
         }
 
         for (int col = 0; col < H.cur.length; col++) {
             if (H.invalid(row, col)) continue;
             H.add(row, col);
-            nQueens(row + 1, H);
+            nQueens(row + 1, H, res);
             H.remove(row, col);
         }
     }
@@ -83,7 +83,6 @@ public class NQueens {
         Set<Integer> cols;
         Set<Integer> diag1;
         Set<Integer> diag2;
-        List<List<Integer>> res;
         int[] cur;
 
         Helper(int n) {
@@ -91,7 +90,6 @@ public class NQueens {
             diag1 = new HashSet<>(n);
             diag2 = new HashSet<>(n);
             cur = new int[n];
-            res = new ArrayList<>();
         }
 
         void add(int r, int c) {
@@ -148,6 +146,6 @@ public class NQueens {
         //printNQueens(withStorage(4));
         System.out.println(nqueens(5));
         System.out.println(nQueens(5));
-        printDiags(8);
+        printDiags(5);
     }
 }
