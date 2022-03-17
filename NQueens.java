@@ -59,22 +59,21 @@ public class NQueens {
 
     // Solution 2 with set storages(using a helper class), for demonstration purpose only
     public static List<List<Integer>> nQueens(int n) { // TC: n!, SC: O(n)
-        List<List<Integer>> res = new ArrayList<>();
         Helper H = new Helper(n);
-        nQueens(0, H, res);
-        return res;
+        nQueens(0, H);
+        return H.res;
     }
 
-    private static void nQueens(int row, Helper H, List<List<Integer>> res) {
+    private static void nQueens(int row, Helper H) {
         if (row == H.cur.length) {
-            res.add(toList(H.cur));
+            H.res.add(toList(H.cur));
             return;
         }
 
         for (int col = 0; col < H.cur.length; col++) {
             if (H.invalid(row, col)) continue;
             H.add(row, col);
-            nQueens(row + 1, H, res);
+            nQueens(row + 1, H);
             H.remove(row, col);
         }
     }
@@ -84,13 +83,15 @@ public class NQueens {
         Set<Integer> cols;
         Set<Integer> diag1;
         Set<Integer> diag2;
+        List<List<Integer>> res;
         int[] cur;
 
         Helper(int n) {
-            cols = new HashSet<>();
-            diag1 = new HashSet<>();
-            diag2 = new HashSet<>();
+            cols = new HashSet<>(n);
+            diag1 = new HashSet<>(n);
+            diag2 = new HashSet<>(n);
             cur = new int[n];
+            res = new ArrayList<>();
         }
 
         void add(int r, int c) {
@@ -106,9 +107,7 @@ public class NQueens {
             diag2.remove(c - r);
         }
 
-        boolean invalid(int r, int c) {
-            return cols.contains(c) || diag1.contains(c + r) || diag2.contains(c - r);
-        }
+        boolean invalid(int r, int c) {return cols.contains(c) || diag1.contains(c + r) || diag2.contains(c - r);}
     }
     // Solution 2 ends here
 
