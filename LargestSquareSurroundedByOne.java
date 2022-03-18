@@ -19,8 +19,8 @@ public class LargestSquareSurroundedByOne {
         if (mx.length == 0 || mx[0].length == 0) return 0;
         int n = mx.length, m = mx[0].length;
 
-        int[][] M1 = new int[n + 1][m + 1]; // right to left, extra col & row to avoid boundary check in main loop
-        int[][] M2 = new int[n + 1][m + 1]; //
+        int[][] M1 = new int[n + 1][m + 1]; // for right to left, extra col & row to avoid boundary check in main loop
+        int[][] M2 = new int[n + 1][m + 1]; // for bottom to top
 
         int max = mx[0][0];
         for (int i = n - 1; i >= 0; i--) // starting from 2nd bottom row to top
@@ -43,8 +43,8 @@ public class LargestSquareSurroundedByOne {
         if (mx.length == 0 || mx[0].length == 0) return 0;
         int n = mx.length, m = mx[0].length;
 
-        int[][] M1 = new int[n][m]; // right to left, extra col & row to avoid boundary check in main loop
-        int[][] M2 = new int[n][m]; //
+        int[][] M1 = new int[n][m]; // for right to left
+        int[][] M2 = new int[n][m]; // for bottom to up
 
         int max = mx[0][0];
         for (int i = n - 1; i >= 0; i--) // starting from 2nd bottom row to top
