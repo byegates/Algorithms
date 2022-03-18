@@ -126,6 +126,18 @@ public class LongestCrossOf1s {
     }
     // Solution 2 ends here
 
+    // Solution 3 mor merges, less space
+    public int lowSpace(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 4*n*m --> O(n*m)
+        if (mx.length == 0 || mx[0].length == 0) return 0;
+        int n = mx.length, m = mx[0].length;
+
+        int[][] M = createM1(mx, new int[n][m], n, m); // left to right
+        merge(M, createM2(mx, new int[n][m], n, m), n, m); // right to left, then merge
+        merge(M, createM3(mx, new int[n][m], n, m), n, m); // top to bottom, then merge
+        return merge(M, createM4(mx, new int[n][m], n, m), n, m); // bottom to top, then merge
+    }
+    // Solution 3 ends here
+
     public static void main(String[] args) {
         LongestCrossOf1s lco1 = new LongestCrossOf1s();
         int[][] mx = new int[][]{
@@ -149,6 +161,6 @@ public class LongestCrossOf1s {
                 {1,1,1,1,1},
                 {1,0,1,1,0},
                 {0,0,1,1,0}};
-        System.out.println(lco1.withMerge(mx3)); // 3
+        System.out.println(lco1.lowSpace(mx3)); // 3
     }
 }
