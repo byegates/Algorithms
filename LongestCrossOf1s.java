@@ -16,10 +16,8 @@
 
 public class LongestCrossOf1s {
     public int largest(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 4*n*m --> O(n*m)
-        int n = mx.length;
-        if (n == 0) return 0;
-        int m = mx[0].length;
-        if (m == 0) return 0;
+        if (mx.length == 0 || mx[0].length == 0) return 0;
+        int n = mx.length, m = mx[0].length;
 
         int[][] M1 = createM1(mx, new int[n][m], n, m); // left to right
         int[][] M2 = createM2(mx, new int[n][m], n, m); // right to left
