@@ -15,18 +15,16 @@
         the largest cross of 1s has arm length 2.
 */
 
-import java.util.Arrays;
-
 public class LongestCrossOf1s {
     // Solution 1 Easiest to read
     public int largest(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 4*n*m --> O(n*m)
         if (mx.length == 0 || mx[0].length == 0) return 0;
         int n = mx.length, m = mx[0].length;
 
-        int[][] M1 = createM1(mx, new int[n][m], n, m); // left to right
-        int[][] M2 = createM2(mx, new int[n][m], n, m); // right to left
-        int[][] M3 = createM3(mx, new int[n][m], n, m); // top to bottom
-        int[][] M4 = createM4(mx, new int[n][m], n, m); // bottom to top
+        int[][] M1 = left(mx, new int[n][m], n, m); // left to right
+        int[][] M2 = right(mx, new int[n][m], n, m); // right to left
+        int[][] M3 = top(mx, new int[n][m], n, m); // top to bottom
+        int[][] M4 = bottom(mx, new int[n][m], n, m); // bottom to top
 
         int largest = 0;
         for (int i = 0; i < n; i++)
@@ -42,7 +40,7 @@ public class LongestCrossOf1s {
         return smallest;
     }
 
-    private int[][] createM1(int[][] mx, int[][] M, int n, int m) {
+    private int[][] left(int[][] mx, int[][] M, int n, int m) {
         for (int i = 0; i < n; i++) M[i][0] = mx[i][0]; // fill left column
 
         for (int i = 0; i < n; i++) // 2nd from the left to the right columns
@@ -51,7 +49,7 @@ public class LongestCrossOf1s {
         return M;
     }
 
-    private int[][] createM2(int[][] mx, int[][] M, int n, int m) {
+    private int[][] right(int[][] mx, int[][] M, int n, int m) {
         for (int i = 0; i < n; i++) M[i][m - 1] = mx[i][m - 1]; // fill right column
 
         for (int i = 0; i < n; i++) // 2nd from the right to the left columns
@@ -60,7 +58,7 @@ public class LongestCrossOf1s {
         return M;
     }
 
-    private int[][] createM3(int[][] mx, int[][] M, int n, int m) {
+    private int[][] top(int[][] mx, int[][] M, int n, int m) {
         for (int j = 0; j < m; j++) M[0][j] = mx[0][j]; // fill top row
 
         for (int i = 1; i < n; i++) // from 2nd row to the bottom
@@ -69,7 +67,7 @@ public class LongestCrossOf1s {
         return M;
     }
 
-    private int[][] createM4(int[][] mx, int[][] M, int n, int m) {
+    private int[][] bottom(int[][] mx, int[][] M, int n, int m) {
         for (int j = 0; j < m; j++) M[n - 1][j] = mx[n - 1][j]; // fill bottom row
 
         for (int i = n - 2; i >= 0; i--) // 2nd from bottom to the top
@@ -131,10 +129,10 @@ public class LongestCrossOf1s {
         if (mx.length == 0 || mx[0].length == 0) return 0;
         int n = mx.length, m = mx[0].length;
 
-        int[][] M = createM1(mx, new int[n][m], n, m); // left to right
-        merge(M, createM2(mx, new int[n][m], n, m), n, m); // right to left, then merge
-        merge(M, createM3(mx, new int[n][m], n, m), n, m); // top to bottom, then merge
-        return merge(M, createM4(mx, new int[n][m], n, m), n, m); // bottom to top, then merge
+        int[][] M = left(mx, new int[n][m], n, m); // left to right
+        merge(M, right(mx, new int[n][m], n, m), n, m); // right to left, then merge
+        merge(M, top(mx, new int[n][m], n, m), n, m); // top to bottom, then merge
+        return merge(M, bottom(mx, new int[n][m], n, m), n, m); // bottom to top, then merge
     }
     // Solution 3 ends here
 
