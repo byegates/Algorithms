@@ -102,8 +102,8 @@ public class LongestCrossOf1s {
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
                 if (mx[i][j] == 1) {
-                    left[i][j] = j < 1 ? 1 : left[i][j-1] + 1;
-                    top[i][j] = i < 1 ? 1 : top[i-1][j] + 1;
+                    left[i][j] = j == 0 ? 1 : left[i][j-1] + 1;
+                    top[i][j] = i == 0 ? 1 : top[i-1][j] + 1;
                 }
 
         merge(left, top);
@@ -114,8 +114,8 @@ public class LongestCrossOf1s {
         for (int i = n - 1; i >= 0; i--)
             for (int j = m - 1; j >= 0; j--)
                 if (mx[i][j] == 1) {
-                    right[i][j] = j+1 >= m ? 1 : right[i][j+1] + 1;
-                    bottom[i][j] = i+1 >= n ? 1 : bottom[i+1][j] + 1;
+                    right[i][j] = j == m-1 ? 1 : right[i][j+1] + 1;
+                    bottom[i][j] = i == n-1 ? 1 : bottom[i+1][j] + 1;
                 }
 
         merge(right, bottom);
@@ -123,7 +123,7 @@ public class LongestCrossOf1s {
     }
     // Solution 2 ends here
 
-    // Solution 3 mor merges, less space
+    // Solution 3 more merges, less space
     public int lowSpace(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 4*n*m --> O(n*m)
         if (mx.length == 0 || mx[0].length == 0) return 0;
         n = mx.length;
