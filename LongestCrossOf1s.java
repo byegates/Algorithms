@@ -47,7 +47,7 @@ public class LongestCrossOf1s {
 
         for (int i = 0; i < n; i++) // 2nd from the left to the right columns
             for (int j = 1; j < m; j++)
-                M[i][j] = mx[i][j] == 0 ? 0 : M[i][j - 1] + 1;
+                if (mx[i][j] == 1) M[i][j] =  M[i][j - 1] + 1;
         return M;
     }
 
@@ -56,7 +56,7 @@ public class LongestCrossOf1s {
 
         for (int i = 0; i < n; i++) // 2nd from the right to the left columns
             for (int j = m - 2; j >= 0; j--)
-                M[i][j] = mx[i][j] == 0 ? 0 : M[i][j + 1] + 1;
+                if (mx[i][j] == 1) M[i][j] = M[i][j + 1] + 1;
         return M;
     }
 
@@ -65,7 +65,7 @@ public class LongestCrossOf1s {
 
         for (int i = 1; i < n; i++) // from 2nd row to the bottom
             for (int j = 0; j < m ; j++)
-                M[i][j] = mx[i][j] == 0 ? 0 : M[i - 1][j] + 1;
+                if (mx[i][j] == 1) M[i][j] = M[i - 1][j] + 1;
         return M;
     }
 
@@ -74,7 +74,7 @@ public class LongestCrossOf1s {
 
         for (int i = n - 2; i >= 0; i--) // 2nd from bottom to the top
             for (int j = 0; j < m ; j++)
-                M[i][j] = mx[i][j] == 0 ? 0 : M[i + 1][j] + 1;
+                if (mx[i][j] == 1) M[i][j] = M[i + 1][j] + 1;
         return M;
     }
     // Solution 1 ends here
