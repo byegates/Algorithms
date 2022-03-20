@@ -64,6 +64,53 @@ public class LargestXOf1s {
         return right;
     }
 
+    // Solution 2 with fewer matrices used starts here, but uses merge method from above
+    public int lowerSpace(int[][] mx) { // TC: O(m*n), SC: O(m*n) (but use less matrix)
+        if (mx.length == 0 || mx[0].length == 0) return 0;
+        n = mx.length;
+        m = mx[0].length;
+
+        int[][] M = M1(mx, new int[n][m]); // top left to bottom right (i-1, j-1)
+        merge(M, M2(mx, new int[n][m])); // bottom left to top right (i+1, j-1)
+        merge(M, M3(mx, new int[n][m])); // top right to bottom left (i-1,j+1)
+
+        return merge(M, M4(mx, new int[n][m])); // bottom right to top left (i+1,j+1)
+    }
+
+    private int[][] M1(int[][] mx, int[][] M) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                if (mx[i][j] == 1) M[i][j] = getVal(M, i-1, j-1) + 1;
+        return M;
+    }
+
+    private int[][] M2(int[][] mx, int[][] M) {
+        for (int i = n-1; i >= 0; i--)
+            for (int j = 0; j < m; j++)
+                if (mx[i][j] == 1) M[i][j] = getVal(M, i+1, j-1) + 1;
+        return M;
+    }
+
+    private int[][] M3(int[][] mx, int[][] M) {
+        for (int i = 0; i < n; i++)
+            for (int j = m - 1; j >= 0; j--)
+                if (mx[i][j] == 1) M[i][j] = getVal(M, i-1, j+1) + 1;
+        return M;
+    }
+
+
+    private int[][] M4(int[][] mx, int[][] M) {
+        for (int i = n-1; i >= 0; i--)
+            for (int j = m-1; j >= 0; j--)
+                if (mx[i][j] == 1) M[i][j] = getVal(M, i+1, j+1) + 1;
+        return M;
+    }
+
+    private int getVal(int[][] M, int i, int j){
+        return i < 0 || j < 0 || i >= n || j >= m ? 0 : M[i][j];
+    }
+    // Solution 2 ends here
+
     public static void main(String[] args) {
         int[][] mx = new int[][] {
                 {1,0,0,0,0,0,0,0,1},
@@ -84,5 +131,7 @@ public class LargestXOf1s {
         LargestXOf1s lx1 = new LargestXOf1s();
         System.out.println(lx1.largest(mx)); // 3
         System.out.println(lx1.largest(mx2)); // 2
+        System.out.println(lx1.lowerSpace(mx)); // 3
+        System.out.println(lx1.lowerSpace(mx2)); // 2
     }
 }
