@@ -42,8 +42,8 @@ public class LargestXOf1s {
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
                 if (mx[i][j] == 1) {
-                    left[i][j] = i < 1 || j < 1 ? 1 : left[i-1][j-1] + 1;
-                    up[i][j] = i < 1 || j+1 >= m ? 1 : up[i-1][j+1] + 1;
+                    left[i][j] = i == 0 || j == 0 ? 1 : left[i-1][j-1] + 1;
+                    up[i][j] = i == 0 || j == m-1 ? 1 : up[i-1][j+1] + 1;
             }
 
         merge(left, up);
@@ -56,13 +56,14 @@ public class LargestXOf1s {
         for (int i = n - 1; i >= 0; i--)
             for (int j = m - 1; j >= 0; j--)
                 if (mx[i][j] == 1) {
-                    right[i][j] = i+1 >= n || j+1 >= m ? 1 : right[i+1][j+1] + 1;
-                    down[i][j] = i +1 >= n || j < 1 ? 1 : down[i+1][j-1] + 1;
+                    right[i][j] = i == n-1 || j == m-1 ? 1 : right[i+1][j+1] + 1;
+                    down[i][j] = i == n-1 || j == 0 ? 1 : down[i+1][j-1] + 1;
             }
 
         merge(right, down);
         return right;
     }
+    // Solution 1 ends here
 
     // Solution 2 with fewer matrices used starts here, but uses merge method from above
     public int lowerSpace(int[][] mx) { // TC: O(m*n), SC: O(m*n) (but use less matrix)
