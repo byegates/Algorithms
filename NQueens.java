@@ -47,8 +47,9 @@ public class NQueens {
 
     private static boolean valid(int row, int col, int[] cur) {
         for (int prevRow = 0; prevRow < row; prevRow++)
-            if (cur[prevRow] == col || Math.abs(cur[prevRow] - col) == row - prevRow)
-                return false;
+            if (cur[prevRow] == col || Math.abs(cur[prevRow] - col) == row - prevRow) // below also works
+            //if (cur[prevRow] == col || prevRow - cur[prevRow] == row - col || prevRow + cur[prevRow] == row + col)
+                    return false;
         return true;
     }
 
