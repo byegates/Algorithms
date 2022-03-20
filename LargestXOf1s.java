@@ -16,14 +16,16 @@
 
 
 public class LargestXOf1s {
+    int n, m;
     public int largest(int[][] mx) { // TC: 5*n*m → O(n*m), SC: 3*n*m → O(n*m)
         if (mx.length == 0 || mx[0].length == 0) return 0;
-        int n = mx.length, m = mx[0].length;
+        n = mx.length;
+        m = mx[0].length;
 
-        return merge(leftUp(mx, n, m), rightDown(mx, n, m), n, m);
+        return merge(leftUp(mx), rightDown(mx));
     }
 
-    private int merge(int[][] A, int[][] B, int n, int m) {
+    private int merge(int[][] A, int[][] B) {
         int max = 0;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++) {
@@ -34,7 +36,7 @@ public class LargestXOf1s {
         return max;
     }
 
-    private int[][] leftUp(int[][] mx, int n, int m) {
+    private int[][] leftUp(int[][] mx) {
         int[][] left = new int[n][m];
         int[][] up = new int[n][m];
         for (int i = 0; i < n; i++)
@@ -44,11 +46,11 @@ public class LargestXOf1s {
                     up[i][j] = i < 1 || j+1 >= m ? 1 : up[i-1][j+1] + 1;
             }
 
-        merge(left, up, n, m);
+        merge(left, up);
         return left;
     }
 
-    private int[][] rightDown(int[][] mx, int n, int m) {
+    private int[][] rightDown(int[][] mx) {
         int[][] right = new int[n][m];
         int[][] down = new int[n][m];
         for (int i = n - 1; i >= 0; i--)
@@ -58,7 +60,7 @@ public class LargestXOf1s {
                     down[i][j] = i +1 >= n || j < 1 ? 1 : down[i+1][j-1] + 1;
             }
 
-        merge(right, down, n, m);
+        merge(right, down);
         return right;
     }
 
