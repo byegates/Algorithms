@@ -85,7 +85,7 @@ public class LongestCrossOf1s {
         n = mx.length;
         m = mx[0].length;
 
-        return merge(leftUp(mx), rightDown(mx));
+        return merge(leftTop(mx, new int[n][m], new int[n][m]), rightBottom(mx, new int[n][m], new int[n][m]));
     }
 
     private int merge(int[][] A, int[][] B) {
@@ -98,32 +98,28 @@ public class LongestCrossOf1s {
         return max;
     }
 
-    private int[][] leftUp(int[][] mx) {
-        int[][] M1 = new int[n][m]; // from left to right
-        int[][] M2 = new int[n][m]; // from Top to bottom
+    private int[][] leftTop(int[][] mx, int[][] left, int[][] top) {//lef to right and top to bottom
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
                 if (mx[i][j] == 1) {
-                    M1[i][j] = j < 1 ? 1 : M1[i][j-1] + 1;
-                    M2[i][j] = i < 1 ? 1 : M2[i-1][j] + 1;
+                    left[i][j] = j < 1 ? 1 : left[i][j-1] + 1;
+                    top[i][j] = i < 1 ? 1 : top[i-1][j] + 1;
                 }
 
-        merge(M1, M2);
-        return M1;
+        merge(left, top);
+        return left;
     }
 
-    private int[][] rightDown(int[][] mx) {
-        int[][] M1 = new int[n][m]; // from right to left
-        int[][] M2 = new int[n][m]; // from bottom to Top
+    private int[][] rightBottom(int[][] mx, int[][] right, int[][] bottom) {// from right to left, from bottom to Top
         for (int i = n - 1; i >= 0; i--)
             for (int j = m - 1; j >= 0; j--)
                 if (mx[i][j] == 1) {
-                    M1[i][j] = j+1 >= m ? 1 : M1[i][j+1] + 1;
-                    M2[i][j] = i+1 >= n ? 1 : M2[i+1][j] + 1;
+                    right[i][j] = j+1 >= m ? 1 : right[i][j+1] + 1;
+                    bottom[i][j] = i+1 >= n ? 1 : bottom[i+1][j] + 1;
                 }
 
-        merge(M1, M2);
-        return M1;
+        merge(right, bottom);
+        return right;
     }
     // Solution 2 ends here
 
