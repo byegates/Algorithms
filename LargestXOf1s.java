@@ -129,10 +129,21 @@ public class LargestXOf1s {
                 {1,1,1,1,0},
                 {0,0,1,0,1},
         };
+
+        int[][] mx3 = new int[][]{
+                {1, 1, 0, 1, 1},
+                {1, 0, 1, 0, 1},
+                {1, 0, 1, 1, 1},
+                {1, 1, 0, 1, 0},
+                {0, 0, 0, 1, 1}
+        };
         LargestXOf1s lx1 = new LargestXOf1s();
         System.out.println(lx1.largest(mx)); // 3
         System.out.println(lx1.largest(mx2)); // 2
+        System.out.println(lx1.largest(mx3)); // 1
         System.out.println(lx1.lowerSpace(mx)); // 3
         System.out.println(lx1.lowerSpace(mx2)); // 2
+        System.out.println(lx1.lowerSpace(mx3)); // 1
+
     }
 }
