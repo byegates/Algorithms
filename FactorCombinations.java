@@ -54,8 +54,8 @@ public class FactorCombinations {
 
     public static void main(String[] args) {
         FactorCombinations fc = new FactorCombinations();
-        System.out.println(fc.getFactors(12, new ArrayList<>()));
+        System.out.println(fc.getFactors(100, new ArrayList<>())); // [2, 4, 5, 10, 20, 25, 50]
 
-        System.out.println(fc.combinations(100));
+        System.out.println(fc.combinations(100)); // [[10, 10], [5, 20], [4, 25], [4, 5, 5], [2, 50], [2, 5, 10], [2, 2, 25], [2, 2, 5, 5]]
     }
 }
