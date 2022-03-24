@@ -23,12 +23,12 @@ public class AllValidPermutationsOfParenthesesII { // TC: O(2^2*(l+m+n)), SC: O(
         int len = 2 * (l + m + n);
         c = new int[]{l, l, m, m, n, n};
         char[] cur = new char[len];
-        Deque<Character> stack = new ArrayDeque<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         dfs(0, stack, cur, res);
         return res;
     }
 
-    private void dfs(int idx, Deque<Character> stack, char[] cur, List<String> res) {
+    private void dfs(int idx, Deque<Integer> stack, char[] cur, List<String> res) {
         if (idx == cur.length) {
             res.add(new String(cur));
             return;
@@ -37,18 +37,18 @@ public class AllValidPermutationsOfParenthesesII { // TC: O(2^2*(l+m+n)), SC: O(
         for (int i = 0; i < c.length; i++)
             if (i % 2 == 0) {
                 if (c[i] > 0) {
-                    stack.offerFirst(p[i]);
+                    stack.offerFirst(i);
                     add(idx, i, cur);
                     dfs(idx + 1, stack, cur, res);
                     stack.pollFirst();
                     c[i]++;
                 }
             } else {
-                if (!stack.isEmpty() && stack.peekFirst() == p[i - 1]) {
+                if (!stack.isEmpty() && stack.peekFirst() == i - 1) {
                     stack.pollFirst();
                     add(idx, i, cur);
                     dfs(idx + 1, stack, cur, res);
-                    stack.offerFirst(p[i-1]);
+                    stack.offerFirst(i-1);
                     c[i]++;
                 }
             }
