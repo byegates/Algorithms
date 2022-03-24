@@ -92,42 +92,28 @@ public class AllSubsets {
         if (s == null) return res;
         StringBuilder sb = new StringBuilder();
 
-        List<Integer> counts = new ArrayList<>();
-        List<Character> L = preProcessing(s.toCharArray(), new ArrayList<>(), counts);
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) map.put(c, map.getOrDefault(c, 0) + 1);
 
-        subSets(0, sb, L, counts, res);
+        subSets(0, sb, map, res, new ArrayList<>(map.keySet()));
         return res;
     }
 
-    private void subSets(int idx, StringBuilder sb, List<Character> L, List<Integer> counts, List<String> res) {
+    private void subSets(int idx, StringBuilder sb, Map<Character, Integer> map, List<String> res, List<Character> L) {
         if (idx == L.size()) {
             res.add(sb.toString());
             return;
         }
 
         char ch = L.get(idx);
-        int count = counts.get(idx);
-        for (int j = 0; j <= count; j++) {
-            String s = String.valueOf(ch).repeat(j);
-            subSets(idx + 1, sb.append(s), L, counts, res);
-            sb.setLength(sb.length() - s.length());
-        }
+        int count = map.get(ch);
+        for (int j = 0; j < count; j++)
+            subSets(idx + 1, sb.append(ch), map, res, L);
+
+        sb.setLength(sb.length() - count);
+        subSets(idx + 1, sb, map, res, L);
     }
-
-    private List<Character> preProcessing(char[] chars, List<Character> L, List<Integer> counts) {
-        Arrays.sort(chars);
-
-        int i = 0;
-        while (i < chars.length) {
-            int start = i;
-            while (i < chars.length && chars[i] == chars[start]) i++;
-            counts.add(i - start);
-            L.add(chars[start]);
-        }
-
-        return L;
-    }
-    //
+    //subsets 2 Solution 3 ends here
 
     public static void main(String[] args) {
         AllSubsets ass = new AllSubsets();
