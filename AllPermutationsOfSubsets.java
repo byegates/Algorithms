@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AllPermutationsOfSubsets {
-    public List<String> allPermutationsOfSubsets(String s) { // TC: , SC:
+    public List<String> allPermutationsOfSubsets(String s) { // TC: e * n! * n, SC: n
         List<String> res = new ArrayList<>();
         if (s != null) dfs(0, s.toCharArray(), res);
         return res;
