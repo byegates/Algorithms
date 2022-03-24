@@ -136,16 +136,16 @@ public class AllSubsets {
         System.out.println(l1); // [, a, aa, aab, aabb, ab, abb, b, bb]
         System.out.println(l1.size()); // 9 (2+1)*(2+1)
         String tc2 = "aaabcc";
-        List<String> l2 = ass.subSets2(tc2);
-        System.out.println(l2); // 24 (3+1)*(1+1)*(2+1)
-        System.out.println(l2.size());
-        System.out.println(ass.subSets2b(tc2));
+        List<String> l2 = ass.subSets2(tc2); // [aaabcc, aaabc, aaab, aaacc, aaac, aaa, aabcc, aabc, aab, aacc, aac, aa, abcc, abc, ab, acc, ac, a, bcc, bc, b, cc, c, ]
+        System.out.println(l2);
+        System.out.println(l2.size()); // 24 (3+1)*(1+1)*(2+1)
+        System.out.println(ass.subSets2b(tc2)); // [, a, aa, aaa, aaab, aaabc, aaabcc, aaac, aaacc, aab, aabc, aabcc, aac, aacc, ab, abc, abcc, ac, acc, b, bc, bcc, c, cc]
         String tc3 = "abc";
         System.out.println(ass.subSets(tc3)); // [abc, ab, ac, a, bc, b, c, ]
 
         System.out.println();
-        System.out.println(ass.subSets2c(tc1));
-        System.out.println(ass.subSets2b(tc1));
+        System.out.println(ass.subSets2c(tc1)); // [, b, bb, a, ab, abb, aa, aab, aabb]
+        System.out.println(ass.subSets2b(tc1)); // [, a, aa, aab, aabb, ab, abb, b, bb]
 
     }
 }
