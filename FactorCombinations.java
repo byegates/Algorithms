@@ -35,7 +35,7 @@ public class FactorCombinations {
             return;
         }
 
-        dfs(idx + 1, target, cur, factors, res);
+        dfs(idx + 1, target, cur, factors, res); // this has to execute first, as after below for loop, target = 1
         int factor = factors.get(idx);
         int size = cur.size();
         while (target % factor == 0) {
@@ -48,7 +48,6 @@ public class FactorCombinations {
     public List<Integer> getFactors(int target, List<Integer> factors) {
         for (int i = 2; i <= target / 2; i++)
             if (target % i == 0) factors.add(i);
-
         return factors;
     }
 
@@ -56,6 +55,7 @@ public class FactorCombinations {
         FactorCombinations fc = new FactorCombinations();
         System.out.println(fc.getFactors(100, new ArrayList<>())); // [2, 4, 5, 10, 20, 25, 50]
 
+        System.out.println(fc.combinations(24)); // [[4, 6], [3, 8], [2, 12], [2, 3, 4], [2, 2, 6], [2, 2, 2, 3]]
         System.out.println(fc.combinations(100)); // [[10, 10], [5, 20], [4, 25], [4, 5, 5], [2, 50], [2, 5, 10], [2, 2, 25], [2, 2, 5, 5]]
     }
 }
