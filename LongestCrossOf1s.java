@@ -19,7 +19,7 @@ public class LongestCrossOf1s {
     int n, m;
     // Solution 1 Easiest to read
     public int largest(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 4*n*m --> O(n*m)
-        if (mx.length == 0 || mx[0].length == 0) return 0;
+        if (mx.length == 0) return 0;
         n = mx.length;
         m = mx[0].length;
 
@@ -28,60 +28,52 @@ public class LongestCrossOf1s {
         int[][] M3 = top(mx, new int[n][m]); // top to bottom
         int[][] M4 = bottom(mx, new int[n][m]); // bottom to top
 
-        int largest = 0;
+        int max = 0;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
-                largest = Math.max(min(new int[]{M1[i][j], M2[i][j], M3[i][j], M4[i][j]}), largest);
+                max = Math.max(min(new int[]{M1[i][j], M2[i][j], M3[i][j], M4[i][j]}), max);
 
-        return largest;
+        return max;
     }
 
     private int min(int[] A) { // take in all 4 values as an int[] and return the smallest of them
-        int smallest = A[0];
-        for (int i = 1; i < A.length; i++) if (A[i] < smallest) smallest = A[i];
-        return smallest;
+        int min = A[0];
+        for (int i = 1; i < A.length; i++) if (A[i] < min) min = A[i];
+        return min;
     }
 
     private int[][] left(int[][] mx, int[][] M) {
-        for (int i = 0; i < n; i++) M[i][0] = mx[i][0]; // fill left column
-
-        for (int i = 0; i < n; i++) // 2nd from the left to the right columns
-            for (int j = 1; j < m; j++)
-                if (mx[i][j] == 1) M[i][j] =  M[i][j - 1] + 1;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                if (mx[i][j] == 1) M[i][j] =  j == 0 ? 1 : M[i][j - 1] + 1;
         return M;
     }
 
     private int[][] right(int[][] mx, int[][] M) {
-        for (int i = 0; i < n; i++) M[i][m - 1] = mx[i][m - 1]; // fill right column
-
-        for (int i = 0; i < n; i++) // 2nd from the right to the left columns
-            for (int j = m - 2; j >= 0; j--)
-                if (mx[i][j] == 1) M[i][j] = M[i][j + 1] + 1;
+        for (int i = 0; i < n; i++)
+            for (int j = m - 1; j >= 0; j--)
+                if (mx[i][j] == 1) M[i][j] = j == m - 1 ? 1 : M[i][j + 1] + 1;
         return M;
     }
 
     private int[][] top(int[][] mx, int[][] M) {
-        for (int j = 0; j < m; j++) M[0][j] = mx[0][j]; // fill top row
-
-        for (int i = 1; i < n; i++) // from 2nd row to the bottom
+        for (int i = 0; i < n; i++)
             for (int j = 0; j < m ; j++)
-                if (mx[i][j] == 1) M[i][j] = M[i - 1][j] + 1;
+                if (mx[i][j] == 1) M[i][j] = i == 0 ? 1 : M[i - 1][j] + 1;
         return M;
     }
 
     private int[][] bottom(int[][] mx, int[][] M) {
-        for (int j = 0; j < m; j++) M[n - 1][j] = mx[n - 1][j]; // fill bottom row
-
-        for (int i = n - 2; i >= 0; i--) // 2nd from bottom to the top
+        for (int i = n - 1; i >= 0; i--)
             for (int j = 0; j < m ; j++)
-                if (mx[i][j] == 1) M[i][j] = M[i + 1][j] + 1;
+                if (mx[i][j] == 1) M[i][j] = i == n - 1 ? 1 : M[i + 1][j] + 1;
         return M;
     }
     // Solution 1 ends here
 
     // Solution 2, with merge
     public int withMerge(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 3*n*m --> O(n*m)
-        if (mx.length == 0 || mx[0].length == 0) return 0;
+        if (mx.length == 0) return 0;
         n = mx.length;
         m = mx[0].length;
 
@@ -125,7 +117,7 @@ public class LongestCrossOf1s {
 
     // Solution 3 more merges, less space
     public int lowSpace(int[][] mx) { // TC: 5*n*m--> O(n*m), SC: 4*n*m --> O(n*m)
-        if (mx.length == 0 || mx[0].length == 0) return 0;
+        if (mx.length == 0) return 0;
         n = mx.length;
         m = mx[0].length;
 
