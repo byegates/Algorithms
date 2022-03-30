@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class RotateMatrix {
     public void rotate(int[][] mx) { // TC:O(n^2), SC: O(1)
         for (int start = 0, end = mx.length - 1; start < end; start++, end--)
-            for (int j = 0; j < end - start; j++) { // 0 ~ n - 2 on level 1
+            for (int j = 0; j < end - start; j++) { // j: 0 ~ n - 2 on level 1
                 int tmp = mx[start][start + j];
                 mx[start][start + j] = mx[end - j][start];
                 mx[end - j][start] = mx[end][end - j];
