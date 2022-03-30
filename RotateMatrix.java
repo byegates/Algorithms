@@ -16,19 +16,15 @@ Rotate an N * N matrix clockwise 90 degrees.
 import java.util.Arrays;
 
 public class RotateMatrix {
-    public void rotate(int[][] mx) {
-        int start = 0, end = mx.length - 1;
-        while (start < end) {
-            for (int j = 0; j < end - start; j++) {
-                int temp = mx[start][start + j];
+    public void rotate(int[][] mx) { // TC:O(n^2), SC: O(1)
+        for (int start = 0, end = mx.length - 1; start < end; start++, end--)
+            for (int j = 0; j < end - start; j++) { // 0 ~ n - 2 on level 1
+                int tmp = mx[start][start + j];
                 mx[start][start + j] = mx[end - j][start];
                 mx[end - j][start] = mx[end][end - j];
                 mx[end][end - j] = mx[start + j][end];
-                mx[start + j][end] = temp;
+                mx[start + j][end] = tmp;
             }
-            start++;
-            end--;
-        }
     }
 
     public static boolean mxEqual(int[][] A, int [][] B) {
