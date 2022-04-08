@@ -21,6 +21,16 @@ class Point {
 }
 
 public class MostPointsOnALine {
+    //Use below wrapper to submit to leetCode 149. Max Points on a Line (https://leetcode.com/problems/max-points-on-a-line/)
+    public int maxPoints(int[][] points) {
+        Point[] points2 = new Point[points.length];
+        for (int i = 0; i < points.length; i++) {
+            points2[i] = new Point(points[i][0], points[i][1]);
+        }
+
+        return most(points2);
+    }
+
     // method 1 start, simple and can handle duplicates
     public int most(Point[] points) { // TC: O(n^2), SC: O(n)
         int max = 0;
