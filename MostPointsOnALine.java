@@ -159,7 +159,7 @@ public class MostPointsOnALine {
         System.out.printf("l1.equals(l2)                        : %s\n", l1.equals(l2)); // true
         System.out.printf("l1.hashCode() == l2.hashCode()       : %s\n", l1.hashCode() == l2.hashCode()); // true
 
-        // test our hashCode and equals implementation of Pair
+        // test our hashCode and equals implementation for Pair
         Pair pair1 = new Pair(1.9087654321, 2.1023456789);
         Pair pair2 = new Pair(1.9087654321, 2.1023456789);
         System.out.printf("pair1 == pair2                       : %s\n", pair1 == pair2); // false
