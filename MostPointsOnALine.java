@@ -155,9 +155,15 @@ public class MostPointsOnALine {
         // to demo List have equals and hashCode implemented
         List<Integer> l1 = Arrays.asList(1, 2, 3);
         List<Integer> l2 = Arrays.asList(1, 2, 3);
-        System.out.println(l1 == l2);
-        System.out.println(l1.equals(l2));
-        System.out.println(l1.hashCode() == l2.hashCode());
+        System.out.printf("l1 == l2                             : %s\n", l1 == l2); // false
+        System.out.printf("l1.equals(l2)                        : %s\n", l1.equals(l2)); // true
+        System.out.printf("l1.hashCode() == l2.hashCode()       : %s\n", l1.hashCode() == l2.hashCode()); // true
 
+        // test our hashCode and equals implementation of Pair
+        Pair pair1 = new Pair(1.9087654321, 2.1023456789);
+        Pair pair2 = new Pair(1.9087654321, 2.1023456789);
+        System.out.printf("pair1 == pair2                       : %s\n", pair1 == pair2); // false
+        System.out.printf("pair1.equals(pair2)                  : %s\n", pair1.equals(pair2)); // true
+        System.out.printf("pair1.hashCode() == pair2.hashCode() : %s\n", pair1.hashCode() == pair2.hashCode()); // true
     }
 }
