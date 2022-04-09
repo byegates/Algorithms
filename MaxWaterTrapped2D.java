@@ -23,11 +23,10 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class MaxWaterTrapped2D {
-
-    static class Cell implements Comparable<Cell> {
+    static class Cell implements Comparable<Cell>{
         int i, j, height;
-
-        Cell(int i, int j, int height) {
+        boolean visited;
+        Cell (int i, int j, int height) {
             this.i = i;
             this.j = j;
             this.height = height;
@@ -38,52 +37,63 @@ public class MaxWaterTrapped2D {
             return Integer.compare(this.height, c.height);
         }
     }
-
     public int maxTrapped(int[][] mx) {
-        int rows, cols;
+        int rows, cols, res = 0;
         if ((rows = mx.length) < 3 || (cols = mx[0].length) < 3) return 0;
+        Cell[][] cells = createCellMatrix(mx, rows, cols);
 
-        int res = 0;
         PriorityQueue<Cell> pq = new PriorityQueue<>();
-        boolean[][] visited = new boolean[rows][cols];
-        processBorder(mx, visited, pq, rows, cols);
+        fillBorders(cells, pq, rows, cols);
 
         while (!pq.isEmpty()) {
-            Cell cur = pq.poll(); // cur will be the shortest boarder and the limiting factor
-            List<Cell> neighbors = allNeighbors(cur, mx, new ArrayList<>());
+            Cell cur = pq.poll();
+            List<Cell> neighbors = getAllNeighbors(cur, cells, new ArrayList<>());
+
             for (Cell neighbor : neighbors) {
-                if (visited[neighbor.i][neighbor.j]) continue;
-                res += Math.max(cur.height - neighbor.height, 0); // Any inner neighbor lower than the shortest holds water
-                neighbor.height = Math.max(cur.height, neighbor.height); // any inner neighbor higher will become new boarder
+                if (neighbor.visited) continue;
+                res += Math.max(cur.height - neighbor.height, 0);
+                neighbor.height = Math.max(cur.height, neighbor.height);
+                neighbor.visited = true;
                 pq.offer(neighbor);
-                visited[neighbor.i][neighbor.j] = true;
             }
+
         }
+
         return res;
     }
 
-    private void processBorder(int[][] mx, boolean[][] visited, PriorityQueue<Cell> pq, int rows, int cols) {
-        for (int j = 0; j < cols; j++) fillBorder(mx, visited, pq, 0, j, rows - 1, j);
-        for (int i = 1; i < rows - 1; i++) fillBorder(mx, visited, pq, i, 0, i, cols - 1);
-    }
+    private List<Cell> getAllNeighbors(Cell cur, Cell[][] cells, List<Cell> neighbors){
+        int[] x = {cur.i + 1, cur.i - 1, cur.i, cur.i};
+        int[] y = {cur.j, cur.j, cur.j + 1, cur.j - 1};
 
-    private void fillBorder(int[][] mx, boolean[][] visited, PriorityQueue<Cell> pq, int i1, int j1, int i2, int j2) {
-        pq.offer(new Cell(i1, j1, mx[i1][j1]));
-        visited[i1][j1] = true;
-        pq.offer(new Cell(i2, j2, mx[i2][j2]));
-        visited[i2][j2] = true;
-    }
-
-    private List<Cell> allNeighbors(Cell cur, int[][] mx, List<Cell> allNeighbors) {
-        int[] x = new int[] {cur.i + 1, cur.i - 1, cur.i, cur.i};
-        int[] y = new int[] {cur.j, cur.j, cur.j + 1, cur.j - 1};
-        for (int i = 0; i < x.length; i++)
+        for (int i = 0; i < x.length; i++) {
             try {
-                allNeighbors.add(new Cell(x[i], y[i], mx[x[i]][y[i]]));
-            }
-            catch (ArrayIndexOutOfBoundsException ignored){}
+                neighbors.add(cells[x[i]][y[i]]);
+            } catch (IndexOutOfBoundsException ignored) {}
+        }
 
-        return allNeighbors;
+        return neighbors;
+    }
+
+    private void fillBorders(Cell[][] cells, PriorityQueue<Cell> pq, int rows, int cols) {
+        for (int j = 0; j < cols; j++) fillBorder(cells, pq, 0, j,rows - 1, j);
+        for (int i = 1; i < rows - 1; i++) fillBorder(cells, pq, i, 0, i, cols - 1);
+    }
+
+    private void fillBorder(Cell[][] cells, PriorityQueue<Cell> pq, int i1, int j1, int i2, int j2) {
+        cells[i1][j1].visited = true;
+        pq.offer(cells[i1][j1]);
+        cells[i2][j2].visited = true;
+        pq.offer(cells[i2][j2]);
+    }
+
+    private Cell[][] createCellMatrix(int[][] cells, int rows, int cols) {
+        Cell[][] cmx = new Cell[rows][cols];
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                cmx[i][j] = new Cell(i, j, cells[i][j]);
+
+        return cmx;
     }
 
     public static void main(String[] args) {
