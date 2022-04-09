@@ -55,33 +55,33 @@ public class MostPointsOnALine {
     }
     // method 1 ends here
 
-    // Method 2 using slope(a) and intercept(b) pair to denote a line
-    static class Pair { // y = ax + b;
-        double a;
-        double b;
-        Pair(double a, double b) {
-            this.a = a;
-            this.b = b;
+    // Method 2 using slope(a) and intercept(b) pair to denote a line: y = ax + b;
+    static class Line {
+        double slope;
+        double intercept;
+        Line(double slope, double intercept) {
+            this.slope = slope;
+            this.intercept = intercept;
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Pair pair = (Pair) o;
-            return Double.compare(pair.a, a) == 0 && Double.compare(pair.b, b) == 0;
+            Line line = (Line) o;
+            return Double.compare(line.slope, slope) == 0 && Double.compare(line.intercept, intercept) == 0;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(a, b);
+            return Objects.hash(slope, intercept);
         }
     }
 
     public int most2(Point[] points) { // TC: O(n^2), SC: O(n)
         int max = 0;
 
-        Map<Pair, Set<Point>> m1 = new HashMap<>();
+        Map<Line, Set<Point>> m1 = new HashMap<>();
         Map<Integer, Set<Point>> m2 = new HashMap<>();
         for (Point point1 : points) {
             for (Point point2 : points) {
@@ -92,9 +92,9 @@ public class MostPointsOnALine {
                     m2.put(point1.x, set);
                     max = Math.max(max, set.size());
                 } else {
-                    double a = (point2.y - point1.y + .0) / (point2.x - point1.x);
-                    double b = point1.y - a * point1.x;
-                    Pair p = new Pair(a, b);
+                    double slope = (point2.y - point1.y + .0) / (point2.x - point1.x);
+                    double intercept = point1.y - slope * point1.x;
+                    Line p = new Line(slope, intercept);
                     Set<Point> set = m1.getOrDefault(p, new HashSet<>());
                     set.add(point1);
                     set.add(point2);
@@ -123,13 +123,13 @@ public class MostPointsOnALine {
                     m2.put(point1.x, set);
                     max = Math.max(max, set.size());
                 } else {
-                    double a = (point2.y - point1.y + .0) / (point2.x - point1.x);
-                    double b = point1.y - a * point1.x;
-                    List<Double> pointAsList = Arrays.asList(a, b);
-                    Set<Point> set = m1.getOrDefault(pointAsList, new HashSet<>());
+                    double slope = (point2.y - point1.y + .0) / (point2.x - point1.x);
+                    double intercept = point1.y - slope * point1.x;
+                    List<Double> pair = Arrays.asList(slope, intercept);
+                    Set<Point> set = m1.getOrDefault(pair, new HashSet<>());
                     set.add(point1);
                     set.add(point2);
-                    m1.put(pointAsList, set);
+                    m1.put(pair, set);
                     max = Math.max(max, set.size());
                 }
             }
@@ -160,10 +160,10 @@ public class MostPointsOnALine {
         System.out.printf("l1.hashCode() == l2.hashCode()       : %s\n", l1.hashCode() == l2.hashCode()); // true
 
         // test our hashCode and equals implementation for Pair
-        Pair pair1 = new Pair(1.9087654321, 2.1023456789);
-        Pair pair2 = new Pair(1.9087654321, 2.1023456789);
-        System.out.printf("pair1 == pair2                       : %s\n", pair1 == pair2); // false
-        System.out.printf("pair1.equals(pair2)                  : %s\n", pair1.equals(pair2)); // true
-        System.out.printf("pair1.hashCode() == pair2.hashCode() : %s\n", pair1.hashCode() == pair2.hashCode()); // true
+        Line line1 = new Line(1.9087654321, 2.1023456789);
+        Line line2 = new Line(1.9087654321, 2.1023456789);
+        System.out.printf("pair1 == pair2                       : %s\n", line1 == line2); // false
+        System.out.printf("pair1.equals(pair2)                  : %s\n", line1.equals(line2)); // true
+        System.out.printf("pair1.hashCode() == pair2.hashCode() : %s\n", line1.hashCode() == line2.hashCode()); // true
     }
 }
