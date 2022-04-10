@@ -28,26 +28,27 @@
 */
 
 import java.util.*;
-import resources.ConsoleColors.*;
-
 import static resources.ConsoleColors.*;
 
 public class SevenPuzzle {
     static class Board {
         public final static int rows = 2, cols = 4;
         private final int[][] board = new int[rows][cols];
-        public int i0, j0, i1, j1;
+        public int i0, j0;
+        public List<Integer> iList, jList;
         public Board(){}
         public Board (int[] vals) {
             for (int i = 0; i < rows; i++)
                 System.arraycopy(vals, i * cols, board[i], 0, cols);
                 // board[i][j] = vals[i * cols + j];
+            iList = new ArrayList<>();
+            jList = new ArrayList<>();
         }
 
         public boolean swap(int i, int j) { // must put index for zero at i1 and j1
             if (outOfBound(i, j)) return false;
-            this.i1 = i0;
-            this.j1 = j0;
+            iList.add(i0);
+            jList.add(j0);
             board[i0][j0] = board[i][j];
             board[i][j] = 0;
             i0 = i;
@@ -86,9 +87,25 @@ public class SevenPuzzle {
                 //b.board[i][j] = board[i][j];
             b.i0 = i0;
             b.j0 = j0;
-            b.i1 = i1;
-            b.j1 = j1;
+            b.iList = new ArrayList<>(iList);
+            b.jList = new ArrayList<>(jList);
             return b;
+        }
+
+        public int steps() {return iList.size();}
+
+        public void printAll(Board this) {
+            System.out.println();
+            List<Integer> iL = new ArrayList<>(this.iList); // need new one, otherwise it will cause dead loop
+            List<Integer> jL = new ArrayList<>(this.jList);
+            Board b = this.clone(); // as we are printing while swap the steps backwards, better do it with new board
+            iL.add(b.i0); // to print start status, first swap will be from i0, j0 to i0, j0
+            jL.add(b.j0);
+            for (int k = iL.size() - 1; k >= 0; k--) {
+                b.swap(iL.get(k), jL.get(k));
+                System.out.printf("%d :\n", iL.size() - k - 1);
+                System.out.print(b);
+            }
         }
 
         public String toString() {
@@ -98,7 +115,7 @@ public class SevenPuzzle {
                 for (int j = 0; j < cols; j++) {
                     if (i == i0 && j == j0)
                         sb.append(RED).append(board[i][j]).append(RESET);
-                    else if (i == i1 && j == j1)
+                    else if (i == iList.get(iList.size() - 1) && j == jList.get(jList.size() - 1))
                         sb.append(CYAN).append(board[i][j]).append(RESET);
                     else sb.append(board[i][j]);
                     if (j != cols - 1) sb.append(", ");
@@ -127,11 +144,12 @@ public class SevenPuzzle {
         }
     }
 
-    public int numOfSteps(int[] values) {
+    public Board numOfSteps(int[] values) {
         Queue<Board> q = new ArrayDeque<>();
         Map<Board, Integer> map = new HashMap<>();
 
         Board start = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        Board end = new Board(values);
         q.offer(start);
         map.put(start, 0);
 
@@ -141,23 +159,30 @@ public class SevenPuzzle {
             int i0 = cur.i0, j0 = cur.j0;
 
             for (Move move : Move.values()) {
-                if (!cur.swap(move.i(i0), move.j(j0))) continue;
-                if (!map.containsKey(cur)) {
-                    Board next = cur.clone();
+                Board next = cur.clone(); // Do this first to avoid redundant swap (and swap backs) been added to list
+                if (!next.swap(move.i(i0), move.j(j0))) continue;
+                if (next.equals(end)) return next;
+                if (!map.containsKey(next)) {
                     q.offer(next);
                     map.put(next, step + 1);
                 }
-                cur.swap(i0, j0); // swap back
             }
         }
 
-        return map.getOrDefault(new Board(values), -1);
+        return null;
     }
 
     public static void main(String[] args) {
         SevenPuzzle sp = new SevenPuzzle();
-        System.out.println(sp.numOfSteps(new int[]{1, 0, 2, 3, 4, 5, 6, 7}));
-        System.out.println(sp.numOfSteps(new int[]{3, 6, 0, 7, 1, 2, 4, 5}));
-        System.out.println(sp.numOfSteps(new int[]{6, 7, 3, 5, 4, 2, 1, 0}));
+        Board res1 = sp.numOfSteps(new int[]{1, 2, 3, 0, 4, 5, 6, 7});
+        res1.printAll();//System.out.println(res1.steps()); // 3
+
+        Board res2 = sp.numOfSteps(new int[]{1, 0, 3, 7, 4, 6, 2, 5});
+        res2.printAll();//System.out.println(res2.steps()); // 11
+        Board res3 = sp.numOfSteps(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
+        res3.printAll();//System.out.println(res3.steps()); // 22
+        System.out.println();
+        Board b4 = sp.numOfSteps(new int[]{6, 7, 3, 5, 4, 2, 1, 0});
+        if (b4 == null) System.out.println("No solution found");
     }
 }
