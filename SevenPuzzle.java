@@ -148,10 +148,10 @@ public class SevenPuzzle {
         Queue<Board> q = new ArrayDeque<>();
         Map<Board, Integer> map = new HashMap<>();
 
-        Board start = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-        Board end = new Board(values);
-        q.offer(start);
-        map.put(start, 0);
+        Board end = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        Board start = new Board(values);
+        q.offer(end);
+        map.put(end, 0);
 
         while (!q.isEmpty()) {
             Board cur = q.poll();
@@ -161,7 +161,7 @@ public class SevenPuzzle {
             for (Move move : Move.values()) {
                 Board next = cur.clone(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
                 if (!next.swap(move.i(i0), move.j(j0))) continue;
-                if (next.equals(end)) return next;
+                if (next.equals(start)) return next;
                 if (!map.containsKey(next)) {
                     q.offer(next);
                     map.put(next, step + 1);
