@@ -159,7 +159,7 @@ public class SevenPuzzle {
             int i0 = cur.i0, j0 = cur.j0;
 
             for (Move move : Move.values()) {
-                Board next = cur.clone(); // Do this first to avoid redundant swap (and swap backs) been added to list
+                Board next = cur.clone(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
                 if (!next.swap(move.i(i0), move.j(j0))) continue;
                 if (next.equals(end)) return next;
                 if (!map.containsKey(next)) {
