@@ -28,7 +28,9 @@
 */
 
 import java.util.*;
-import resources.ConsoleColors;
+import resources.ConsoleColors.*;
+
+import static resources.ConsoleColors.*;
 
 public class SevenPuzzle {
     static class Board {
@@ -95,9 +97,9 @@ public class SevenPuzzle {
                 sb.append('[');
                 for (int j = 0; j < cols; j++) {
                     if (i == i0 && j == j0)
-                        sb.append(ConsoleColors.RED).append(board[i][j]).append(ConsoleColors.RESET);
+                        sb.append(RED).append(board[i][j]).append(RESET);
                     else if (i == i1 && j == j1)
-                        sb.append(ConsoleColors.CYAN).append(board[i][j]).append(ConsoleColors.RESET);
+                        sb.append(CYAN).append(board[i][j]).append(RESET);
                     else sb.append(board[i][j]);
                     if (j != cols - 1) sb.append(", ");
                 }
