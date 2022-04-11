@@ -118,8 +118,8 @@ public class SevenPuzzle {
                 sb.append('[');
                 for (int j = 0; j < cols; j++) {
                     if (i == i0 && j == j0)
-                        sb.append(RED).append(board[i][j]).append(RESET);
-                    else if (i == iList.get(iList.size() - 1) && j == jList.get(jList.size() - 1))
+                        sb.append(RED).append(board[i][j]).append(RESET); // always print 0 as red
+                    else if (i == iList.get(iList.size() - 1) && j == jList.get(jList.size() - 1)) // print what was switched with 0 as cyan
                         sb.append(CYAN).append(board[i][j]).append(RESET);
                     else sb.append(board[i][j]);
                     if (j != cols - 1) sb.append(", ");
