@@ -34,16 +34,26 @@ public class SevenPuzzle {
     static class Board {
         public final static int rows = 2, cols = 4;
         private final int[][] board = new int[rows][cols];
-        public int i0, j0;
-        public List<Integer> iList, jList;
+        public int i0, j0; // current indices of zero
+        public List<Integer> iList, jList; // The past zero have been on
         public Board(){}
         public Board (int[] vals) {
             for (int i = 0; i < rows; i++)
                 System.arraycopy(vals, i * cols, board[i], 0, cols);
                 // for (int j = 0; j < cols; j++)
                     // board[i][j] = vals[i * cols + j];
+            setZeroIndex();
             iList = new ArrayList<>();
             jList = new ArrayList<>();
+        }
+
+        public void setZeroIndex() {
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    if (board[i][j] == 0) {
+                        i0 = i;
+                        j0 = j;
+                    }
         }
 
         public boolean swap(int i, int j) { // must put index for zero at i1 and j1
@@ -62,7 +72,7 @@ public class SevenPuzzle {
         }
 
         @Override
-        public int hashCode() {
+        public int hashCode() {// [0, 1, 2, 3, 4, 5, 6, 7] ==> (int) 1,234,567
             int code = 0;
             for (int[] row : board)
                 for (int val : row)
@@ -103,9 +113,9 @@ public class SevenPuzzle {
             iL.add(i0); // to print start status, first swap will be from i0, j0 to i0, j0
             jL.add(j0);
             Board b = clone(); // as we are printing while swap the steps backwards, better do it with new board
-            b.iList = new ArrayList<>();
+            b.iList = new ArrayList<>(); // clearly out old steps that are not required
             b.jList = new ArrayList<>();
-            for (int k = iL.size() - 1; k >= 0; k--) {
+            for (int k = iL.size() - 1; k >= 0; k--) { // reverse backwards, step by step
                 b.swap(iL.get(k), jL.get(k));
                 System.out.printf("%d :\n", iL.size() - k - 1);
                 System.out.print(b);
@@ -127,11 +137,11 @@ public class SevenPuzzle {
                 sb.append("]\n");
             }
 
-            return new String(sb);
+            return sb.toString();
         }
     }
 
-    enum Move {
+    enum Move { // four directions we could possibly move
         L(-1, 0), R(1, 0), U(0, 1), D(0, -1);
         final int di, dj;
         Move(int di, int dj) {
@@ -139,11 +149,11 @@ public class SevenPuzzle {
             this.dj = dj;
         }
 
-        public int i(int i) {
+        public int i(int i) { // new i after moving one direction
             return i + di;
         }
 
-        public int j(int j) {
+        public int j(int j) { // new j after moving one direction
             return j + dj;
         }
     }
@@ -164,7 +174,7 @@ public class SevenPuzzle {
             for (Move move : Move.values()) {
                 Board next = cur.clone(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
                 if (!next.swap(move.i(next.i0), move.j(next.j0))) continue;
-                if (next.equals(start)) return next;
+                if (next.equals(start)) return next; // we find a right path from end to start, so return
                 if (!set.contains(next)) {
                     q.offer(next);
                     set.add(next);
