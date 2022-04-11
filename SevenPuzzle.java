@@ -40,7 +40,8 @@ public class SevenPuzzle {
         public Board (int[] vals) {
             for (int i = 0; i < rows; i++)
                 System.arraycopy(vals, i * cols, board[i], 0, cols);
-                // board[i][j] = vals[i * cols + j];
+                // for (int j = 0; j < cols; j++)
+                    // board[i][j] = vals[i * cols + j];
             iList = new ArrayList<>();
             jList = new ArrayList<>();
         }
@@ -84,7 +85,8 @@ public class SevenPuzzle {
             Board b = new Board();
             for (int i = 0; i < rows; i++)
                 System.arraycopy(board[i], 0, b.board[i], 0, cols);
-                //b.board[i][j] = board[i][j];
+                // for (int j = 0; j < cols; j++)
+                    // b.board[i][j] = board[i][j];
             b.i0 = i0;
             b.j0 = j0;
             b.iList = new ArrayList<>(iList);
@@ -94,10 +96,10 @@ public class SevenPuzzle {
 
         public int steps() {return iList.size();}
 
-        public void printAll(Board this) {
+        public void printAll() {
             System.out.println();
-            List<Integer> iL = new ArrayList<>(this.iList); // need new one, otherwise it will cause dead loop
-            List<Integer> jL = new ArrayList<>(this.jList);
+            List<Integer> iL = new ArrayList<>(iList); // need new one, otherwise it will cause dead loop
+            List<Integer> jL = new ArrayList<>(jList);
             Board b = this.clone(); // as we are printing while swap the steps backwards, better do it with new board
             iL.add(b.i0); // to print start status, first swap will be from i0, j0 to i0, j0
             jL.add(b.j0);
@@ -144,27 +146,26 @@ public class SevenPuzzle {
         }
     }
 
-    public Board numOfSteps(int[] values) {
+    public Board solve(int[] vals) {
         Queue<Board> q = new ArrayDeque<>();
-        Map<Board, Integer> map = new HashMap<>();
+        Set<Board> set = new HashSet<>(); // if we want all solutions we can actually save Map<Board, Board>
 
         Board end = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-        Board start = new Board(values);
+        Board start = new Board(vals);
+        if (end.equals(start)) return end;
+
         q.offer(end);
-        map.put(end, 0);
+        set.add(end);
 
         while (!q.isEmpty()) {
             Board cur = q.poll();
-            int step = map.get(cur);
-            int i0 = cur.i0, j0 = cur.j0;
-
             for (Move move : Move.values()) {
                 Board next = cur.clone(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
-                if (!next.swap(move.i(i0), move.j(j0))) continue;
+                if (!next.swap(move.i(next.i0), move.j(next.j0))) continue;
                 if (next.equals(start)) return next;
-                if (!map.containsKey(next)) {
+                if (!set.contains(next)) {
                     q.offer(next);
-                    map.put(next, step + 1);
+                    set.add(next);
                 }
             }
         }
@@ -172,17 +173,22 @@ public class SevenPuzzle {
         return null;
     }
 
+    public int numOfSteps(int[] vals) {
+        Board b = solve(vals);
+        return b == null ? -1 : b.iList.size();
+    }
+
     public static void main(String[] args) {
         SevenPuzzle sp = new SevenPuzzle();
-        Board res1 = sp.numOfSteps(new int[]{1, 2, 3, 0, 4, 5, 6, 7});
+        Board res1 = sp.solve(new int[]{1, 2, 3, 0, 4, 5, 6, 7});
         res1.printAll();//System.out.println(res1.steps()); // 3
 
-        Board res2 = sp.numOfSteps(new int[]{1, 0, 3, 7, 4, 6, 2, 5});
+        Board res2 = sp.solve(new int[]{1, 0, 3, 7, 4, 6, 2, 5});
         res2.printAll();//System.out.println(res2.steps()); // 11
-        Board res3 = sp.numOfSteps(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
+        Board res3 = sp.solve(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
         res3.printAll();//System.out.println(res3.steps()); // 22
         System.out.println();
-        Board b4 = sp.numOfSteps(new int[]{6, 7, 3, 5, 4, 2, 1, 0});
+        Board b4 = sp.solve(new int[]{6, 7, 3, 5, 4, 2, 1, 0});
         if (b4 == null) System.out.println("No solution found");
     }
 }
