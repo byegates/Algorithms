@@ -100,9 +100,11 @@ public class SevenPuzzle {
             System.out.println();
             List<Integer> iL = new ArrayList<>(iList); // need new one, otherwise it will cause dead loop
             List<Integer> jL = new ArrayList<>(jList);
-            Board b = this.clone(); // as we are printing while swap the steps backwards, better do it with new board
-            iL.add(b.i0); // to print start status, first swap will be from i0, j0 to i0, j0
-            jL.add(b.j0);
+            iL.add(i0); // to print start status, first swap will be from i0, j0 to i0, j0
+            jL.add(j0);
+            Board b = clone(); // as we are printing while swap the steps backwards, better do it with new board
+            b.iList = new ArrayList<>();
+            b.jList = new ArrayList<>();
             for (int k = iL.size() - 1; k >= 0; k--) {
                 b.swap(iL.get(k), jL.get(k));
                 System.out.printf("%d :\n", iL.size() - k - 1);
