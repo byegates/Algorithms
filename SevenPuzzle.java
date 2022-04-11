@@ -34,14 +34,12 @@ public class SevenPuzzle {
     static class Board {
         public final static int rows = 2, cols = 4;
         private final int[][] board = new int[rows][cols];
-        public int i0, j0; // current indices of zero
-        public List<Integer> iList, jList; // The past zero have been on
+        public int i0, j0; // Where is zero on the board now
+        public List<Integer> iList, jList; // Indices zero have been through, together it's a complete path of how the board evolved
         public Board(){}
         public Board (int[] vals) {
             for (int i = 0; i < rows; i++)
-                System.arraycopy(vals, i * cols, board[i], 0, cols);
-                // for (int j = 0; j < cols; j++)
-                    // board[i][j] = vals[i * cols + j];
+                System.arraycopy(vals, i * cols, board[i], 0, cols); // for (int j = 0; j < cols; j++) board[i][j] = vals[i * cols + j];
             setZeroIndex();
             iList = new ArrayList<>();
             jList = new ArrayList<>();
@@ -94,9 +92,7 @@ public class SevenPuzzle {
         public Board clone() {
             Board b = new Board();
             for (int i = 0; i < rows; i++)
-                System.arraycopy(board[i], 0, b.board[i], 0, cols);
-                // for (int j = 0; j < cols; j++)
-                    // b.board[i][j] = board[i][j];
+                System.arraycopy(board[i], 0, b.board[i], 0, cols); // for (int j = 0; j < cols; j++) b.board[i][j] = board[i][j];
             b.i0 = i0;
             b.j0 = j0;
             b.iList = new ArrayList<>(iList);
@@ -104,18 +100,16 @@ public class SevenPuzzle {
             return b;
         }
 
-        public int steps() {return iList.size();}
-
         public void printAll() {
             System.out.println();
             List<Integer> iL = new ArrayList<>(iList); // need new one, otherwise it will cause dead loop
             List<Integer> jL = new ArrayList<>(jList);
             iL.add(i0); // to print start status, first swap will be from i0, j0 to i0, j0
             jL.add(j0);
-            Board b = clone(); // as we are printing while swap the steps backwards, better do it with new board
-            b.iList = new ArrayList<>(); // clearly out old steps that are not required
+            Board b = clone(); // as we are printing while swap-ing backwards, better do it with new board
+            b.iList = new ArrayList<>(); // clear out old steps that are not required
             b.jList = new ArrayList<>();
-            for (int k = iL.size() - 1; k >= 0; k--) { // reverse backwards, step by step
+            for (int k = iL.size() - 1; k >= 0; k--) { // step by step swap back and print
                 b.swap(iL.get(k), jL.get(k));
                 System.out.printf("%d :\n", iL.size() - k - 1);
                 System.out.print(b);
@@ -193,14 +187,14 @@ public class SevenPuzzle {
     public static void main(String[] args) {
         SevenPuzzle sp = new SevenPuzzle();
         Board res1 = sp.solve(new int[]{1, 2, 3, 0, 4, 5, 6, 7});
-        res1.printAll();//System.out.println(res1.steps()); // 3
+        res1.printAll();//System.out.println(res1.numOfSteps()); // 3
 
         Board res2 = sp.solve(new int[]{1, 0, 3, 7, 4, 6, 2, 5});
-        res2.printAll();//System.out.println(res2.steps()); // 11
+        res2.printAll();//System.out.println(res2.numOfSteps()); // 11
         Board res3 = sp.solve(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
-        res3.printAll();//System.out.println(res3.steps()); // 22
+        res3.printAll();//System.out.println(res3.numOfSteps()); // 22
         System.out.println();
         int[] noSolution = new int[]{6, 7, 3, 5, 4, 2, 1, 0};
-        System.out.println(sp.numOfSteps(noSolution));
+        System.out.println(sp.numOfSteps(noSolution)); // -1
     }
 }
