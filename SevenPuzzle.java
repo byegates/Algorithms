@@ -188,7 +188,7 @@ public class SevenPuzzle {
         Board res3 = sp.solve(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
         res3.printAll();//System.out.println(res3.steps()); // 22
         System.out.println();
-        Board b4 = sp.solve(new int[]{6, 7, 3, 5, 4, 2, 1, 0});
-        if (b4 == null) System.out.println("No solution found");
+        int[] noSolution = new int[]{6, 7, 3, 5, 4, 2, 1, 0};
+        System.out.println(sp.numOfSteps(noSolution));
     }
 }
