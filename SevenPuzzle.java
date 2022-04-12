@@ -34,39 +34,35 @@ public class SevenPuzzle {
     static class Board {
         public final static int rows = 2, cols = 4;
         private final int[][] board = new int[rows][cols];
-        public int i0, j0; // Where is zero on the board now
-        public List<Integer> iList, jList; // Indices zero have been through, together it's a complete path of how the board evolved
-        public Board(){}
-        public Board (int[] vals) {
+        public int steps;
+        public Cell c0; // Coordinates of 0 on current board
+        public Map<Board, Board> pathMap = new HashMap<>();
+        public Board() {}
+        public Board (int[] input) {
             for (int i = 0; i < rows; i++)
-                System.arraycopy(vals, i * cols, board[i], 0, cols); // for (int j = 0; j < cols; j++) board[i][j] = vals[i * cols + j];
+                System.arraycopy(input, i * cols, board[i], 0, cols); // for (int j = 0; j < cols; j++) board[i][j] = input[i * cols + j];
             setZeroIndex();
-            iList = new ArrayList<>();
-            jList = new ArrayList<>();
         }
 
         public void setZeroIndex() {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < cols; j++)
-                    if (board[i][j] == 0) {
-                        i0 = i;
-                        j0 = j;
-                    }
+                    if (board[i][j] == 0)
+                        c0 = new Cell(i, j);
         }
 
-        public boolean swap(int i, int j) { // must put index for zero at i1 and j1
-            if (outOfBound(i, j)) return false;
-            iList.add(i0);
-            jList.add(j0);
-            board[i0][j0] = board[i][j];
-            board[i][j] = 0;
-            i0 = i;
-            j0 = j;
+        public boolean swap(Cell p) { // must put index for zero at i1 and j1
+            if (outOfBound(p)) return false;
+            board[c0.i][c0.j] = board[p.i][p.j];
+            board[p.i][p.j] = 0;
+            c0.i = p.i;
+            c0.j = p.j;
+            steps++;
             return true;
         }
 
-        public boolean outOfBound(int i, int j) {
-            return i < 0 || j < 0 || i >= rows || j >= cols;
+        public boolean outOfBound(Cell p) {
+            return p.i < 0 || p.j < 0 || p.i >= rows || p.j >= cols;
         }
 
         @Override
@@ -89,41 +85,43 @@ public class SevenPuzzle {
             return true;
         }
 
-        public Board clone() {
+        public Board cloneBoard() {
             Board b = new Board();
             for (int i = 0; i < rows; i++)
                 System.arraycopy(board[i], 0, b.board[i], 0, cols); // for (int j = 0; j < cols; j++) b.board[i][j] = board[i][j];
-            b.i0 = i0;
-            b.j0 = j0;
-            b.iList = new ArrayList<>(iList);
-            b.jList = new ArrayList<>(jList);
+            b.c0 = cloneZero();
+            b.pathMap = pathMap;
+            b.steps = steps;
             return b;
         }
 
-        public void printAll() {
-            System.out.println();
-            List<Integer> iL = new ArrayList<>(iList); // need new one, otherwise it will cause dead loop
-            List<Integer> jL = new ArrayList<>(jList);
-            iL.add(i0); // to print start status, first swap will be from i0, j0 to i0, j0
-            jL.add(j0);
-            Board b = clone(); // as we are printing while swap-ing backwards, better do it with new board
-            b.iList = new ArrayList<>(); // clear out old steps that are not required
-            b.jList = new ArrayList<>();
-            for (int k = iL.size() - 1; k >= 0; k--) { // step by step swap back and print
-                b.swap(iL.get(k), jL.get(k));
-                System.out.printf("%d :\n", iL.size() - k - 1);
-                System.out.print(b);
+        public Cell cloneZero() {
+            return new Cell(c0.i, c0.j);
+        }
+
+        public void printSteps() {
+            int step = 0;
+            Board cur = this;
+            System.out.printf("\n%d :\n%s", 0, cur);
+            while (step++ < steps) {
+                Board next = pathMap.get(cur);
+                System.out.printf("%d :\n%s", step, next.toString(cur.c0));
+                cur = next;
             }
         }
 
         public String toString() {
+            return toString(c0);
+        }
+
+        public String toString(Cell c1) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < rows; i++) {
                 sb.append('[');
                 for (int j = 0; j < cols; j++) {
-                    if (i == i0 && j == j0)
+                    if (i == c0.i && j == c0.j)
                         sb.append(RED).append(board[i][j]).append(RESET); // always print 0 as red
-                    else if (i == iList.get(iList.size() - 1) && j == jList.get(jList.size() - 1)) // print what was switched with 0 as cyan
+                    else if (i == c1.i && j == c1.j) // print what was switched with 0 as cyan
                         sb.append(CYAN).append(board[i][j]).append(RESET);
                     else sb.append(board[i][j]);
                     if (j != cols - 1) sb.append(", ");
@@ -135,64 +133,83 @@ public class SevenPuzzle {
         }
     }
 
+    static class Cell {
+        int i, j;
+        Cell (int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+
     enum Move { // four directions we could possibly move
-        L(-1, 0), R(1, 0), U(0, 1), D(0, -1);
-        final int di, dj;
+        U(-1, 0), D(1, 0), L(0, 1), R(0, -1),
+        //DA1(1,1), DA2(1, -1), DA3(-1, 1), DA4(-1,-1), // to move on diagonals
+        ;
+        final int di, dj; // delta i, delta j
         Move(int di, int dj) {
             this.di = di;
             this.dj = dj;
         }
 
-        public int i(int i) { // new i after moving one direction
-            return i + di;
-        }
-
-        public int j(int j) { // new j after moving one direction
-            return j + dj;
+        public Cell next(Cell c) {
+            return new Cell(c.i + di, c.j + dj);
         }
     }
 
-    public Board solve(int[] vals) {
+    public Board solve(int[] input) {
         Queue<Board> q = new ArrayDeque<>();
         Set<Board> set = new HashSet<>(); // if we want all solutions we can actually save Map<Board, Board>
 
         Board end = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-        Board start = new Board(vals);
+        Board start = new Board(input);
         if (end.equals(start)) return end;
 
+        Map<Board, Board> map = end.pathMap;
         q.offer(end);
         set.add(end);
 
         while (!q.isEmpty()) {
             Board cur = q.poll();
+
             for (Move move : Move.values()) {
-                Board next = cur.clone(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
-                if (!next.swap(move.i(next.i0), move.j(next.j0))) continue;
-                if (next.equals(start)) return next; // we find a right path from end to start, so return
-                if (!set.contains(next)) {
-                    q.offer(next);
-                    set.add(next);
-                }
+
+                Board next = cur.cloneBoard(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
+                if (!next.swap(move.next(cur.c0))) continue;
+                if (set.contains(next)) continue;
+
+                q.offer(next);
+                set.add(next);
+                map.put(next, cur);
+
+                if (next.equals(start))
+                    return next;
+
             }
         }
 
         return null;
     }
 
-    public int numOfSteps(int[] vals) {
-        Board b = solve(vals);
-        return b == null ? -1 : b.iList.size();
+    public int numOfSteps(int[] input) {
+        Board b = solve(input);
+        return b == null ? -1 : b.steps;
     }
 
     public static void main(String[] args) {
         SevenPuzzle sp = new SevenPuzzle();
         Board res1 = sp.solve(new int[]{1, 2, 3, 0, 4, 5, 6, 7});
-        res1.printAll();//System.out.println(res1.numOfSteps()); // 3
+        // System.out.println(res1.steps); // 3
+        res1.printSteps();
 
         Board res2 = sp.solve(new int[]{1, 0, 3, 7, 4, 6, 2, 5});
-        res2.printAll();//System.out.println(res2.numOfSteps()); // 11
+        res2.printSteps();
+        // System.out.println(res2.steps); // 11
         Board res3 = sp.solve(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
-        res3.printAll();//System.out.println(res3.numOfSteps()); // 22
+        res3.printSteps();
+        // System.out.println(res3.steps); // 22
+        // Board res4 = sp.solve(new int[]{5, 1, 2, 3, 4, 0, 6, 7});
+        // res4.printAll();
+        // System.out.println(res4.numOfSteps()); // 0
         System.out.println();
         int[] noSolution = new int[]{6, 7, 3, 5, 4, 2, 1, 0};
         System.out.println(sp.numOfSteps(noSolution)); // -1
