@@ -167,13 +167,12 @@ public class SevenPuzzle {
 
             for (Move move : Move.values()) {
 
-                Board next = cur.cloneBoard(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
+                Board next = cur.cloneBoard(); // Better clone first to avoid redundant swap back
                 if (!next.swap(move.next(cur.c0))) continue;
                 if (map.containsKey(next)) continue;
 
                 q.offer(next);
                 map.put(next, cur);
-
                 if (next.equals(start))
                     return next;
 
