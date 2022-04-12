@@ -37,6 +37,7 @@ public class SevenPuzzle {
         public int steps;
         public Cell c0; // Coordinates of 0 on current board
         public Map<Board, Board> pathMap = new HashMap<>();
+
         public Board() {}
         public Board (int[] input) {
             for (int i = 0; i < rows; i++)
@@ -89,24 +90,20 @@ public class SevenPuzzle {
             Board b = new Board();
             for (int i = 0; i < rows; i++)
                 System.arraycopy(board[i], 0, b.board[i], 0, cols); // for (int j = 0; j < cols; j++) b.board[i][j] = board[i][j];
-            b.c0 = cloneZero();
+            b.c0 = new Cell(c0.i, c0.j);
             b.pathMap = pathMap;
             b.steps = steps;
             return b;
         }
 
-        public Cell cloneZero() {
-            return new Cell(c0.i, c0.j);
-        }
-
         public void printSteps() {
             int step = 0;
             Board cur = this;
-            System.out.printf("\n%d :\n%s", 0, cur);
-            while (step++ < steps) {
-                Board next = pathMap.get(cur);
-                System.out.printf("%d :\n%s", step, next.toString(cur.c0));
-                cur = next;
+            Cell prev0 = cur.c0;
+            while (cur != null) {
+                System.out.printf("%d :\n%s", step++, cur.toString(prev0));
+                prev0 = cur.c0;
+                cur = pathMap.get(cur);
             }
         }
 
@@ -156,17 +153,14 @@ public class SevenPuzzle {
         }
     }
 
-    public Board solve(int[] input) {
-        Queue<Board> q = new ArrayDeque<>();
-        Set<Board> set = new HashSet<>(); // if we want all solutions we can actually save Map<Board, Board>
-
+    public Board solve(Board start) {
         Board end = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-        Board start = new Board(input);
-        if (end.equals(start)) return end;
+        if (end.equals(start)) return start;
 
         Map<Board, Board> map = end.pathMap;
+        Queue<Board> q = new ArrayDeque<>();
         q.offer(end);
-        set.add(end);
+        map.put(end, null);
 
         while (!q.isEmpty()) {
             Board cur = q.poll();
@@ -175,10 +169,9 @@ public class SevenPuzzle {
 
                 Board next = cur.cloneBoard(); // Better clone first to avoid redundant swap back, which also messes up steps in iList/jList
                 if (!next.swap(move.next(cur.c0))) continue;
-                if (set.contains(next)) continue;
+                if (map.containsKey(next)) continue;
 
                 q.offer(next);
-                set.add(next);
                 map.put(next, cur);
 
                 if (next.equals(start))
@@ -190,28 +183,25 @@ public class SevenPuzzle {
         return null;
     }
 
+    public Board solve(int[] input) {
+        return solve(new Board(input));
+    }
+
     public int numOfSteps(int[] input) {
-        Board b = solve(input);
-        return b == null ? -1 : b.steps;
+        Board res = solve(input);
+        int steps = res != null ? res.steps : -1;
+        System.out.println(steps);
+        if (res != null) res.printSteps();
+        System.out.println();
+        return steps;
     }
 
     public static void main(String[] args) {
         SevenPuzzle sp = new SevenPuzzle();
-        Board res1 = sp.solve(new int[]{1, 2, 3, 0, 4, 5, 6, 7});
-        // System.out.println(res1.steps); // 3
-        res1.printSteps();
-
-        Board res2 = sp.solve(new int[]{1, 0, 3, 7, 4, 6, 2, 5});
-        res2.printSteps();
-        // System.out.println(res2.steps); // 11
-        Board res3 = sp.solve(new int[]{3, 6, 0, 7, 1, 2, 4, 5});
-        res3.printSteps();
-        // System.out.println(res3.steps); // 22
-        // Board res4 = sp.solve(new int[]{5, 1, 2, 3, 4, 0, 6, 7});
-        // res4.printAll();
-        // System.out.println(res4.numOfSteps()); // 0
-        System.out.println();
-        int[] noSolution = new int[]{6, 7, 3, 5, 4, 2, 1, 0};
-        System.out.println(sp.numOfSteps(noSolution)); // -1
+        sp.numOfSteps(new int[]{1, 2, 3, 0, 4, 5, 6, 7}); // 3
+        sp.numOfSteps(new int[]{1, 0, 3, 7, 4, 6, 2, 5}); // 11
+        sp.numOfSteps(new int[]{3, 6, 0, 7, 1, 2, 4, 5}); // 22
+        sp.numOfSteps(new int[]{5, 1, 2, 3, 4, 0, 6, 7}); // -1
+        sp.numOfSteps(new int[]{6, 7, 3, 5, 4, 2, 1, 0}); // -1
     }
 }
