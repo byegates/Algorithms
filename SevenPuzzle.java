@@ -36,7 +36,7 @@ public class SevenPuzzle {
         private final int[][] board = new int[rows][cols];
         public int steps;
         public Cell c0; // Coordinates of 0 on current board
-        public Map<Board, Board> pathMap = new HashMap<>();
+        public Map<Board, Board> pathMap;
 
         public Board() {}
         public Board (int[] input) {
@@ -52,18 +52,18 @@ public class SevenPuzzle {
                         c0 = new Cell(i, j);
         }
 
-        public boolean swap(Cell p) { // must put index for zero at i1 and j1
-            if (outOfBound(p)) return false;
-            board[c0.i][c0.j] = board[p.i][p.j];
-            board[p.i][p.j] = 0;
-            c0.i = p.i;
-            c0.j = p.j;
+        public boolean swap(Cell c) { // must put index for zero at i1 and j1
+            if (outOfBound(c)) return false;
+            board[c0.i][c0.j] = board[c.i][c.j];
+            board[c.i][c.j] = 0;
+            c0.i = c.i;
+            c0.j = c.j;
             steps++;
             return true;
         }
 
-        public boolean outOfBound(Cell p) {
-            return p.i < 0 || p.j < 0 || p.i >= rows || p.j >= cols;
+        public boolean outOfBound(Cell c) {
+            return c.i < 0 || c.j < 0 || c.i >= rows || c.j >= cols;
         }
 
         @Override
@@ -157,7 +157,7 @@ public class SevenPuzzle {
         Board end = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
         if (end.equals(start)) return start;
 
-        Map<Board, Board> map = end.pathMap;
+        Map<Board, Board> map = new HashMap<>();
         Queue<Board> q = new ArrayDeque<>();
         q.offer(end);
         map.put(end, null);
@@ -173,9 +173,10 @@ public class SevenPuzzle {
 
                 q.offer(next);
                 map.put(next, cur);
-                if (next.equals(start))
+                if (next.equals(start)) {
+                    next.pathMap = map;
                     return next;
-
+                }
             }
         }
 
