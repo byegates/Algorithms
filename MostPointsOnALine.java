@@ -9,16 +9,9 @@
 <0, 0>, <1, 1>, <2, 3>, <3, 3>, the maximum number of points on a line is 3(<0, 0>, <1, 1>, <3, 3> are on the same line)
 */
 
+import java.awt.Point;
 import java.util.*;
-
-class Point {
-  public int x;
-  public int y;
-  public Point(int x, int y) {
-    this.x = x;
-    this.y = y;
-  }
-}
+import java.util.List;
 
 public class MostPointsOnALine {
     //Use below wrapper to submit to leetCode 149. Max Points on a Line (https://leetcode.com/problems/max-points-on-a-line/)
