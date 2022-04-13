@@ -111,8 +111,8 @@ public class WordLadderII {
         List<String> solution = new ArrayList<>();
         solution.add(words.get(begin));
 
-        bfs(begin, end, words, indices, paths); // bfs search and find fill all steps into paths list
-        dfs(begin, end, solution, words, paths, res); // dfs to search paths and return all complete path
+        bfs(begin, end, words, indices, paths); // bfs to fill all steps into paths list
+        dfs(begin, end, solution, words, paths, res); // dfs to search all steps and return all complete path
 
         return res;
     }
