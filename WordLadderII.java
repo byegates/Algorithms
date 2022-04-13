@@ -37,21 +37,21 @@ public class WordLadderII {
         return words;
     }
 
-    private List<Integer> validNeighbors(int idx, List<String> words, Map<String, Integer> indices) {
-        List<Integer> neighbors = new ArrayList<>();
-        char[] cur = words.get(idx).toCharArray();
+    private List<Integer> neighbors(int curIdx, List<String> words, Map<String, Integer> indices) {
+        List<Integer> nodes = new ArrayList<>();
+        char[] cur = words.get(curIdx).toCharArray();
         for (int i = 0; i < cur.length; i++) {
             char orig = cur[i];
             for (char c = 'a'; c <= 'z'; c++) {
                 if (c == orig) continue;
                 cur[i] = c;
                 String changed = new String(cur);
-                int neighborIdx = indices.getOrDefault(changed, -1);
-                if (neighborIdx != -1) neighbors.add(neighborIdx);
+                int idx = indices.getOrDefault(changed, -1);
+                if (idx != -1) nodes.add(idx);
             }
             cur[i] = orig;
         }
-        return neighbors;
+        return nodes;
     }
 
     private List<List<Integer>> createPathList(int size) {
@@ -60,24 +60,40 @@ public class WordLadderII {
         return path;
     }
 
-    public List<List<String>> allPaths(int begin, int end, List<String> words, List<List<Integer>> paths) {
-        List<List<String>> res = new ArrayList<>();
-        List<String> cur = new ArrayList<>();
-        cur.add(words.get(begin));
-        dfs(begin, end, cur, words, paths, res);
-        return res;
-    }
-
-    private void dfs(int begin, int end, List<String> cur, List<String> words, List<List<Integer>> paths, List<List<String>> res) {
-        if (begin == end) {
+    private void dfs(int curIdx, int end, List<String> cur, List<String> words, List<List<Integer>> paths, List<List<String>> res) {
+        if (curIdx == end) {
             res.add(new ArrayList<>(cur));
             return;
         }
 
-        for (int next : paths.get(begin)) {
+        for (int next : paths.get(curIdx)) {
             cur.add(words.get(next));
             dfs(next, end, cur, words, paths, res);
             cur.remove(cur.size() - 1);
+        }
+    }
+
+    private void bfs(int begin, int end, List<String> words, Map<String, Integer> indices, List<List<Integer>> paths) {
+        // Using an int array as map for de-dup and keep track of bfs levels, as each word has a unique index
+        int[] steps = new int[words.size()];
+        Arrays.fill(steps, 1); // 1 means not visited
+        Queue<Integer> q = new ArrayDeque<>(); // q for bfs
+
+        q.offer(end); // Search backwards, so that it's straight forward to get the path
+        steps[end] = 0;
+
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+            if (cur == begin)
+                break;
+            for (int pre : neighbors(cur, words, indices)) {
+                if (steps[pre] == 1) {
+                    q.offer(pre);
+                    steps[pre] = steps[cur] - 1; // -1 means we go backward 1 step
+                }
+                if (steps[cur] - 1 == steps[pre])
+                    paths.get(pre).add(cur);
+            }
         }
     }
 
@@ -89,34 +105,21 @@ public class WordLadderII {
         words = addBeginWord(beginWord, words, indices);
         int end = indices.get(endWord), begin = indices.get(beginWord);
 
-        // Using an int array as map for de-dup and keep track of bfs levels, as each word has a unique index
-        int[] steps = new int[words.size()];
-        Arrays.fill(steps, -1); // -1 means not visited
-        Queue<Integer> q = new ArrayDeque<>(); // q for bfs
+        // Create collections for solution
         List<List<Integer>> paths = createPathList(words.size());
+        List<List<String>> res = new ArrayList<>();
+        List<String> solution = new ArrayList<>();
+        solution.add(words.get(begin));
 
-        q.offer(end); // Search backwards, so that it's straight forward to get the path
-        steps[end] = 0;
+        bfs(begin, end, words, indices, paths); // bfs search and find fill all steps into paths list
+        dfs(begin, end, solution, words, paths, res); // dfs to search paths and return all complete path
 
-        while (!q.isEmpty()) {
-            int cur = q.poll();
-            if (cur == begin) return allPaths(begin, end, words, paths);
-
-            for (int prev : validNeighbors(cur, words, indices)) {
-                if (steps[prev] == -1) {
-                    q.offer(prev);
-                    steps[prev] = steps[cur] + 1;
-                }
-                if (steps[cur] + 1 == steps[prev]) paths.get(prev).add(cur);
-            }
-        }
-
-        return new ArrayList<>();
+        return res;
     }
 
     public static void main(String[] args) {
         WordLadderII wl2 = new WordLadderII();
-        System.out.println(wl2.findLadders("git", "hot", Arrays.asList("hit","hog","hot","got")));
-        System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hot","dot","dog","lot","log","cog")));
+        System.out.println(wl2.findLadders("git", "hot", Arrays.asList("hit","hog","hot","got"))); // [[git, got, hot], [git, hit, hot]]
+        System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hot","dot","dog","lot","log","cog"))); // [[hit, hot, dot, dog, cog], [hit, hot, lot, log, cog]]
     }
 }
