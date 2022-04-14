@@ -60,23 +60,23 @@ public class WordLadderII {
         return path;
     }
 
-    private void dfs(int curIdx, int end, List<String> cur, List<String> words, List<List<Integer>> paths, List<List<String>> res) {
-        if (curIdx == end) {
-            res.add(new ArrayList<>(cur));
+    private void dfs(int cur, int end, List<String> sol, List<String> words, List<List<Integer>> paths, List<List<String>> res) {
+        if (cur == end) {
+            res.add(new ArrayList<>(sol));
             return;
         }
 
-        for (int next : paths.get(curIdx)) {
-            cur.add(words.get(next));
-            dfs(next, end, cur, words, paths, res);
-            cur.remove(cur.size() - 1);
+        for (int next : paths.get(cur)) {
+            sol.add(words.get(next));
+            dfs(next, end, sol, words, paths, res);
+            sol.remove(sol.size() - 1);
         }
     }
 
-    private void bfs(int begin, int end, List<String> words, Map<String, Integer> indices, List<List<Integer>> paths) {
+    private void bfs(int begin, int end, List<String> words, Map<String, Integer> map, List<List<Integer>> paths) {
         // Using an int array as map for de-dup and keep track of bfs levels, as each word has a unique index
         int[] steps = new int[words.size()];
-        Arrays.fill(steps, 1); // 1 means not visited
+        Arrays.fill(steps, -1); // 1 means not visited
         Queue<Integer> q = new ArrayDeque<>(); // q for bfs
 
         q.offer(end); // Search backwards, so that it's straight forward to get the path
@@ -86,24 +86,24 @@ public class WordLadderII {
             int cur = q.poll();
             if (cur == begin)
                 break;
-            for (int pre : neighbors(cur, words, indices)) {
-                if (steps[pre] == 1) {
-                    q.offer(pre);
-                    steps[pre] = steps[cur] - 1; // -1 means we go backward 1 step
+            for (int next : neighbors(cur, words, map)) {
+                if (steps[next] == -1) {
+                    q.offer(next);
+                    steps[next] = steps[cur] + 1; // -1 means we go backward 1 step
                 }
-                if (steps[cur] - 1 == steps[pre])
-                    paths.get(pre).add(cur);
+                if (steps[cur] + 1 == steps[next])
+                    paths.get(next).add(cur);
             }
         }
     }
 
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> words) {
-        Map<String, Integer> indices = listToIdxMap(words);
-        if (!indices.containsKey(endWord)) return new ArrayList<>();
+        Map<String, Integer> map = listToIdxMap(words);
+        if (!map.containsKey(endWord)) return new ArrayList<>();
 
         // get begin and end index, will use idx of words to form path and de-dup to save space
-        words = addBeginWord(beginWord, words, indices);
-        int end = indices.get(endWord), begin = indices.get(beginWord);
+        words = addBeginWord(beginWord, words, map);
+        int end = map.get(endWord), begin = map.get(beginWord);
 
         // Create collections for solution
         List<List<Integer>> paths = createPathList(words.size());
@@ -111,7 +111,7 @@ public class WordLadderII {
         List<String> solution = new ArrayList<>();
         solution.add(words.get(begin));
 
-        bfs(begin, end, words, indices, paths); // bfs to fill all steps into paths list
+        bfs(begin, end, words, map, paths); // bfs to fill all steps into paths list
         dfs(begin, end, solution, words, paths, res); // dfs to search all steps and return all complete path
 
         return res;
