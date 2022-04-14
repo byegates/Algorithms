@@ -67,7 +67,7 @@ public class SevenPuzzle {
         }
 
         @Override
-        public int hashCode() {// [0, 1, 2, 3, 4, 5, 6, 7] ==> (int) 1,234,567
+        public int hashCode() {// [0, 1, 2, 3, 4, 5, 6, 7] <==> (int) 1,234,567
             int code = 0;
             for (int[] row : board)
                 for (int val : row)
@@ -140,7 +140,7 @@ public class SevenPuzzle {
 
     enum Move { // four directions we could possibly move
         U(-1, 0), D(1, 0), L(0, 1), R(0, -1),
-        //DA1(1,1), DA2(1, -1), DA3(-1, 1), DA4(-1,-1), // to move on diagonals
+        // DA1(1,1), DA2(1, -1), DA3(-1, 1), DA4(-1,-1), // to move on diagonals
         ;
         final int di, dj; // delta i, delta j
         Move(int di, int dj) {
@@ -157,7 +157,8 @@ public class SevenPuzzle {
         Board end = new Board(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
         if (end.equals(start)) return start;
 
-        Map<Board, Board> map = new HashMap<>();
+        Map<Board, Board> map = new HashMap<>(); // key: cur, value: previous
+        // Map<Board, List<Board>> m2 = new HashMap<>();
         Queue<Board> q = new ArrayDeque<>();
         q.offer(end);
         map.put(end, null);
