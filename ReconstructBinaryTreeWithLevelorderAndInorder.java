@@ -20,47 +20,7 @@
 
 
 import java.util.*;
-
-class TreeNode {
-
-   public int key;
-   public TreeNode left;
-   public TreeNode right;
-
-   public TreeNode(int key) {
-     this.key = key;
-   }
-
-    public List<Integer> levelOrder() {return levelOrder(this);}
-    public String toString() {return levelOrder(this).toString();}
-
-    public static String toString(TreeNode root) {return levelOrder(root).toString();}
-
-    static public List<Integer> levelOrder(TreeNode root){
-        List<Integer> A = new ArrayList<>();
-        if(root == null){return A;}
-        Deque<TreeNode> Q = new ArrayDeque<>();
-        A.add(root.key);
-        Q.offerLast(root);
-        while(!Q.isEmpty()){
-            TreeNode cur = Q.pollFirst();
-            A.add(cur.left == null ? null : cur.left.key);
-            A.add(cur.right == null ? null : cur.right.key);
-            if (cur.left != null) Q.offerLast(cur.left);
-            if (cur.right != null) Q.offerLast(cur.right);
-        }
-        return trimTrailingNull(A);
-    }
-
-    public static List<Integer> trimTrailingNull (List<Integer> A) {
-        int size = A.size();
-        for (int i = size - 1; i >= 0; i--)
-            if (A.get(i) == null) A.remove(i);
-            else break;
-        return A;
-    }
-
-}
+import util.TreeNode;
 
 public class ReconstructBinaryTreeWithLevelorderAndInorder {
 
