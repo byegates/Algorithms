@@ -32,7 +32,7 @@ public class SortNumbersInThreeStacks {
         int i = 0, j = 0;
 
         while (i < mid1 && j < mid2 && !s1.isEmpty() && !s2.isEmpty()) // s1 and s2 will not be empty, added only to avoid IDE warning
-            if (s2.peek() < s1.peek()) {
+            if (s2.peekFirst() < s1.peekFirst()) {
                 s3.offerFirst(s2.pollFirst());
                 i++;
             } else {
