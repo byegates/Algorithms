@@ -52,10 +52,12 @@ public class SortNumbersInThreeStacks {
         int[] res = new int[]{3, 7, 5, 1, 9, 8, 6, 2, 4};
         LinkedList<Integer> s1 = new LinkedList<>();
 
-        for (int v : res) s1.offerFirst(v); // Add test data from int[] res to stack
+        for (int v : res)
+            s1.offerFirst(v); // Add test data from int[] res to stack
 
         sn3.sort(s1);
 
-        while (!s1.isEmpty()) System.out.println(s1.pollFirst()); // print out sorted data from stack
+        while (!s1.isEmpty())
+            System.out.println(s1.pollFirst()); // print out sorted data from stack
     }
 }
