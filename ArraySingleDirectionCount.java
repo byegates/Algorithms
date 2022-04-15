@@ -112,13 +112,12 @@ public class ArraySingleDirectionCount {
         return count(arr, false);
     }
 
-
-        public static void main(String[] args) {
-        ArraySingleDirectionCount lsc = new ArraySingleDirectionCount();
-        System.out.println(Arrays.toString(lsc.countLeftSmall(new int[]{4, 1, 3, 2}))); // [3, 0, 1, 0]
-        System.out.println(Arrays.toString(lsc.count(new int[]{4, 1, 3, 2}, false))); // [3, 0, 1, 0]
-        System.out.println(Arrays.toString(lsc.countArray(new int[]{4, 1, 3, 2}))); // [3, 0, 1, 0]
-        System.out.println(Arrays.toString(lsc.count(new int[]{4, 1, 3, 2, 9, 5, 7, 5}, false))); // [3, 0, 1, 0, 3, 0, 1, 0]
-        System.out.println(Arrays.toString(lsc.count(new int[]{4, 1, 3, 2, 9, 5, 7, 5}, true))); // [0, 0, 1, 1, 4, 4, 5, 4]
-        }
+    public static void main(String[] args) {
+    ArraySingleDirectionCount lsc = new ArraySingleDirectionCount();
+    System.out.println(Arrays.toString(lsc.countLeftSmall(new int[]{4, 1, 3, 2}))); // [3, 0, 1, 0]
+    System.out.println(Arrays.toString(lsc.count(new int[]{4, 1, 3, 2}, false))); // [3, 0, 1, 0]
+    System.out.println(Arrays.toString(lsc.countArray(new int[]{4, 1, 3, 2}))); // [3, 0, 1, 0]
+    System.out.println(Arrays.toString(lsc.count(new int[]{4, 1, 3, 2, 9, 5, 7, 5}, false))); // [3, 0, 1, 0, 3, 0, 1, 0]
+    System.out.println(Arrays.toString(lsc.count(new int[]{4, 1, 3, 2, 9, 5, 7, 5}, true))); // [0, 0, 1, 1, 4, 4, 5, 4]
+    }
 }
