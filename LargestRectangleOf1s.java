@@ -26,7 +26,7 @@ public class LargestRectangleOf1s {
     public int dp(int[][] mx) { // TC: O(n^2), SC: O(n)
         if (mx.length == 0) return 0;
 
-        int m = mx.length, n = mx[0].length, maxArea = 0;
+        int n = mx[0].length, maxArea = 0;
         int[] left = new int[n], right = new int[n], height = new int[n]; // height is # of consecutive 1 from top
         Arrays.fill(right, n - 1);
 
