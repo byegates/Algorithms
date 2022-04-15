@@ -47,11 +47,14 @@ public class SortNumbersInThreeStacks {
     }
 
     public static void main(String[] args) {
+        SortNumbersInThreeStacks sn3 = new SortNumbersInThreeStacks();
         int[] res = new int[]{3, 7, 5, 1, 9, 8, 6, 2, 4};
         LinkedList<Integer> s1 = new LinkedList<>();
+
         for (int v : res) s1.offerFirst(v);
-        SortNumbersInThreeStacks sn3 = new SortNumbersInThreeStacks();
+
         sn3.sort(s1);
+
         while (!s1.isEmpty()) System.out.println(s1.pollFirst());
     }
 }
