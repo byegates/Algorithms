@@ -148,8 +148,7 @@ public class KthSmallestWithOnly3_5_7AsFactors {
 
         offerHelper(cur, dq3, dq5, dq7);
 
-        while (k-- > 1) {
-            System.out.println(cur);
+        while (k-- > 1 && !dq3.isEmpty() && !dq5.isEmpty() && !dq7.isEmpty()) { // add non-empty check only to mitigate IDE warning
             if (dq3.peekFirst().val < dq5.peekFirst().val && dq3.peekFirst().val < dq7.peekFirst().val) {
                 cur = dq3.pollFirst();
                 offerHelper(cur, dq3, dq5, dq7);
@@ -161,7 +160,6 @@ public class KthSmallestWithOnly3_5_7AsFactors {
                 dq7.offerLast(cur.next(7));
             }
         }
-        System.out.println(cur);
     }
 
     private void offerHelper(Helper cur, Deque<Helper> dq3, Deque<Helper> dq5, Deque<Helper> dq7) {
