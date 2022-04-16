@@ -79,12 +79,12 @@ public class WordLadderII {
         Arrays.fill(steps, -1); // 1 means not visited
         Queue<Integer> q = new ArrayDeque<>(); // q for bfs
 
-        q.offer(end); // Search backwards, so that it's straight forward to get the path
-        steps[end] = 0;
+        q.offer(begin); // Search backwards, so that it's straight forward to get the path
+        steps[begin] = 0;
 
         while (!q.isEmpty()) {
             int cur = q.poll();
-            if (cur == begin)
+            if (cur == end)
                 break;
             for (int next : neighbors(cur, words, map)) {
                 if (steps[next] == -1) {
@@ -92,11 +92,14 @@ public class WordLadderII {
                     steps[next] = steps[cur] + 1; // -1 means we go backward 1 step
                 }
                 if (steps[cur] + 1 == steps[next])
-                    paths.get(next).add(cur);
+                    paths.get(cur).add(next);
             }
         }
     }
 
+    // time and space complexity:
+    // Assume length of words list is n, that means there are n nodes in the graph
+    // Double direction edges (or you could say one no direction edge) exits between any two nodes when changing
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> words) {
         Map<String, Integer> map = listToIdxMap(words);
         if (!map.containsKey(endWord)) return new ArrayList<>();
