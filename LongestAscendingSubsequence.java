@@ -88,17 +88,17 @@ public class LongestAscendingSubsequence {
     // method 3, simplified binary search approach
     public int las3(int[] arr) {
         int len = 0;
-        int[] endVals = new int[arr.length]; // smallest val of asc sub seq at each len
+        int[] tails = new int[arr.length]; // smallest val of asc sub seq at each len
         for (int x : arr) {
             int l = 0, r = len;
             while (l != r) { // binary search to narrow down where should we put x
                 int m = l + (r - l) / 2;
-                if (endVals[m] < x)
+                if (tails[m] < x)
                     l = m + 1; // The right of the smallest element will be where cur number x should be
                 else
                     r = m;
             }
-            endVals[l] = x;
+            tails[l] = x;
             if (l == len) ++len; // all values are smaller, append
         }
         return len;
