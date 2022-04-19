@@ -65,7 +65,7 @@ public class LongestAscendingSubsequence {
         Arrays.fill(M, 1);
         Arrays.fill(pre, -1);
 
-        int max = 1, endIdxOfLAS = 0;
+        int max = 1, maxIdx = 0;
         for (int i = 1; i < a.length; i++)
             for (int j = 0; j < i; j++) {
                 if (a[j] < a[i])
@@ -74,13 +74,13 @@ public class LongestAscendingSubsequence {
                         M[i] = M[j] + 1;
                     }
                 if (M[i] > max) {
-                    endIdxOfLAS = i; // remember the ending idx of the longest asc sub-seq
+                    maxIdx = i; // remember the ending idx of the longest asc sub-seq
                     max = M[i];
                 }
             }
 
         int[] res = new int[max];
-        for (int endIdx = endIdxOfLAS; endIdx != -1; endIdx = pre[endIdx])
+        for (int endIdx = maxIdx; endIdx != -1; endIdx = pre[endIdx])
             res[--max] = a[endIdx];
 
         return res;
