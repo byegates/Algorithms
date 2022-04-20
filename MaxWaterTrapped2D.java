@@ -47,16 +47,12 @@ public class MaxWaterTrapped2D {
 
         while (!pq.isEmpty()) {
             Cell cur = pq.poll();
-            List<Cell> neighbors = getAllNeighbors(cur, cells, new ArrayList<>());
-
-            for (Cell neighbor : neighbors) {
-                if (neighbor.visited) continue;
+            for (Cell neighbor : getAllNeighbors(cur, cells, new ArrayList<>())) {
                 res += Math.max(cur.height - neighbor.height, 0);
                 neighbor.height = Math.max(cur.height, neighbor.height);
                 neighbor.visited = true;
                 pq.offer(neighbor);
             }
-
         }
 
         return res;
@@ -68,7 +64,7 @@ public class MaxWaterTrapped2D {
 
         for (int i = 0; i < x.length; i++) {
             try {
-                neighbors.add(cells[x[i]][y[i]]);
+                if (!cells[x[i]][y[i]].visited) neighbors.add(cells[x[i]][y[i]]);
             } catch (IndexOutOfBoundsException ignored) {}
         }
 
@@ -76,24 +72,28 @@ public class MaxWaterTrapped2D {
     }
 
     private void fillBorders(Cell[][] cells, PriorityQueue<Cell> pq, int rows, int cols) {
-        for (int j = 0; j < cols; j++) fillBorder(cells, pq, 0, j,rows - 1, j);
-        for (int i = 1; i < rows - 1; i++) fillBorder(cells, pq, i, 0, i, cols - 1);
+        for (int j = 0; j < cols; j++) {
+            fillBorder(cells, pq, 0, j);
+            fillBorder(cells, pq,rows - 1, j);
+        }
+        for (int i = 1; i < rows - 1; i++) {
+            fillBorder(cells, pq, i, 0);
+            fillBorder(cells, pq, i, cols - 1);
+        }
     }
 
-    private void fillBorder(Cell[][] cells, PriorityQueue<Cell> pq, int i1, int j1, int i2, int j2) {
-        cells[i1][j1].visited = true;
-        pq.offer(cells[i1][j1]);
-        cells[i2][j2].visited = true;
-        pq.offer(cells[i2][j2]);
+    private void fillBorder(Cell[][] cells, PriorityQueue<Cell> pq, int i, int j) {
+        cells[i][j].visited = true;
+        pq.offer(cells[i][j]);
     }
 
-    private Cell[][] createCellMatrix(int[][] cells, int rows, int cols) {
-        Cell[][] cmx = new Cell[rows][cols];
+    private Cell[][] createCellMatrix(int[][] mx, int rows, int cols) {
+        Cell[][] cells = new Cell[rows][cols];
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
-                cmx[i][j] = new Cell(i, j, cells[i][j]);
+                cells[i][j] = new Cell(i, j, mx[i][j]);
 
-        return cmx;
+        return cells;
     }
 
     public static void main(String[] args) {
