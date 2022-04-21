@@ -28,7 +28,6 @@
 import java.util.*;
 
 public class PacificAtlanticFlow {
-    private final int[][] dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, };
     public List<List<Integer>> pacificAtlantic(int[][] mx) {
         int rows = mx.length, cols = mx[0].length;
         int[][] M = new int[rows][cols];
@@ -55,7 +54,7 @@ public class PacificAtlanticFlow {
         while (!q.isEmpty()) {
             List<Integer> p = q.poll();
 
-            for (int[] dir : dirs) {
+            for (int[] dir : new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, }) {
                 int i2 = p.get(0) + dir[0];
                 int j2 = p.get(1) + dir[1];
                 if (i2 < 0 || j2 < 0 || i2 >= rows || j2 >= cols || visited[i2][j2] || mx[p.get(0)][p.get(1)] > mx[i2][j2]) continue;
