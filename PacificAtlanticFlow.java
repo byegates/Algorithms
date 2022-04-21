@@ -28,7 +28,7 @@
 import java.util.*;
 
 public class PacificAtlanticFlow {
-    public List<List<Integer>> pacificAtlantic(int[][] mx) {
+    public List<List<Integer>> pacificAtlantic(int[][] mx) { // TC: O(m*n), SC: O(m*n)
         int rows = mx.length, cols = mx[0].length;
         int[][] M = new int[rows][cols];
         boolean[][] visited = new boolean[rows][cols];
@@ -53,7 +53,6 @@ public class PacificAtlanticFlow {
     private void bfs(Queue<List<Integer>> q, boolean[][] visited, int[][] M, int[][] mx, int rows, int cols) {
         while (!q.isEmpty()) {
             List<Integer> p = q.poll();
-
             for (int[] dir : new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, }) {
                 int i2 = p.get(0) + dir[0];
                 int j2 = p.get(1) + dir[1];
