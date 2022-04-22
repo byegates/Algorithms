@@ -23,12 +23,12 @@ import util.BTreePrinter;
 import util.TreeNode;
 
 public class DistanceOfTwoNodesInBinaryTree {
-    public int distance(TreeNode root, int k1, int k2) {
+    public int distance(TreeNode root, int k1, int k2) { // TC: O(2n)--> O(n), SC: O(height)
         TreeNode lca = lca(root, k1, k2);
         return depth(lca, k1, 0) + depth(lca, k2, 0);
     }
 
-    public TreeNode lca(TreeNode root, int k1, int k2) {
+    public TreeNode lca(TreeNode root, int k1, int k2) { // TC: O(n), SC: O(height)
         if (root == null || root.key == k1 || root.key == k2) return root;
         TreeNode left = lca(root.left, k1, k2);
         TreeNode right = lca(root.right, k1, k2);
@@ -36,7 +36,7 @@ public class DistanceOfTwoNodesInBinaryTree {
         return left != null ? left : right;
     }
 
-    public int depth(TreeNode root, int k, int depth) {
+    public int depth(TreeNode root, int k, int depth) { // TC: O(n), SC: O(height)
         if (root == null) return -1;
         if (root.key == k) return depth;
         int left = depth(root.left, k, depth + 1);
