@@ -29,11 +29,9 @@ public class WordLadderII {
     }
 
     private List<String> addBeginWord(String beginWord, List<String> words, Map<String, Integer> map) {
-        if (!map.containsKey(beginWord)) {
-            words = new ArrayList<>(words);
-            words.add(beginWord);
-            map.put(beginWord, words.size() - 1);
-        }
+        words = new ArrayList<>(words);
+        words.add(beginWord);
+        map.put(beginWord, words.size() - 1);
         return words;
     }
 
@@ -89,10 +87,10 @@ public class WordLadderII {
             for (int next : neighbors(cur, words, map)) {
                 if (steps[next] == -1) {
                     q.offer(next);
-                    steps[next] = steps[cur] + 1; // -1 means we go backward 1 step
+                    steps[next] = steps[cur] + 1; // first time expanding from cur to next, record the steps, it's the min steps we can get
                 }
                 if (steps[cur] + 1 == steps[next])
-                    paths.get(cur).add(next); // {{hot: {dot, lot}}}
+                    paths.get(cur).add(next); // any expanded/generated nodes has min steps are valid path
             }
         }
     }
@@ -101,16 +99,17 @@ public class WordLadderII {
     // Assume length of words list is n, that means there are n nodes in the graph
     // Double direction edges (or you could say one no direction edge) exits between any two nodes when changing
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> words) {
-        Map<String, Integer> map = listToIdxMap(words);
-        if (!map.containsKey(endWord)) return new ArrayList<>();
+        List<List<String>> res = new ArrayList<>();
+        Map<String, Integer> map = listToIdxMap(words); // map String to index, throughout the program we'll use index instead of string for intermediate logic
+        if (!map.containsKey(endWord)) return res;
 
         // get begin and end index, will use idx of words to form path and de-dup to save space
-        words = addBeginWord(beginWord, words, map);
+        if (!map.containsKey(beginWord))
+            words = addBeginWord(beginWord, words, map);
         int end = map.get(endWord), begin = map.get(beginWord);
 
         // Create collections for solution
         List<List<Integer>> paths = createPathList(words.size());
-        List<List<String>> res = new ArrayList<>();
         List<String> solution = new ArrayList<>();
         solution.add(words.get(begin));
 
@@ -124,5 +123,6 @@ public class WordLadderII {
         WordLadderII wl2 = new WordLadderII();
         System.out.println(wl2.findLadders("git", "hot", Arrays.asList("hit","hog","hot","got"))); // [[git, got, hot], [git, hit, hot]]
         System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hot","dot","dog","lot","log","cog"))); // [[hit, hot, dot, dog, cog], [hit, hot, lot, log, cog]]
+        System.out.println(wl2.findLadders("hot", "dog", Arrays.asList("hot","dog"))); // []
     }
 }
