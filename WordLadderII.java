@@ -28,16 +28,16 @@ public class WordLadderII {
         return map;
     }
 
-    private List<String> addBeginWord(String beginWord, List<String> words, Map<String, Integer> indices) {
-        if (!indices.containsKey(beginWord)) {
+    private List<String> addBeginWord(String beginWord, List<String> words, Map<String, Integer> map) {
+        if (!map.containsKey(beginWord)) {
             words = new ArrayList<>(words);
             words.add(beginWord);
-            indices.put(beginWord, words.size() - 1);
+            map.put(beginWord, words.size() - 1);
         }
         return words;
     }
 
-    private List<Integer> neighbors(int curIdx, List<String> words, Map<String, Integer> indices) {
+    private List<Integer> neighbors(int curIdx, List<String> words, Map<String, Integer> map) {
         List<Integer> nodes = new ArrayList<>();
         char[] cur = words.get(curIdx).toCharArray();
         for (int i = 0; i < cur.length; i++) {
@@ -46,7 +46,7 @@ public class WordLadderII {
                 if (c == orig) continue;
                 cur[i] = c;
                 String changed = new String(cur);
-                int idx = indices.getOrDefault(changed, -1);
+                int idx = map.getOrDefault(changed, -1);
                 if (idx != -1) nodes.add(idx);
             }
             cur[i] = orig;
@@ -92,7 +92,7 @@ public class WordLadderII {
                     steps[next] = steps[cur] + 1; // -1 means we go backward 1 step
                 }
                 if (steps[cur] + 1 == steps[next])
-                    paths.get(cur).add(next);
+                    paths.get(cur).add(next); // {{hot: {dot, lot}}}
             }
         }
     }
