@@ -33,7 +33,7 @@ public class GenerateRandomMaze {
         return maze;
     }
 
-    private void generate(int[][] maze, int x, int y) {
+    private void generate(int[][] maze, int x, int y) { // Move.values(): new Move[]{N, S, W, E}
         ArrayList<Move> directions = new ArrayList<>(Arrays.asList(Move.values()));
         Collections.shuffle(directions);
 
