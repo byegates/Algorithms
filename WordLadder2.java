@@ -51,7 +51,7 @@ public class WordLadder2 {
                     q.offer(next);
                     map.put(next, step + 1); // first time expanding from cur to next, record the steps, it's the min steps we can get
                 }
-                if (step + 1 == map.get(next)) // any expanded/generated nodes has min steps are valid path
+                if (map.get(next) == step + 1) // any expanded/generated nodes has min steps are valid path
                     addPath(cur, next, paths);
             }
         }
