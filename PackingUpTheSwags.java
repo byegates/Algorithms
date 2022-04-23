@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
     public int minBoxes(int n) {
         int[] M = new int[n + 1];
-        Arrays.fill(M, Integer.MAX_VALUE);
+        Arrays.fill(M, n);
         M[0] = 0;
         M[1] = 1;
 
