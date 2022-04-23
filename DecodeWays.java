@@ -26,7 +26,7 @@ public class DecodeWays {
         for (int i = 2; i <= n; i++) {
             char c = s.charAt(i-1);
             if (c > '0' && c <= '9') M[i] += M[i-1];
-            int num2 = Integer.valueOf(s.substring(i-2, i));
+            int num2 = Integer.parseInt(s.substring(i-2, i));
             if (num2 > 9 && num2 < 27) M[i] += M[i-2];
         }
 
@@ -34,35 +34,34 @@ public class DecodeWays {
     }
     // calc num of ways to decode ends here
 
-    // record all ways to decode
+    // record all the ways to decode
     public List<String> Decode(String s) {
         List<String> res = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        int toCapitalLetter = 64;
-        dfs(0, s.toCharArray(), sb, res, toCapitalLetter);
+        dfs(0, s.toCharArray(), sb, res);
         return res;
     }
 
-    private void dfs(int idx, char[] a, StringBuilder sb, List<String> res, int toCapitalLetter) {
+    private void dfs(int idx, char[] a, StringBuilder sb, List<String> res) {
         if (idx == a.length) {
             res.add(sb.toString());
             return;
         }
 
-        if (a[idx] > '0' && a[idx] <= '9') {
-            dfs(idx + 1, a, sb.append((char) (a[idx] - '0' + toCapitalLetter)), res, toCapitalLetter);
+        int offset = 'A' - 1;
+        for (int i = 1; i <= 2 && idx + i <= a.length; i++) { // take either 1 or 2 char from current level
+            int num = Integer.parseInt(new String(a, idx, i));
+            if (!valid(num, i)) continue;
+            dfs(idx + i, a, sb.append((char) (num + offset)), res);
             sb.setLength(sb.length() - 1);
         }
-
-        if (idx < a.length - 1) {
-            int num = Integer.parseInt(new String(a, idx, 2));
-            if (num > 9 && num < 27) {
-                dfs(idx + 2, a, sb.append((char) (num + toCapitalLetter)), res, toCapitalLetter);
-                sb.setLength(sb.length() - 1);
-            }
-        }
     }
-    // record all ways to decode ends here
+
+    private boolean valid(int num, int i) {
+        if (i == 1 && num > 0 && num < 10) return true;
+        return i == 2 && num > 9 && num < 27;
+    }
+    // record all the ways to decode ends here
 
     public static void main(String[] args) {
         DecodeWays dw = new DecodeWays();
@@ -76,7 +75,7 @@ public class DecodeWays {
 
         System.out.println(dw.numDecodeWay(s9)); // 54000
         System.out.println(dw.numDecodeWay(s0)); // 0
-        System.out.println(dw.numDecodeWay(s5)); // 0
+        System.out.println(dw.numDecodeWay(s5)); // 5
 
         System.out.println(dw.Decode(s1)); // [FBDBABFAA, FBDBABFK, FBDBAZAA, FBDBAZK, FBDBLFAA, FBDBLFK, FBDUBFAA, FBDUBFK, FBDUZAA, FBDUZK, FXBABFAA, FXBABFK, FXBAZAA, FXBAZK, FXBLFAA, FXBLFK, FXUBFAA, FXUBFK, FXUZAA, FXUZK]
         System.out.println(dw.Decode(s0)); // []
