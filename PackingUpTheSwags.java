@@ -19,6 +19,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
@@ -37,54 +38,58 @@ public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
     }
 
     // dp solution to the actual best solution, the size of the solution will be the number of boxes used
-    public List<Integer> minBoxes(int n) {
-        int[] M = new int[n + 1];
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i <= n; i++) res.add(new ArrayList<>());
-        M[1] = 1;
+    public List<List<Integer>> minBoxes(int n) {
+        int[] dp = new int[n + 1];
+        List<List<Integer>> res = new ArrayList<>(n + 1);
+        for (int i = 0; i <= n; i++) res.add(new ArrayList<>(4));
+        dp[1] = 1;
         res.get(1).add(1);
 
         for (int i = 2; i <= n; i++) {
-            M[i] = i + 1; // to make sure when n = 2 or 3, the logic to create the result list will also work
+            dp[i] = i + 1; // to make sure when n = 2 or 3, the logic to create the result list will also work
             for (int j = 1; ; j++) {
                 int sq = j * j;
                 if (sq > i) break;
 
-                int pre = i - sq;
-                int cur = 1 + M[pre];
-                if (cur < M[i]) {
-                    M[i] = cur;
-                    List<Integer> curList = new ArrayList<>(res.get(pre)); // get a deep copy of previous result
+                int preIdx = i - sq;
+                int cur = 1 + dp[preIdx];
+                if (cur < dp[i]) {
+                    dp[i] = cur;
+                    List<Integer> curList = new ArrayList<>(res.get(preIdx)); // get a deep copy of previous result
                     curList.add(j); // attach current index
                     res.set(i, curList); // set current index
                 }
             }
         }
 
-        return res.get(n);
+        return res;
     }
 
-    public void printResult(int i) {
-        List<Integer> res = minBoxes(i);
+    public void printResults(List<Integer> list) {
+        Collections.sort(list);
+        int max = list.get(list.size() - 1);
+        List<List<Integer>> res = minBoxes(max);
+        for (int i : list)
+            printResult(res.get(i), i);
+    }
+
+    public void printResult(List<Integer> res, int i) {
         int size = res.size();
-        int min = minBoxes2(i);
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int x : res)
             sb.append(String.format("%d, ", x * x));
         sb.append("]");
-        System.out.printf("%4d : %2d(%s), %-15s, %s\n", i, min, min == size, res, sb);
+        System.out.printf("%7d : %d, %-17s, %s\n", i, size, res, sb);
+
     }
 
     public static void main(String[] args) {
         PackingUpTheSwags pts = new PackingUpTheSwags();
-        int i;
-        for (i = 1; i <= 30; i++)
-            pts.printResult(i);
-        i = 2567;
-        pts.printResult(i);
-        i = 9999;
-        pts.printResult(i);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i <= 30; i++) list.add(i);
+        list.addAll(Arrays.asList(99, 999, 2567, 9999, 84637, 99999, 943287, 999999, 1999999));
+        pts.printResults(list);
     }
 }
 
