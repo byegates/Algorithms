@@ -4,18 +4,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 class TrieNode {
-    Map<Character, TrieNode> children = new HashMap<>();
+    public Map<Character, TrieNode> children = new HashMap<>();
     boolean isWord;
     int count;
 }
 
 public class Trie {
     private final TrieNode root;
-    public Trie () {
+
+    public Trie() {
         root = new TrieNode();
     }
 
-    public boolean insert (String s) {
+    public TrieNode getRoot() {
+        return root;
+    }
+
+    public boolean insert(String s) {
         if (search(s)) return false;
 
         TrieNode cur = root;
@@ -32,7 +37,7 @@ public class Trie {
         return cur.isWord = true;
     }
 
-    public boolean delete (String s) {
+    public boolean delete(String s) {
         if (!search(s)) return false;
         TrieNode cur = root;
         for (int i = 0; i < s.length(); i++) {
@@ -49,7 +54,7 @@ public class Trie {
         return true;
     }
 
-    public boolean search (String s) {
+    public boolean search(String s) {
         TrieNode cur = root;
         for (int i = 0; i < s.length(); i++) {
             TrieNode next = cur.children.get(s.charAt(i));
@@ -66,15 +71,16 @@ class DebugTrie {
         for (String s : new String[]{"cat", "app", "apple", "apples", "dog", "doggy", "tesla"})
             trie.insert(s);
 
-        System.out.println(trie.search("app"));
-        System.out.println(trie.search("apple"));
+        System.out.println(trie.search("app")); // true
+        System.out.println(trie.search("apple")); // true
 
-        trie.delete("apple");
-        System.out.println(trie.search("apple"));
-        trie.insert("apple");
-        System.out.println(trie.search("apple"));
+        System.out.println(trie.delete("apple")); // true
+        System.out.println(trie.search("apple")); // false
+        System.out.println(trie.insert("apple")); // true
+        System.out.println(trie.insert("apple")); // false
+        System.out.println(trie.search("apple")); // true
         trie.delete("app");
-        System.out.println(trie.search("apple"));
-        System.out.println(trie.search("app"));
+        System.out.println(trie.search("apple")); // true
+        System.out.println(trie.search("app")); // true
     }
 }
