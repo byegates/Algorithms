@@ -3,13 +3,11 @@ import util.TreeNode;
 
 public class DistanceOfTwoNodesInBST {
     public int distanceBST(TreeNode root, int k1, int k2) { // TC: O(height) log(n)~n, SC: O(1)
-        TreeNode lca = lca(root, k1, k2);
+        TreeNode lca = lca(root, Math.min(k1, k2), Math.max(k1, k2));
         return distance(lca, k1) + distance(lca, k2);
     }
 
-    private TreeNode lca(TreeNode root, int k1, int k2) {
-        int min = Math.min(k1, k2);
-        int max = Math.max(k1, k2);
+    private TreeNode lca(TreeNode root, int min, int max) {
         while (true) {
             if (root.key < min) root = root.right;
             else if (root.key > max) root = root.left;
