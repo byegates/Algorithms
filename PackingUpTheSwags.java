@@ -4,16 +4,8 @@
     For example, a box can contain 1 swag, 4 swags, 9 swags, etc. (The boxes can be sufficiently large.)
     Given the number of swags, what is the minimum number of boxes to pack them up?
 
-    Example #1
-    Input: 4
-    Output: 1 (just one 2x2 box)
-
-    Example #2
-    Input: 10
-    Output: 2 (one 3x3 box and one 1x1 box)
-
     Sample Results:
-   Input  #boxes    boxes used          Space of each box
+    Input #boxes    boxes used          Space of each box
       1 : 1,               [1],                     [1, ]
       2 : 2,            [1, 1],                  [1, 1, ]
       3 : 3,         [1, 1, 1],               [1, 1, 1, ]
@@ -84,7 +76,7 @@ public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
         cur[1] = 1;
 
         for (int i = 2; i <= n; i++) {
-            dp[i] = i + 1; // to make sure when n = 2 or 3, dp[i] is updated, so cur[i] and pre[i] is updated
+            dp[i] = i + 1; // to make sure when n = 2 or 3, dp[i], cur[i] and pre[i] is updated
             for (int j = 1; ; j++) {
                 int sq = j * j; // avoid calculate j * j twice
                 if (sq > i) break;
