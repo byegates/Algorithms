@@ -22,8 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class InfiniteLoopAroundTheDinnerTable {
-    public boolean isInfiniteLoop(String[] names) {
+    public boolean isInfinite(String[] names) {
         System.out.printf("%s : ", Arrays.toString(names));
+        if (names == null || names.length == 0) return false;
         return dfs(0, names);
     }
 
@@ -58,38 +59,42 @@ public class InfiniteLoopAroundTheDinnerTable {
         List<String> l2 = new ArrayList<>(Arrays.asList("ALICE", "XRIC", "CHARLES", "SOPHIA"));
 //        System.out.println(il.isInfinite(l1));
 //        System.out.println(il.isInfinite(l2));
-        System.out.println(il.isInfiniteLoop(l1.toArray(new String[0]))); // true
-        System.out.println(il.isInfiniteLoop(l2.toArray(new String[0]))); // false
+        System.out.println(il.isInfinite(new String[]{"A"})); // true
+        System.out.println(il.isInfinite(new String[0])); // false
+        System.out.println(il.isInfinite(null)); // false
+        System.out.println(il.isInfinite(new String[]{"A", "B"})); // false
+        System.out.println(il.isInfinite(l1.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l2.toArray(new String[0]))); // false
         Collections.shuffle(l1);
-        System.out.println(il.isInfiniteLoop(l1.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l1.toArray(new String[0]))); // true
         l1.set(0, "XXX");
-        System.out.println(il.isInfiniteLoop(l1.toArray(new String[0]))); // false
+        System.out.println(il.isInfinite(l1.toArray(new String[0]))); // false
 
         List<String> l3 = new ArrayList<>(Arrays.asList("AxB", "BxC", "CxD", "DxE", "ExF", "FxG", "GxA"));
-        System.out.println(il.isInfiniteLoop(l3.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l3.toArray(new String[0]))); // true
         Collections.shuffle(l3);
-        System.out.println(il.isInfiniteLoop(l3.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l3.toArray(new String[0]))); // true
         Collections.shuffle(l3);
-        System.out.println(il.isInfiniteLoop(l3.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l3.toArray(new String[0]))); // true
 
         List<String> l5 = new ArrayList<>(Arrays.asList("AB", "BA", "A", "AC", "CA", "A", "A"));
-        System.out.println(il.isInfiniteLoop(l5.toArray(new String[0])));
+        System.out.println(il.isInfinite(l5.toArray(new String[0])));
         Collections.shuffle(l5);
-        System.out.println(il.isInfiniteLoop(l5.toArray(new String[0])));
+        System.out.println(il.isInfinite(l5.toArray(new String[0])));
 
         List<String> l4 = new ArrayList<>(Arrays.asList("AxB", "BxC", "CxD", "DxE", "ExF", "FxG", "GxH", "HxI", "IxJ", "JxK", "KxL", "LxM", "MxN", "NxO", "OxP", "PxQ", "QxR", "RxS", "SxT", "TxU", "UxV", "VxW", "WxX", "XxY", "YxZ", "ZxA"));
-        System.out.println(il.isInfiniteLoop(l4.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l4.toArray(new String[0]))); // true
         Collections.shuffle(l4);
-        System.out.println(il.isInfiniteLoop(l4.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l4.toArray(new String[0]))); // true
         Collections.shuffle(l4);
-        System.out.println(il.isInfiniteLoop(l4.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l4.toArray(new String[0]))); // true
         Collections.shuffle(l4);
-        System.out.println(il.isInfiniteLoop(l4.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l4.toArray(new String[0]))); // true
         Collections.shuffle(l4);
-        System.out.println(il.isInfiniteLoop(l4.toArray(new String[0]))); // true
+        System.out.println(il.isInfinite(l4.toArray(new String[0]))); // true
         l4.set(0, "XXX");
         l4.set(5, "YYY");
-        System.out.println(il.isInfiniteLoop(l4.toArray(new String[0]))); // false
+        System.out.println(il.isInfinite(l4.toArray(new String[0]))); // false
     }
 }
 
