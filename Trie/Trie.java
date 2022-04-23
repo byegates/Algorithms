@@ -48,9 +48,8 @@ public class Trie {
             if (cur.children[idx] == null)
                 cur.children[idx] = new TrieNode();
 
-            TrieNode next = cur.children[idx];
-            next.count++;
-            cur = next;
+            cur = cur.children[idx];
+            cur.count++;
         }
         return cur.isWord = true;
     }
