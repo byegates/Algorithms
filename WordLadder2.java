@@ -10,7 +10,7 @@ public class WordLadder2 {
 
         Map<String, List<String>> paths = new HashMap<>(); // to store node to node paths
         bfs(begin, end, words, paths); // bfs to traversal the whole graph and store paths
-        dfs(new ArrayList<>(), end, begin, paths, res); // dfs to get all path
+        if (paths.containsKey(end)) dfs(new ArrayList<>(), end, begin, paths, res); // dfs to get all path
 
         return res;
     }
@@ -23,8 +23,6 @@ public class WordLadder2 {
             res.add(tmp);
             return;
         }
-
-        if (!paths.containsKey(cur)) return; // if there's no valid paths, we'll just return;
 
         sol.add(cur);
         for (String next : paths.get(cur))
