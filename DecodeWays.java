@@ -50,16 +50,14 @@ public class DecodeWays {
         }
 
         if (a[idx] > '0' && a[idx] <= '9') {
-            sb.append((char) (a[idx] - '0' + toCapitalLetter));
-            dfs(idx + 1, a, sb, res, toCapitalLetter);
+            dfs(idx + 1, a, sb.append((char) (a[idx] - '0' + toCapitalLetter)), res, toCapitalLetter);
             sb.setLength(sb.length() - 1);
         }
 
         if (idx < a.length - 1) {
-            int num = Integer.parseInt(String.format("%s%s", a[idx], a[idx + 1]));
+            int num = Integer.parseInt(new String(a, idx, 2));
             if (num > 9 && num < 27) {
-                sb.append((char) (num + toCapitalLetter));
-                dfs(idx + 2, a, sb, res, toCapitalLetter);
+                dfs(idx + 2, a, sb.append((char) (num + toCapitalLetter)), res, toCapitalLetter);
                 sb.setLength(sb.length() - 1);
             }
         }
@@ -73,13 +71,16 @@ public class DecodeWays {
         String s2 = "1398152164";
         String s3 = "968822189183411";
         String s4 = "2776717328126106";
+        String s5 = "1121";
         String s9 = "624212641113981521649688221891834112776717328126106";
 
         System.out.println(dw.numDecodeWay(s9)); // 54000
         System.out.println(dw.numDecodeWay(s0)); // 0
+        System.out.println(dw.numDecodeWay(s5)); // 0
 
         System.out.println(dw.Decode(s1)); // [FBDBABFAA, FBDBABFK, FBDBAZAA, FBDBAZK, FBDBLFAA, FBDBLFK, FBDUBFAA, FBDUBFK, FBDUZAA, FBDUZK, FXBABFAA, FXBABFK, FXBAZAA, FXBAZK, FXBLFAA, FXBLFK, FXUBFAA, FXUBFK, FXUZAA, FXUZK]
         System.out.println(dw.Decode(s0)); // []
+        System.out.println(dw.Decode(s5)); // [AABA, AAU, ALA, KBA, KU]
         System.out.println(dw.Decode("5")); // [E]
         System.out.println(dw.Decode("226")); // [BBF, BZ, VF]
         System.out.println(dw.Decode("236")); // [BCF, WF]
@@ -90,6 +91,7 @@ public class DecodeWays {
         System.out.println(dw.Decode(s2).size() == dw.numDecodeWay(s2));
         System.out.println(dw.Decode(s3).size() == dw.numDecodeWay(s3));
         System.out.println(dw.Decode(s4).size() == dw.numDecodeWay(s4));
+        System.out.println(dw.Decode(s5).size() == dw.numDecodeWay(s5));
         System.out.println(dw.Decode(s9).size() == dw.numDecodeWay(s9));
     }
 }
