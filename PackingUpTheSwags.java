@@ -23,6 +23,7 @@ public class PackingUpTheSwags { // TC: O(n), SC: O(n)
     public int minBoxes(int n) {
         int[] M = new int[n + 1];
         Arrays.fill(M, Integer.MAX_VALUE);
+
         for (int i = 1; ; i++) {
             int sq = i * i;
             if (sq > n) break;
