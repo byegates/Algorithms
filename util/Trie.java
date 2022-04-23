@@ -81,6 +81,6 @@ class DebugTrie {
         System.out.println(trie.search("apple")); // true
         trie.delete("app");
         System.out.println(trie.search("apple")); // true
-        System.out.println(trie.search("app")); // true
+        System.out.println(trie.search("app")); // false
     }
 }
