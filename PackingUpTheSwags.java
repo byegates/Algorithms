@@ -58,9 +58,8 @@ public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
         int[] M = new int[n + 1];
         Arrays.fill(M, n);
         M[0] = 0;
-        M[1] = 1;
 
-        for (int i = 2; i <= n; i++)
+        for (int i = 1; i <= n; i++)
             for (int j = 1; j * j <= i; j++)
                 M[i] = Math.min(M[i], 1 + M[i - j * j]);
 
@@ -72,10 +71,8 @@ public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
         int[]  dp = new int[n + 1];
         int[] pre = new int[n + 1];
         int[] cur = new int[n + 1];
-         dp[1] = 1;
-        cur[1] = 1;
 
-        for (int i = 2; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             dp[i] = i + 1; // to make sure when n = 2 or 3, dp[i], cur[i] and pre[i] is updated
             for (int j = 1; ; j++) {
                 int sq = j * j; // avoid calculate j * j twice
@@ -130,7 +127,7 @@ public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
         PackingUpTheSwags pts = new PackingUpTheSwags();
         List<Integer> list = new ArrayList<>();
         for (int i = 1; i <= 30; i++) list.add(i);
-        list.addAll(Arrays.asList(99, 999, 2567, 9999, 84637, 99999, 943287, 999999, 1999999));
+        list.addAll(Arrays.asList(99, 999, 2567, 9999, 84637, 99999, 943287, 999999, 1_999_999));
         pts.printResults(list);
     }
 }
