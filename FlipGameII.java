@@ -1,10 +1,26 @@
-//        You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -,
-//        you and your friend take turns to flip two consecutive "++" into "--".
-//        The game ends when a person can no longer make a move and therefore the other person will be the winner.
-//        Write a function to determine if the starting player can guarantee a win.
-//
-//        For example, given s = "++++", return true.
-//        The starting player can guarantee a win by flipping the middle "++" to become "+--+".
+/*
+        You are playing the following Flip Game with your friend: Given a string that contains only these two characters: + and -,
+        you and your friend take turns to flip two consecutive "++" into "--".
+        The game ends when a person can no longer make a move and therefore the other person will be the winner.
+        Write a function to determine if the starting player can guarantee a win.
+
+        For example, given s = "++++", return true.
+        The starting player can guarantee a win by flipping the middle "++" to become "+--+".
+        Sample Results:
+        +++            true
+        ++++           true
+        +++++          false
+        ++++++         true
+        +++++++        true
+        ++++++++       true
+        +++++++++      false
+        ++++++++++     false
+        +++++++++++    false
+        ++++++++++++   true
+        +++++++++++++  false
+        ++++++++++++++ false
+        +++----+++--++ true
+*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +60,11 @@ public class FlipGameII {
 
     public static void main(String[] args) {
         FlipGameII fg = new FlipGameII();
-        for (int i = 1; i < 10; i++)
-            System.out.println(fg.canWin("+".repeat(i)));
-        System.out.println(fg.canWin("+++----+++--++")); // true
+        for (int i = 3; i < 15; i++) {
+            String s = "+".repeat(i);
+            System.out.printf("%-15s%s\n", s, fg.canWin(s));
+        }
+        String s = "+++----+++--++";
+        System.out.printf("%-15s%s\n", s, fg.canWin(s)); // true
     }
 }
