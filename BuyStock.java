@@ -1,5 +1,8 @@
 import java.util.Arrays;
 
+import util.Matrix;
+import util.Matrix.*;
+
 public class BuyStock {
     /*
     Buy Stock 1
@@ -140,13 +143,33 @@ public class BuyStock {
     }
     // solution 2 ends here
 
+    // Solution 2, dp, TC: O(2*k*n), SC: O(2n), not very good
+    public int maxProfit4c(int[] prices, int k) {
+        int len = prices.length;
+        if ( len == 0 || k == 0) return 0;
+        if (k >= len / 2) return maxProfit2(prices);
+
+        int[][] dp = new int[2][len];
+        for (int i = 1; i <= k; i++) {
+            int balance = - prices[0];
+            for (int j = 1; j < len; j++) {
+                dp[1][j] = Math.max(dp[1][j - 1], prices[j] + balance);
+                balance = Math.max(balance, dp[0][j - 1] - prices[j]);
+            }
+            System.arraycopy(dp[1], 0, dp[0], 0, len);
+        }
+        return dp[1][len - 1];
+    }
+    // solution 2 ends here
+
     public static void main(String[] args) {
         BuyStock bs = new BuyStock();
         System.out.println(bs.maxProfit1(new int[]{6,4,8,2,7,1,3})); // 5
         System.out.println(bs.maxProfit2(new int[]{5,1,2,3,7,2,5,1,3})); // 11
         System.out.println(bs.maxProfit3a(new int[]{1,7,3,8})); // 11
         System.out.println(bs.maxProfit3b(new int[]{1,7,3,8})); // 11
-        System.out.println(bs.maxProfit4(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
         System.out.println(bs.maxProfit4b(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
+        System.out.println(bs.maxProfit4(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
+        System.out.println(bs.maxProfit4c(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
     }
 }
