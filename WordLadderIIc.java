@@ -22,14 +22,12 @@ public class WordLadderIIc {
         public static List<GraphNode> createGraph(List<String> list, String beginWord, String endWord) {
             words = list;
             map = new HashMap<>(); // must initialize here
-            for (int i = 0; i < words.size(); i++)
-                map.put(words.get(i), i);
+            for (int i = 0; i < words.size(); i++) map.put(words.get(i), i);
             beginIdx = map.get(beginWord);
             endIdx = map.get(endWord);
 
             List<GraphNode> graph = new ArrayList<>();
-            for (String word : words)
-                graph.add(new GraphNode(word));
+            for (String word : words) graph.add(new GraphNode(word));
 
             beginNode = graph.get(beginIdx);
             endNode = graph.get(endIdx);
@@ -44,10 +42,8 @@ public class WordLadderIIc {
                 for (char c = 'a'; c <= 'z'; c++) {
                     if (c == orig) continue;
                     a[i] = c;
-                    String nei = new String(a);
-                    int neiIdx = toIdx(nei);
-                    if (neiIdx != -1)
-                        neighbors.add(neiIdx);
+                    int neiIdx = toIdx(new String(a));
+                    if (neiIdx != -1) neighbors.add(neiIdx);
                 }
                 a[i] = orig;
             }
