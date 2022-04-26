@@ -126,8 +126,8 @@ public class PackingUpTheSwags { // TC: O(n^1.5), SC: O(n)
     public static void main(String[] args) {
         PackingUpTheSwags pts = new PackingUpTheSwags();
         List<Integer> list = new ArrayList<>();
-        for (int i = 1; i <= 30; i++) list.add(i);
-        list.addAll(Arrays.asList(99, 999, 2567, 9999, 84637, 99999, 943287, 999999, 1_999_999));
+        for (int i = 15000; i <= 15200; i++) list.add(i);
+        list.addAll(Arrays.asList(99, 999, 2567, 9999, 12580));
         pts.printResults(list);
     }
 }
