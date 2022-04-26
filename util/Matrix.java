@@ -19,4 +19,21 @@ public class Matrix {
     public static String toString(int[] a, int width) {
         return toString(new int[][]{a}, width);
     }
+
+    public static String toString(int[] a) {
+        return toString(new int[][]{a}, 1);
+    }
+
+    public static String toString(int[][] mx) {
+        return toString(mx, 1);
+    }
+
+    public static void main(String[] args) {
+        int[][] mx = new int[][]{{1, 2,}, {3, 4}};
+        System.out.println(toString(mx));
+        System.out.println(toString(mx, 3));
+        int[] a = new int[]{1, 2,};
+        System.out.println(toString(a));
+        System.out.println(toString(a, 3));
+    }
 }
