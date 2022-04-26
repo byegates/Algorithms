@@ -135,7 +135,7 @@ public class BuyStock {
         for (int i = 1; i <= k; i++) {
             int balance = - prices[0];
             for (int j = 1; j < len; j++) {
-                dp[i][j] = Math.max(dp[i][j - 1], prices[j] + balance);
+                dp[i][j] = Math.max(dp[i][j - 1], balance + prices[j]);
                 balance = Math.max(balance, dp[i - 1][j - 1] - prices[j]);
             }
         }
@@ -164,12 +164,13 @@ public class BuyStock {
 
     public static void main(String[] args) {
         BuyStock bs = new BuyStock();
-        System.out.println(bs.maxProfit1(new int[]{6,4,8,2,7,1,3})); // 5
-        System.out.println(bs.maxProfit2(new int[]{5,1,2,3,7,2,5,1,3})); // 11
-        System.out.println(bs.maxProfit3a(new int[]{1,7,3,8})); // 11
-        System.out.println(bs.maxProfit3b(new int[]{1,7,3,8})); // 11
-        System.out.println(bs.maxProfit4b(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
-        System.out.println(bs.maxProfit4(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
-        System.out.println(bs.maxProfit4c(new int[]{3,4,1,2,6,2,3,5,1,7,3,8}, 4)); // 19
+        System.out.println(bs.maxProfit1(new int[]{6, 4, 8, 2, 7, 1, 3})); // 5
+        System.out.println(bs.maxProfit2(new int[]{5, 1, 2, 3, 7, 2, 5, 1, 3})); // 11
+        System.out.println(bs.maxProfit3a(new int[]{1, 7, 3, 8})); // 11
+        System.out.println(bs.maxProfit3b(new int[]{1, 7, 3, 8})); // 11
+        System.out.println(bs.maxProfit4b(new int[]{3, 4, 1, 2, 6, 2, 3, 5, 1, 7, 3, 8}, 4)); // 19
+        System.out.println(bs.maxProfit4(new int[]{3, 4, 1, 2, 6, 2, 3, 5, 1, 7, 3, 8}, 4)); // 19
+        System.out.println(bs.maxProfit4c(new int[]{3, 4, 1, 2, 6, 2, 3, 5, 1, 7, 3, 8}, 4)); // 19
+        System.out.println(bs.maxProfit4(new int[]{2, 3, 2, 1, 4, 5, 2, 11}, 3)); // 14
     }
 }
