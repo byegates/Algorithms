@@ -32,7 +32,9 @@ public class SelectionSortLinkedList {
 
     public static void main(String[] args) {
         ListNode ll = ListNode.fromArray(new int[]{5, 4, 1, 2, 6, 3});
-        System.out.println(selectionSort(ll));
-
+        ll = selectionSort(ll);
+        System.out.println(ll);
+        ll = selectionSort(ll);
+        System.out.println(ll);
     }
 }
