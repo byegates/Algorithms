@@ -192,10 +192,6 @@ public class ListNode {
         return dummy.next;
     }
 
-    public static ListNode partition(ListNode head, int target) { // Lai42
-        return new ListNode(0);
-    }
-
     public static void main(String[] args) {
         System.out.println("ReverseInPairs :");
         int[] Lai35a = new int[]{1,2,3,4,5,6,7,8,9};
