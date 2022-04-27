@@ -9,17 +9,13 @@ public class WordLadder {
         Set<String> dict = new HashSet<>(words);
         if (!dict.contains(begin) || !dict.contains(end)) return 0;
 
-        int len = 1;
         Queue<String> q = new ArrayDeque<>();
         q.offer(begin);
-        dict.remove(begin);
+        dict.remove(begin); // for de-dup
 
-        while (!q.isEmpty()) {
-            int size = q.size();
-            while (size-- > 0)
+        for (int len = 1; !q.isEmpty(); len++) // use for loop as while loop too...
+            for (int size = q.size(); size > 0; size--)
                 if (bfs(q.poll().toCharArray(), end, dict, q)) return ++len;
-            len++;
-        }
 
         return 0;
     }
