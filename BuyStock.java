@@ -107,21 +107,21 @@ public class BuyStock {
     // Solution 1 using generalized state machine
     public int maxProfit4b(int[] prices, int k) { // TC: O(k*n), SC: O(k)
         if (prices.length == 0 || k == 0) return 0;
-        if (k >= prices.length / 2) return maxProfit2(prices);
-        int[] states = new int[k * 2];
-        Arrays.fill(states, Integer.MIN_VALUE);
-        states[0] = - prices[0];
+        if (k >= prices.length / 2) return maxProfit2(prices); // this means you can do as many transactions as you want
+        int[] states = new int[k * 2 + 1];
+        Arrays.fill(states, Integer.MIN_VALUE); // after each buy, value could be negative, so we can't use 0 as default here
+        states[0] = 0; // this is added to avoid making states[0] = - prices[0] as a standalone logic, now this is accomplished by states[idx1] logic below
+        states[1] = - prices[0];
 
-        for (int i = 1; i < prices.length; i++) {
-            states[0] = Math.max(states[0], -prices[i]);
-            for (int j = 1; j < states.length; j = j + 2) {
-                states[j] = Math.max(states[j], states[j-1] + prices[i]);
-                if (j + 1 < states.length)
-                    states[j+1] = Math.max(states[j+1], states[j] - prices[i]);
+        for (int i = 1; i < prices.length; i++)
+            for (int j = 0; j < k; j++) {
+                int idx1 = j * 2 + 1;
+                int idx2 = idx1 + 1;
+                states[idx1] = Math.max(states[idx1], states[idx1 - 1] - prices[i]);
+                states[idx2] = Math.max(states[idx2], states[idx2 - 1] + prices[i]);
             }
-        }
 
-        return Math.max(0, states[2 * k - 1]);
+        return Math.max(0, states[2 * k]);
     }
     // solution 1 ends here
 
@@ -164,6 +164,7 @@ public class BuyStock {
 
     public static void main(String[] args) {
         BuyStock bs = new BuyStock();
+        System.out.println(bs.maxProfit4b(new int[]{1, 7, 3, 8}, 2)); // 11
         System.out.println(bs.maxProfit1(new int[]{6, 4, 8, 2, 7, 1, 3})); // 5
         System.out.println(bs.maxProfit2(new int[]{5, 1, 2, 3, 7, 2, 5, 1, 3})); // 11
         System.out.println(bs.maxProfit3a(new int[]{1, 7, 3, 8})); // 11
