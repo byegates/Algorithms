@@ -1,9 +1,12 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordLadder {
+    // word length: L, words dictionary size: N
+    // TC: 25 * L^2 * N ==> O(L*N^2), 25*L transformations to check edge,
+    // and each need at least O(L) to convert back to String, at least another O(L) for hashing
+    // SC: O(n), queue and dict size
     public int ladderLength(String begin, String end, List<String> words) {
-        // word length: L, words dictionary size: N
-        // TC: 25 * L * N O(L*N), SC: O(n)
         if (words == null || words.size() == 0) return 0;
 
         Set<String> dict = new HashSet<>(words);
