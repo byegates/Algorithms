@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ListNode {
     public int value;
@@ -191,33 +192,11 @@ public class ListNode {
         return dummy.next;
     }
 
-    public static ListNode selectionSort(ListNode head) { // Lai28
-        if (head == null || head.next == null) return head;
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-
-        for (ListNode slow = dummy; slow.next != null; slow = slow.next, head = slow.next) {
-            ListNode minPre = slow;
-            for (;head.next != null; head = head.next)
-                if (head.next.value < minPre.next.value) minPre = head;
-
-            if (minPre.next == slow.next) continue;
-            ListNode newPostMin = slow.next;
-            ListNode oldPostMin = minPre.next.next;
-            slow.next = minPre.next;
-            minPre.next = oldPostMin;
-            slow.next.next = newPostMin;
-        }
-        return dummy.next;
-    }
-
     public static ListNode partition(ListNode head, int target) { // Lai42
         return new ListNode(0);
     }
 
     public static void main(String[] args) {
-        ListNode ll = ListNode.fromArray(new int[]{5,4,1,2,6,3});
-        System.out.println(selectionSort(ll));
         System.out.println("ReverseInPairs :");
         int[] Lai35a = new int[]{1,2,3,4,5,6,7,8,9};
         System.out.println(Arrays.toString(Lai35a));
