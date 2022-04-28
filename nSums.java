@@ -99,6 +99,35 @@ public class nSums {
         }
     }
 
+    /*
+    3 Sum 3 Arrays
+    Given three arrays, determine if a set can be made by picking one element from each array that sums to the given target number.
+    Assumptions
+    The three given arrays are not null and have length of at least 1
+    Examples
+    A = {1, 3, 5}, B = {8, 2}, C = {3}, target = 14, return true(pick 3 from A, pick 8 from B and pick 3 from C)
+
+    Analysis:
+    let l, m, n be the length of a, b, c in ascending order
+    TC: O(n + m * l)
+    SC: O(m + n)
+     */
+    public boolean exist(int[] a, int[] b, int[] c, int t) {
+        swapArray(a, b); // 'a' is shorter
+        swapArray(a, c); // 'a' is shortest of all 3
+        swapArray(b, c); // 'b' is shorter vs 'c'
+
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for (int x : c) set1.add(x); // add the longest array to set to save time
+        for (int x2 : b)
+            if (set2.add(x2)) // de-dup elements in b
+                for (int x3 : a)
+                    if (set1.contains(t - x2 - x3))
+                        return true;
+
+        return false;
+    }
 
     public static void main(String[] args) {
         nSums ns = new nSums();
