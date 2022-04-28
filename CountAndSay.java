@@ -1,8 +1,8 @@
 public class CountAndSay {
     public String countAndSay(int n) {
-        if (n >= 30) return "";
-        String res = "1";
-        for (int i = 1; i < n; i++) {
+        if (n >= 30) return ""; // we have to call it and stop processing at some point
+        String res = "1"; // starting point
+        for (int i = 1; i < n; i++) { // repetitively process n - 1 times (as we start with n = 1 : "1")
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < res.length();) {
                 char c = res.charAt(j);
@@ -10,7 +10,7 @@ public class CountAndSay {
                 while (j < res.length() && res.charAt(j) == c) j++;
                 sb.append(j - start).append(c);
             }
-            res = sb.toString();
+            res = sb.toString(); // repetitively replace and process the same string
         }
 
         return res;
