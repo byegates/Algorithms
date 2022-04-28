@@ -1,7 +1,26 @@
 import util.ListNode;
 
 public class SelectionSortLinkedList {
+    // Solution 1
     public static ListNode selectionSort(ListNode head) { // Lai28
+        if (head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode result = new ListNode(0);
+
+        for (ListNode cur = result; dummy.next != null; cur = cur.next) { // cur is the iteration node of result LinkedList
+            ListNode minPre = dummy; // default first Node as min / minPre
+            for (head = minPre.next; head.next != null; head = head.next) // find pre Node for min in current LinkedList
+                if (head.next.value < minPre.next.value) minPre = head;
+            cur.next = minPre.next; // insert min to new LinkedList
+            minPre.next = minPre.next.next; // delete min from original LinkedList
+        }
+
+        return result.next;
+    }
+    // Solution 1 ends here
+    // Solution 2 "in-place"? TC: O(n^2), SC: O(1)
+    public static ListNode selectionSort2(ListNode head) { // Lai28
         if (head == null || head.next == null) return head;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
@@ -29,12 +48,11 @@ public class SelectionSortLinkedList {
         min.next = null;
         return min;
     }
+    // Solution 2 ends here
 
     public static void main(String[] args) {
         ListNode ll = ListNode.fromArray(new int[]{5, 4, 1, 2, 6, 3});
-        ll = selectionSort(ll);
-        System.out.println(ll);
-        ll = selectionSort(ll);
-        System.out.println(ll);
+        ll = selectionSort2(ll);System.out.println(ll);
+        ll = selectionSort(ll);System.out.println(ll);
     }
 }
