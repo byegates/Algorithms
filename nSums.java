@@ -12,7 +12,6 @@ public class nSums {
      */
     public List<Integer> closest(int[] a, int T) {
         List<Integer> res = new ArrayList<>();
-        Set<Integer> set = new HashSet<>();
         Arrays.sort(a);
         int diff = Integer.MAX_VALUE;
         for (int i = 0, j = a.length - 1; i < j;) {
