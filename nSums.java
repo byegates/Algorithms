@@ -37,6 +37,38 @@ public class nSums {
     }
 
     /*
+    2 Sum Smaller
+    Determine the number of pairs of elements in a given array that sum to a value smaller than the given target number.
+    Assumptions
+    The given array is not null and has length of at least 2
+    Examples
+    A = {1, 2, 2, 4, 7}, target = 7, number of pairs is 6({1,2}, {1, 2}, {1, 4}, {2, 2}, {2, 4}, {2, 4})
+
+    Analysis:
+    Sort will dominate the TC and SC:
+    TC: O(nlogn)
+    SC: O(log(n))
+    Without considering sort:
+    TC: O(n)
+    SCL O(1)
+     */
+    public int smallerPairs(int[] a, int T) {
+        Arrays.sort(a);
+        int res = 0;
+
+        for (int i = 0, j = a.length - 1; i < j;) {
+            int sum = a[i] + a[j];
+            if (sum < T) {
+                res += j - i;
+                i++;
+            } else j--;
+        }
+
+        return res;
+    }
+
+
+    /*
     Given two arrays A and B, determine whether there exists a pair of elements, one drawn from each array,
     that sums to the given target number.
     Assumptions
