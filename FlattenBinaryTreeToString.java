@@ -2,15 +2,19 @@ import util.TreeNode;
 
 public class FlattenBinaryTreeToString {
     public String flattenBinaryTree(TreeNode root) {
+        return dfs(root).toString();
+    }
+
+    private StringBuilder dfs(TreeNode root) {
         StringBuilder sb = new StringBuilder();
-        if (root == null) return sb.toString();
+        if (root == null) return sb;
         sb.append(root.key);
-        if (root.left != null) sb.append('(').append(flattenBinaryTree(root.left)).append(')');
+        if (root.left != null) sb.append('(').append(dfs(root.left)).append(')');
         if (root.right != null) {
             if (root.left == null) sb.append("()");
-            sb.append("(").append(flattenBinaryTree(root.right)).append(')');
+            sb.append("(").append(dfs(root.right)).append(')');
         }
-        return sb.toString();
+        return sb;
     }
 
     public static void main(String[] args) {
