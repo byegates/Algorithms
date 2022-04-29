@@ -1,11 +1,11 @@
 import util.TreeNode;
 
 public class FlattenBinaryTreeToString {
-    public String flattenBinaryTree(TreeNode root) {
+    public String flattenBinaryTree(TreeNode root) { // TC: O(n), SC: O(height)
         return dfs(root).toString();
     }
 
-    private StringBuilder dfs(TreeNode root) {
+    private StringBuilder dfs(TreeNode root) { // preOrder DFS
         StringBuilder sb = new StringBuilder();
         if (root == null) return sb;
         sb.append(root.key);
