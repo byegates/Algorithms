@@ -47,6 +47,32 @@ public class DeDup {
                 a[keep++] = a[read];
         return new String(a, 0, keep);
     }
+    /*
+    81. Remove Adjacent Repeated Characters III
+    Remove adjacent, repeated characters in a given string, leaving no character for each group of such characters.
+    The characters in the string are sorted in ascending order.
+    Assumptions
+    Try to do it in place.
+    Examples
+    “aaaabbbc” is transferred to “c”
+    Corner Cases
+    If the given string is null, we do not need to do anything.
+     */
+
+    public String s3(String s) { // TC: O(n), SC: O(1) excluding String to Array switch, O(n) including that
+        if (s == null || s.length() < 2) return s;
+        return s3(s.toCharArray());
+    }
+
+    private String s3(char[] a) {
+        int keep = 0;
+        for (int read = 0; read < a.length; ) {
+            int start = read++;
+            while (read < a.length && a[start] == a[read]) read++;
+            if (read - start == 1) a[keep++] = a[start];
+        }
+        return new String(a, 0, keep);
+    }
 
     /*
     115. Array Deduplication I
@@ -163,6 +189,10 @@ public class DeDup {
         System.out.println(dedup.s2("").equals(""));
         System.out.println(dedup.s2((String) null) == null);
 
+        System.out.println(dedup.s3("abbccde").equals("ade"));
+        System.out.println(dedup.s3("a").equals("a"));
+        System.out.println(dedup.s3("aa").equals(""));
+        System.out.println(dedup.s3((String) null) == null);
 
         System.out.println(Arrays.equals(dedup.a1(new int[]{1, 2, 2, 3, 3, 3}), new int[]{1, 2, 3}));
         System.out.println(Arrays.equals(dedup.a1(new int[]{1, 2, 3, 4, 4, 5}), new int[]{1, 2, 3, 4, 5}));
