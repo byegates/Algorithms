@@ -17,11 +17,9 @@ public class Decompress {
         return decompress(s.toCharArray());
     }
 
-    public static String decompress(char[] A) {
-        int newLen = 0;
-        int read = 0, write = 0;
-        int curCharIdx = 0;
-        while (read < A.length) {
+    public static String decompress(char[] A) { // // TC: O(n), SC: O(1)
+        int newLen = 0, write = 0;
+        for (int curCharIdx = 0, read = 0;read < A.length;) {
             if (!Character.isDigit(A[read])) curCharIdx = read++;
             else {
                 int[] temp = new int[2];
@@ -31,8 +29,12 @@ public class Decompress {
                 newLen += curCharCount;
                 if (curCharCount == 0) continue;
 
-                if (read - write >= curCharCount) while (curCharCount-- > 0) A[write++] = A[curCharIdx];
-                else while (curCharIdx < read) A[write++] = A[curCharIdx++];
+                if (read - write >= curCharCount)
+                    for (; curCharCount > 0; curCharCount--)
+                        A[write++] = A[curCharIdx];
+                else
+                    while (curCharIdx < read)
+                        A[write++] = A[curCharIdx++];
             }
         }
 
@@ -71,7 +73,6 @@ public class Decompress {
         temp[0] = curCharCount;
         temp[1] = read;
     }
-    // TC: O(n), SC: O(1)
 
     public static void main(String[] args) {
         System.out.println(decompress("a1c0b2c4"));
@@ -84,5 +85,6 @@ public class Decompress {
         System.out.printf("index after read: %2d, count read: %d\n", temp[1], temp[0]);
         readDigitsReversed(testCharArr, 3, temp);
         System.out.printf("index after read: %2d, count read: %d\n", temp[1], temp[0]);
+        System.out.println(decompress("ap2lec3n"));
     }
 }
