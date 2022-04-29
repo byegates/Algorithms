@@ -1,22 +1,20 @@
-//Given a string, replace adjacent, repeated characters with the character followed by the number of repeated occurrences.
-//
-//        Assumptions
-//
-//        The string is not null
-//
-//        The characters used in the original string are guaranteed to be ‘a’ - ‘z’
-//
-//        Examples
-//
-//        “abbcccdeee” → “a1b2c3d1e3”
-
-
 public class Compress {
-    public static String compress(String s) {
-        return compress(s.toCharArray());
+    /*
+    611. Compress String II
+    Given a string, replace adjacent, repeated characters with the character followed by the number of repeated occurrences.
+    Assumptions
+    The string is not null
+    The characters used in the original string are guaranteed to be ‘a’ - ‘z’
+    Examples
+    “abbcccdeee” → “a1b2c3d1e3”
+
+    For 173. Compress String, logic will be same as below but without singleCharCount logic(consider it always 0)
+    */
+    public static String compress(String s, boolean writeOne) {
+        return compress(s.toCharArray(), writeOne);
     }
 
-    public static String compress(char[] A) {
+    public static String compress(char[] A, boolean writeOne) {
         int singleCharCount = 0;
         int read = 0, write = 0;
         while (read < A.length) {
@@ -27,6 +25,7 @@ public class Compress {
             else write = copyDigits(A, write, read - start);
         }
 
+        if (!writeOne) singleCharCount = 0;
         if (singleCharCount == 0) return new String(A, 0, write);
         int newLen = write + singleCharCount;
         return round2(A, write - 1, newLen, newLen > A.length ? new char[newLen] : A);
@@ -51,8 +50,11 @@ public class Compress {
     }
 
     public static void main(String[] args) {
-        System.out.println(compress("abbcccdeee"));
-        System.out.println(compress("hhhhhhhhhhhhhhhhhhhhhxxxxxxxxxxxxxxaaaaaaaaaddddffffooooooooooooll"));
+        System.out.println(compress("abbcccdeee", true)); // a1b2c3d1e3
+        System.out.println(compress("hhhhhhhhhhhhhhhhhhhhhxxxxxxxxxxxxxxaaaaaaaaaddddffffooooooooooooll", true)); // h21x14a9d4f4o12l2
+        System.out.println(compress("abbcccdeee", false)); // ab2c3de3
+        System.out.println(compress("aaaaaaaaaaaanneeeeeeefffffffwwwwwwwwwwwwwwfffhhhhhhhhhhhhhhhheeeeeeeeeeeeeeedddddddddddddddddddddddddddddgggggggggggggggggggggllllllllllllllllllvvvvvvvvvvvjggggggggggggggggggggccccccccccccccccjjjjttttttttttttttttttttttttttttttmdddkkkkkkkkkkkkkkkkkooooooooooooooooooooaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhyyyyyyyyyyyyyyyyyyyyyyyyyyyyoooooooooooooohhhhhelnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjuuuuuuuuuuuuffffffffffffffffffffffffaaaaaaaaaaaaaaaaaaaappppppppppppppppppppppppppppppfffffffffffffffffffffffffffffggeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeevvvvvvvvvvvvvvveeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllllaaaaaaiiiiiiiiiiiiillllgggggggggggggggggggggggggggg", false)); // a12n2e7f7w14f3h16e15d29g21l18v11jg20c16j4t30md3k17o20a42h20y28o14h5eln40b30j30u12f24a20p30f29g2e34v15e23l20a6i13l4g28
+        System.out.println(compress("aaaaaaaaaaaanneeeeeeefffffffwwwwwwwwwwwwwwfffhhhhhhhhhhhhhhhheeeeeeeeeeeeeeedddddddddddddddddddddddddddddgggggggggggggggggggggllllllllllllllllllvvvvvvvvvvvjggggggggggggggggggggccccccccccccccccjjjjttttttttttttttttttttttttttttttmdddkkkkkkkkkkkkkkkkkooooooooooooooooooooaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhyyyyyyyyyyyyyyyyyyyyyyyyyyyyoooooooooooooohhhhhelnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjuuuuuuuuuuuuffffffffffffffffffffffffaaaaaaaaaaaaaaaaaaaappppppppppppppppppppppppppppppfffffffffffffffffffffffffffffggeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeevvvvvvvvvvvvvvveeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllllaaaaaaiiiiiiiiiiiiillllgggggggggggggggggggggggggggg", false).equals("a12n2e7f7w14f3h16e15d29g21l18v11jg20c16j4t30md3k17o20a42h20y28o14h5eln40b30j30u12f24a20p30f29g2e34v15e23l20a6i13l4g28"));
     }
 
 } // TC: O(n), SC: O(1) unless new array

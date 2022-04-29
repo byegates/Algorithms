@@ -25,15 +25,15 @@ class CompressTest {
     String decompRes7 = "eeeedddccbbbbbbbbbbbbbbbbbbbbb";
     
     @Test
-    void tc1() {assertEquals(tc1, Decompress.decompress(Compress.compress(tc1)));}
+    void tc1() {assertEquals(tc1, Decompress.decompress(Compress.compress(tc1, true)));}
     @Test
-    void tc2() {assertEquals(tc2, Decompress.decompress(Compress.compress(tc2)));}
+    void tc2() {assertEquals(tc2, Decompress.decompress(Compress.compress(tc2, true)));}
     @Test
-    void tc3() {assertEquals(tc3, Decompress.decompress(Compress.compress(tc3)));}
+    void tc3() {assertEquals(tc3, Decompress.decompress(Compress.compress(tc3, true)));}
     @Test
-    void tc4() {assertEquals(tc4, Decompress.decompress(Compress.compress(tc4)));}
+    void tc4() {assertEquals(tc4, Decompress.decompress(Compress.compress(tc4, true)));}
     @Test
-    void tc5() {assertEquals(tc5, Decompress.decompress(Compress.compress(tc5)));}
+    void tc5() {assertEquals(tc5, Decompress.decompress(Compress.compress(tc5, true)));}
     @Test
     void decomp1() {assertEquals(decompRes1, Decompress.decompress(decomp1));}
     @Test
