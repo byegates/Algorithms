@@ -19,7 +19,7 @@ public class MedianOfTwoArrays {
         return (m1 + m2) / 2;
     }
 
-    private void quickSelect(int[] a, int[] b, int l, int r, int k) {
+    private void quickSelect(int[] a, int[] b, int l, int r, int k) {// quick select to sort kth element for 2 arrays
         int p = partition(a, b, l, r);
         if (p < k) quickSelect(a, b, p + 1, r, k);
         else if (p > k) quickSelect(a, b, l, p - 1, k);
@@ -40,7 +40,7 @@ public class MedianOfTwoArrays {
 
     private void swap(int[] a, int[] b, int i, int j) {
         int tmp = getVal(a, b, i);
-        setVal(a, b, i, getVal(a, b, j));
+        setVal(a, b, i, getVal(a, b, j)); // effectively: array[i] = array[j];
         setVal(a, b, j, tmp);
     }
 
