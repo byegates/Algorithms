@@ -2,19 +2,25 @@ import util.TreeNode;
 
 public class FlattenBinaryTreeToString {
     public String flattenBinaryTree(TreeNode root) { // TC: O(n), SC: O(height)
-        return dfs(root).toString();
+        StringBuilder sb = new StringBuilder();
+        dfs(root, sb);
+        return sb.toString();
     }
 
-    private StringBuilder dfs(TreeNode root) { // preOrder DFS
-        StringBuilder sb = new StringBuilder();
-        if (root == null) return sb;
+    private void dfs(TreeNode root, StringBuilder sb) { // preOrder/Depth First Search to traversal the whole tree
+        if (root == null) return;
         sb.append(root.key);
-        if (root.left != null) sb.append('(').append(dfs(root.left)).append(')');
+        if (root.left != null) {
+            sb.append('(');
+            dfs(root.left, sb);
+            sb.append(')');
+        }
         if (root.right != null) {
             if (root.left == null) sb.append("()");
-            sb.append("(").append(dfs(root.right)).append(')');
+            sb.append("(");
+            dfs(root.right, sb);
+            sb.append(')');
         }
-        return sb;
     }
 
     public static void main(String[] args) {
