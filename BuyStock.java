@@ -1,8 +1,5 @@
 import java.util.Arrays;
 
-import util.Matrix;
-import util.Matrix.*;
-
 public class BuyStock {
     /*
     Buy Stock 1
@@ -83,10 +80,10 @@ public class BuyStock {
         s2 = s3 = s4 = Integer.MIN_VALUE;
 
         for (int i = 1; i < prices.length; i++) {
-            s1 = Math.max(s1, -prices[i]); // buy one stock
-            s2 = Math.max(s2, s1 + prices[i]); // buy one stock
-            s3 = Math.max(s3, s2 - prices[i]); // buy 2nd stock
-            s4 = Math.max(s4, s3 + prices[i]); // sell 2nd stock
+            s1 = Math.max(s1, -prices[i]); // 1st buy
+            s2 = Math.max(s2, s1 + prices[i]); // 1st sell
+            s3 = Math.max(s3, s2 - prices[i]); // 2nd buy
+            s4 = Math.max(s4, s3 + prices[i]); // 2nd sell
         }
 
         return Math.max(0, s4);
