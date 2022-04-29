@@ -12,17 +12,39 @@ public class DeDup {
     If the given string is null, returning null or an empty string are both valid.
      */
     public String s1(String s) { // TC: O(n), SC: O(1) excluding String to Array switch, O(n) including that
-        if (s == null || s.length() <= 1) return s;
-        return deDup(s.toCharArray());
+        if (s == null || s.length() < 2) return s;
+        return s1(s.toCharArray());
     }
 
-    private String deDup(char[] a) {
+    private String s1(char[] a) {
         int keep = 1;
-
         for (int read = 1; read < a.length; read++)
             if (a[read] != a[keep - 1])
                 a[keep++] = a[read];
+        return new String(a, 0, keep);
+    }
+    /*
+    80. Remove Adjacent Repeated Characters II
+    Remove adjacent, repeated characters in a given string, leaving only two characters for each group of such characters.
+    The characters in the string are sorted in ascending order.
+    Assumptions
+    Try to do it in place.
+    Examples
+    “aaaabbbc” is transferred to “aabbc”
+    Corner Cases
+    If the given string is null, we do not need to do anything.
+     */
 
+    public String s2(String s) { // TC: O(n), SC: O(1) excluding String to Array switch, O(n) including that
+        if (s == null || s.length() < 3) return s;
+        return s2(s.toCharArray());
+    }
+
+    private String s2(char[] a) {
+        int keep = 2;
+        for (int read = 2; read < a.length; read++)
+            if (a[read] != a[keep - 2])
+                a[keep++] = a[read];
         return new String(a, 0, keep);
     }
 
@@ -129,8 +151,18 @@ public class DeDup {
     public static void main(String[] args) {
         DeDup dedup = new DeDup();
         System.out.println(dedup.s1("aaaabbbc").equals("abc"));
+        System.out.println(dedup.s1("aa").equals("a"));
+        System.out.println(dedup.s1("a").equals("a"));
         System.out.println(dedup.s1("").equals(""));
-        System.out.println(dedup.s1(null) == null);
+        System.out.println(dedup.s1((String) null) == null);
+
+        System.out.println(dedup.s2("aaaabbbc").equals("aabbc"));
+        System.out.println(dedup.s2("aaa").equals("aa"));
+        System.out.println(dedup.s2("aa").equals("aa"));
+        System.out.println(dedup.s2("a").equals("a"));
+        System.out.println(dedup.s2("").equals(""));
+        System.out.println(dedup.s2((String) null) == null);
+
 
         System.out.println(Arrays.equals(dedup.a1(new int[]{1, 2, 2, 3, 3, 3}), new int[]{1, 2, 3}));
         System.out.println(Arrays.equals(dedup.a1(new int[]{1, 2, 3, 4, 4, 5}), new int[]{1, 2, 3, 4, 5}));
