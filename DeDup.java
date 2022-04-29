@@ -105,6 +105,26 @@ public class DeDup {
             }
         return Arrays.copyOf(a, top + 1);
     }
+    /*
+    315. Array Deduplication V
+    Given an integer array(not guaranteed to be sorted),
+    remove adjacent repeated elements. For each group of elements with the same value keep at most two of them.
+    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
+    Return the final array.
+    Assumptions
+    The given array is not null
+    Examples
+    {1, 2, 2, 3, 3, 3} --> {1, 2, 2, 3, 3}
+    {2, 1, 2, 2, 2, 3} --> {2, 1, 2, 2, 3}
+     */
+    public int[] a5(int[] a) { // TC: O(n), SC: O(1)
+        if (a == null || a.length < 3) return a;
+        int keep = 2;
+        for (int read = 2; read < a.length; read++)
+            if (a[read] != a[keep - 2] || a[read] != a[keep - 1])
+                a[keep++] = a[read];
+        return Arrays.copyOf(a, keep);
+    }
 
     public static void main(String[] args) {
         DeDup dedup = new DeDup();
@@ -120,7 +140,8 @@ public class DeDup {
         System.out.println(Arrays.equals(dedup.a4(new int[]{1, 2, 3, 3, 3, 2, 2}), new int[]{1}));
         System.out.println(Arrays.equals(dedup.a4(new int[]{1, 2, 3, 3, 3, 2, 2}), new int[]{1}));
         System.out.println(Arrays.equals(dedup.a4(new int[]{1, 1, 2, 3, 3, 3, 2, 1, 6}), new int[]{1, 6}));
-        System.out.println(Arrays.toString(dedup.a3(new int[]{1, 2, 2, 3, 3, 3})));
+        System.out.println(Arrays.equals(dedup.a5(new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 2, 5, 5, 5, 6}), new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 5, 5, 6}));
+        System.out.println(Arrays.toString(dedup.a5(new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 2, 5, 5, 5, 6})));
     }
 
 }
