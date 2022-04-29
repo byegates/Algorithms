@@ -80,13 +80,13 @@ public class QuickSortLinkedList {
 
     public static void main(String[] args) {
         QuickSortLinkedList qs = new QuickSortLinkedList();
+        System.out.println(qs.quickSort(ListNode.fromArray(new int[]{9, 7, 0, 5, 4, 1, 8, 2, 6, 3})));
         System.out.println(qs.quickSort(ListNode.fromArray(new int[]{5, 4, 1, 2, 6, 3})));
         System.out.println(qs.quickSort(ListNode.fromArray(new int[]{4, 2, 6, 3, 5})));
+        System.out.println(qs.quickSort(ListNode.fromArray(new int[]{1, -1, 0})));
         System.out.println(qs.quickSort(ListNode.fromArray(new int[]{8, 2})));
         System.out.println(qs.quickSort(ListNode.fromArray(new int[]{3})));
         System.out.println(qs.quickSort(ListNode.fromArray(new int[]{0})));
-        System.out.println(qs.quickSort(ListNode.fromArray(new int[]{1, -1, 0})));
         System.out.println(qs.quickSort(ListNode.fromArray(null)));
-        System.out.println(qs.quickSort(ListNode.fromArray(new int[]{9, 7, 0, 5, 4, 1, 8, 2, 6, 3})));
     }
 }
