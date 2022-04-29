@@ -28,22 +28,22 @@ public class QuickSortLinkedList {
     }
 
     private Pivot partition(ListNode prev, ListNode end) {
-        ListNode left = prev.next;
-        prev.next = null; // cut connection with
+        ListNode cur = prev.next;
+        prev.next = null; // cut connection now, will reconnect at the end, may not be mandatory, just to be safe
         ListNode next = end.next; // save for reconnect later
         end.next = null; // cut connection now
         ListNode large = new ListNode(0);
         ListNode small = new ListNode(0);
         ListNode endOfLarge = large, endOfSmall = small;
 
-        while (left != end) { // we use right as pivot
-            if (left.value < end.value) {
-                endOfSmall.next = left;
-                left = left.next;
+        while (cur != end) { // we use right as pivot
+            if (cur.value < end.value) {
+                endOfSmall.next = cur;
+                cur = cur.next;
                 endOfSmall = endOfSmall.next;
             } else {
-                endOfLarge.next = left;
-                left = left.next;
+                endOfLarge.next = cur;
+                cur = cur.next;
                 endOfLarge = endOfLarge.next;
             }
         }
