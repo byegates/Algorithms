@@ -2,15 +2,18 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ListNode {
     public int value;
     public ListNode next;
     public ListNode(int value) {
-        this.value = value;
-        next = null;
+        this(value, null);
     }
+    public ListNode(int value, ListNode next) {
+        this.value = value;
+        this.next = next;
+    }
+
 
     public int size() {return size(this);}
     public  String toString() {return toString(this);}
