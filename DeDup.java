@@ -75,6 +75,31 @@ public class DeDup {
     }
 
     /*
+    82. Remove Adjacent Repeated Characters IV
+    Repeatedly remove all adjacent, repeated characters in a given string from left to right.
+    No adjacent characters should be identified in the final string.
+    Examples
+    "abbbaaccz" → "aaaccz" → "ccz" → "z"
+    "aabccdc" → "bccdc" → "bdc"
+     */
+
+    public String s4(String s) { // TC: O(n), SC: O(1) excluding String to Array switch, O(n) including that
+        if (s == null || s.length() < 2) return s;
+        return s4(s.toCharArray());
+    }
+
+    private String s4(char[] a) {
+        int top = -1;
+        for (int read = 0; read < a.length;)
+            if (top == -1 || a[top] != a[read]) a[++top] = a[read++];
+            else {
+                while (read < a.length && a[read] == a[top]) read++;
+                top--;
+            }
+        return new String(a, 0, top + 1);
+    }
+
+    /*
     115. Array Deduplication I
     Given a sorted integer array, remove duplicate elements.
     For each group of elements with the same value keep only one of them.
