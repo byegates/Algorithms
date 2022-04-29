@@ -28,6 +28,19 @@ public class Matrix {
         return toString(mx, 1);
     }
 
+    public static int sum(int[] a) {
+        return sum(new int[][]{a});
+    }
+
+    public static int sum(int[][] mx) {
+        int sum = 0;
+        for (int[] row : mx)
+            for (int x : row)
+                sum += x;
+        return sum;
+
+    }
+
     public static void main(String[] args) {
         int[][] mx = new int[][]{{1, 2,}, {3, 4}};
         System.out.println(toString(mx));
