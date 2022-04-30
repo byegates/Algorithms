@@ -5,12 +5,13 @@
 
     79. String DeDup 1 and,
     115. Array Deduplication I
-    are the same (sorted, for all dup values, keep only 1),
+    are the same problem (sorted, for all dup values, keep only 1),
     so the core logic is to keep the value when a[read] != a[keep - 1]
 
     80. Remove Adjacent Repeated Characters II and,
-    116. Array Deduplication II are the same
-    And their only differences to 79 & 115 is that keep max 2 for all dup values, so all 4 of them have very similar code.
+    116. Array Deduplication II
+    are the same problem
+    Their only differences to 79 & 115 is that keep max 2 for all dup values, so all 4 of them have very similar code.
     so the core logic is to keep the value when a[read] != a[keep - 2]
 
     315. Array Deduplication V is very close to above four problem too
