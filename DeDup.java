@@ -207,28 +207,30 @@ public class DeDup {
         System.out.println(dedup.s1("").equals(""));
         System.out.println(dedup.s1((String) null) == null);
 
+        System.out.println();
         System.out.println(dedup.s2("aaaabbbc").equals("aabbc"));
         System.out.println(dedup.s2("aaa").equals("aa"));
         System.out.println(dedup.s2("aa").equals("aa"));
         System.out.println(dedup.s2("a").equals("a"));
-        System.out.println(dedup.s2("").equals(""));
-        System.out.println(dedup.s2((String) null) == null);
+        System.out.println();
 
         System.out.println(dedup.s3("abbccde").equals("ade"));
         System.out.println(dedup.s3("a").equals("a"));
-        System.out.println(dedup.s3("aa").equals(""));
-        System.out.println(dedup.s3((String) null) == null);
+        System.out.println(dedup.s4("abbbaaccz").equals("z"));
+        System.out.println(dedup.s4("aabccdc").equals("bdc"));
+        System.out.println();
 
         System.out.println(Arrays.equals(dedup.a1(new int[]{1, 2, 2, 3, 3, 3}), new int[]{1, 2, 3}));
         System.out.println(Arrays.equals(dedup.a1(new int[]{1, 2, 3, 4, 4, 5}), new int[]{1, 2, 3, 4, 5}));
         System.out.println(Arrays.equals(dedup.a2(new int[]{1, 1, 2, 3, 3, 3, 4, 5, 5, 5}), new int[]{1, 1, 2, 3, 3, 4, 5, 5}));
         System.out.println(Arrays.equals(dedup.a3(new int[]{1, 2, 2, 3, 3, 3}), new int[]{1}));
         System.out.println(Arrays.equals(dedup.a3(new int[]{1, 1, 2, 3, 3, 3, 4, 5, 5, 5}), new int[]{2, 4}));
+
+        System.out.println(Arrays.toString(dedup.a5(new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 2, 5, 5, 5, 6})));
         System.out.println(Arrays.equals(dedup.a4(new int[]{1, 2, 3, 3, 3, 2, 2}), new int[]{1}));
         System.out.println(Arrays.equals(dedup.a4(new int[]{1, 2, 3, 3, 3, 2, 2}), new int[]{1}));
         System.out.println(Arrays.equals(dedup.a4(new int[]{1, 1, 2, 3, 3, 3, 2, 1, 6}), new int[]{1, 6}));
         System.out.println(Arrays.equals(dedup.a5(new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 2, 5, 5, 5, 6}), new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 5, 5, 6}));
-        System.out.println(Arrays.toString(dedup.a5(new int[]{5, 1, 1, 2, 3, 1, 1, 2, 2, 2, 5, 5, 5, 6})));
     }
 
 }
