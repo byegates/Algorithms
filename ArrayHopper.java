@@ -51,14 +51,14 @@ public class ArrayHopper {
         return dp[0];
     }
 
-    public int minJumpFromStart(int[] A) { // TC: O(n^2), SC: O(n), not better as first one
-        int len = A.length;
+    public int minJumpFromStart(int[] a) { // TC: O(n^2), SC: O(n), not better as first one
+        int len = a.length;
         int[] dp = new int[len];
 
         for (int i = 1; i < len; i++) {
             dp[i] = -1;
             for (int j = i - 1; j >= 0; j--)
-                if (dp[j] != -1 && A[j] + j >= i && (dp[i] == -1 || dp[j] + 1 < dp[i]))
+                if (dp[j] != -1 && a[j] + j >= i && (dp[i] == -1 || dp[j] + 1 < dp[i]))
                     dp[i] = dp[j] + 1;
         }
 
