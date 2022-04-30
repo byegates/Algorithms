@@ -68,6 +68,27 @@ public class DeDup {
                 a[keep++] = a[read];
         return new String(a, 0, keep);
     }
+
+    /*
+    115. Array Deduplication I
+    Given a sorted integer array, remove duplicate elements.
+    For each group of elements with the same value keep only one of them.
+    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
+    Return the array after deduplication.
+    Assumptions
+    The array is not null
+    Examples
+    {1, 2, 2, 3, 3, 3} → {1, 2, 3}
+     */
+    public int[] a1(int[] a) {
+        if (a == null || a.length < 2) return a;
+        int keep = 1;
+        for (int read = 1; read < a.length; read++)
+            if (a[read] != a[keep - 1])
+                a[keep++] = a[read];
+        return Arrays.copyOf(a, keep);
+    }
+
     /*
     80. Remove Adjacent Repeated Characters II
     Remove adjacent, repeated characters in a given string, leaving only two characters for each group of such characters.
@@ -92,6 +113,27 @@ public class DeDup {
                 a[keep++] = a[read];
         return new String(a, 0, keep);
     }
+
+    /*
+    116. Array Deduplication II
+    Given a sorted integer array, remove duplicate elements.
+    For each group of elements with the same value keep at most two of them.
+    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
+    Return the array after deduplication.
+    Assumptions
+    The given array is not null
+    Examples
+    {1, 2, 2, 3, 3, 3} → {1, 2, 2, 3, 3}
+     */
+    public int[] a2(int[] a) {
+        if (a == null || a.length < 3) return a;
+        int keep = 2;
+        for (int read = 2; read < a.length; read++)
+            if (a[read] != a[keep - 2])
+                a[keep++] = a[read];
+        return Arrays.copyOf(a, keep);
+    }
+
     /*
     81. Remove Adjacent Repeated Characters III
     Remove adjacent, repeated characters in a given string, leaving no character for each group of such characters.
@@ -120,6 +162,28 @@ public class DeDup {
     }
 
     /*
+    117. Array Deduplication III
+    Given a sorted integer array, remove duplicate elements.
+    For each group of elements with the same value do not keep any of them.
+    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
+    Return the array after deduplication.
+    Assumptions
+    The given array is not null
+    Examples
+    {1, 2, 2, 3, 3, 3} → {1}
+     */
+    public int[] a3(int[] a) {
+        if (a == null || a.length < 2) return a;
+        int keep = 0;
+        for (int read = 0; read < a.length; ) {
+            int start = read++; // start is the first of every new char
+            while (read < a.length && a[read] == a[start]) read++;
+            if (read - start == 1) a[keep++] = a[start]; // use read - start as count for each char, so we only keep unique char
+        }
+        return Arrays.copyOf(a, keep);
+    }
+
+    /*
     82. Remove Adjacent Repeated Characters IV
     Repeatedly remove all adjacent, repeated characters in a given string from left to right.
     No adjacent characters should be identified in the final string.
@@ -144,67 +208,6 @@ public class DeDup {
         return new String(a, 0, top + 1);
     }
 
-    /*
-    115. Array Deduplication I
-    Given a sorted integer array, remove duplicate elements.
-    For each group of elements with the same value keep only one of them.
-    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
-    Return the array after deduplication.
-    Assumptions
-    The array is not null
-    Examples
-    {1, 2, 2, 3, 3, 3} → {1, 2, 3}
-     */
-    public int[] a1(int[] a) {
-        if (a == null || a.length < 2) return a;
-        int keep = 1;
-        for (int read = 1; read < a.length; read++)
-            if (a[read] != a[keep - 1])
-                a[keep++] = a[read];
-        return Arrays.copyOf(a, keep);
-    }
-
-    /*
-    116. Array Deduplication II
-    Given a sorted integer array, remove duplicate elements.
-    For each group of elements with the same value keep at most two of them.
-    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
-    Return the array after deduplication.
-    Assumptions
-    The given array is not null
-    Examples
-    {1, 2, 2, 3, 3, 3} → {1, 2, 2, 3, 3}
-     */
-    public int[] a2(int[] a) {
-        if (a == null || a.length < 3) return a;
-        int keep = 2;
-        for (int read = 2; read < a.length; read++)
-            if (a[read] != a[keep - 2])
-                a[keep++] = a[read];
-        return Arrays.copyOf(a, keep);
-    }
-
-    /*
-    117. Array Deduplication III
-    Given a sorted integer array, remove duplicate elements.
-    For each group of elements with the same value do not keep any of them.
-    Do this in-place, using the left side of the original array and maintain the relative order of the elements of the array.
-    Return the array after deduplication.
-    Assumptions
-    The given array is not null
-    Examples
-    {1, 2, 2, 3, 3, 3} → {1}
-     */
-    public int[] a3(int[] a) {
-        if (a == null || a.length < 2) return a;
-        int keep = 0;
-        for (int read = 0; read < a.length; ) {
-            int start = read++; // start is the first of every new char
-            while (read < a.length && a[read] == a[start]) read++;
-            if (read - start == 1) a[keep++] = a[start]; // use read - start as count for each char, so we only keep unique char
-        }
-        return Arrays.copyOf(a, keep);
-    }
     /*
     118. Array Deduplication IV
     Given an unsorted integer array, remove adjacent duplicate elements repeatedly, from left to right.
