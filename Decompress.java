@@ -7,7 +7,7 @@
         Assumptions
         The string is not null
         The characters used in the original string are guaranteed to be ‘a’ - ‘z’
-        There are no adjacently repeated characters with length > 9
+        Adjacently repeated characters' length can go over 9 in below solution
         Examples
         “a1c0b2c4” → “abbcccc”
 
@@ -55,8 +55,8 @@ public class Decompress {
             else { // reverse read all digits (count)
                 int count = 0;
                 for (int power = 0; read >= 0 && Character.isDigit(src[read]);) // a123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
-                    count += (src[read--] - '0') * (int) (Math.pow(10, power++)); // read is 1 byte before digits on the right char
-                for (;count > 0; count--) dest[write--] = src[read];
+                    count += (src[read--] - '0') * (int) (Math.pow(10, power++));
+                for (;count > 0; count--) dest[write--] = src[read]; // after above read of count, read is exactly at the right location
                 read--; // after written cur char, go read the next
             }
         }
