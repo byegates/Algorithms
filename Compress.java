@@ -41,11 +41,11 @@ public class Compress {
         return new String(dest, 0, newLen);
     }
 
-    private static int writeCount(char[] A, int write, int count) {
+    private static int writeCount(char[] a, int write, int count) {
         int len = 0;
         for (int i = count; i > 0; i /= 10) len++; // count the len for us to write count
         write += len;
-        for (int i = count; i > 0; i /= 10) A[--write] = (char) (i % 10 + '0');
+        for (int i = count; i > 0; i /= 10) a[--write] = (char) (i % 10 + '0');
         return write + len;
     }
 
