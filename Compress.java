@@ -33,9 +33,10 @@ public class Compress {
     private static String round2(char[] src, int read, int newLen, char[] dest) {
         int write = newLen - 1;
         while (read >= 0) {
-            if (!Character.isDigit(src[read])) dest[write--] = '1'; // either write '1' or write all digits
-            else while (Character.isDigit(src[read])) dest[write--] = src[read--];
-            dest[write--] = src[read--];
+            if (!Character.isDigit(src[read])) dest[write--] = '1'; // write '1' first for single char
+            else
+                while (Character.isDigit(src[read])) dest[write--] = src[read--]; // just copy all digits for the count
+            dest[write--] = src[read--]; // copy the char itself
         }
         return new String(dest, 0, newLen);
     }
