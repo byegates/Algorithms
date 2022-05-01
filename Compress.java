@@ -43,7 +43,7 @@ public class Compress {
 
     private static int writeCount(char[] a, int write, int count) {
         int len = 0;
-        for (int i = count; i > 0; i /= 10) len++; // count the len for us to write count
+        for (int i = count; i > 0; i /= 10) len++; // calculate the len for us to write count
         write += len;
         for (int i = count; i > 0; i /= 10) a[--write] = (char) (i % 10 + '0');
         return write + len;
