@@ -32,10 +32,9 @@ public class Decompress {
                     newLen++;
                 }
             } else {
-                int[] temp = new int[2];
-                readDigits(A, read, temp);
-                int curCharCount = temp[0];
-                read = temp[1];
+                int curCharCount = 0;
+                while (read < A.length && Character.isDigit(A[read]))
+                    curCharCount = curCharCount * 10 + (A[read++] - '0');
                 newLen += curCharCount;
                 if (curCharCount == 0) continue;
 
@@ -56,11 +55,10 @@ public class Decompress {
         int write = newLen - 1;
         while (read >= 0) {
             if (!Character.isDigit(src[read])) dest[write--] = src[read--];
-            else {
-                int[] temp = new int[2];
-                readDigitsReversed(src, read, temp);
-                int curCharCount = temp[0];
-                read = temp[1]; // read is 1 byte before digits on the right char
+            else { // reverse read all digits (count)
+                int curCharCount = 0, power = 0;
+                while (read >= 0 && Character.isDigit(src[read]))
+                    curCharCount += (src[read--] - '0') * (int) (Math.pow(10, power++)); // read is 1 byte before digits on the right char
                 while (curCharCount-- > 0) dest[write--] = src[read];
                 read--; // after written cur char, go read the next
             }
@@ -68,34 +66,11 @@ public class Decompress {
         return new String(dest, 0, newLen);
     }
 
-    private static void readDigitsReversed(char[] A, int read, int[] temp) {
-        int power = 0;
-        int curCharCount = 0;
-        while (read >= 0 && Character.isDigit(A[read]))
-            curCharCount += (A[read--] - '0') * (int) (Math.pow(10, power++));
-        temp[0] = curCharCount;
-        temp[1] = read;
-    }
-
-    private static void readDigits(char[] A, int read, int[] temp) {
-        int curCharCount = 0;
-        while (read < A.length && Character.isDigit(A[read]))
-            curCharCount = curCharCount * 10 + (A[read++] - '0');
-        temp[0] = curCharCount;
-        temp[1] = read;
-    }
-
     public static void main(String[] args) {
         System.out.println(decompress("a1c0b2c4", true));
         System.out.println(decompress("a13b21c0d2e11f13", true));
         System.out.println(decompress("e4d3c2b21a0", true));
-        // quick test of readDigits and readDigitsReversed
-        int[] temp = new int[2];
-        char[] testCharArr = new char[]{'1', '2' ,'3', '4'};
-        readDigits(testCharArr, 0, temp);
-        System.out.printf("index after read: %2d, count read: %d\n", temp[1], temp[0]);
-        readDigitsReversed(testCharArr, 3, temp);
-        System.out.printf("index after read: %2d, count read: %d\n", temp[1], temp[0]);
+
         System.out.println(decompress("ap2lec3n", true));
         System.out.println(decompress("ap2lec3n", false));
     }
