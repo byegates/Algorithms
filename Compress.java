@@ -14,20 +14,20 @@ public class Compress {
         return compress(s.toCharArray(), writeOne);
     }
 
-    public static String compress(char[] A, boolean writeOne) {
+    public static String compress(char[] a, boolean writeOne) {
         int write = 0, singleCharCount = 0;
-        for (int read = 0; read < A.length;) {
+        for (int read = 0; read < a.length;) {
             int start = read;
-            while (read < A.length && A[start] == A[read]) read++;
-            A[write++] = A[start];
+            while (read < a.length && a[start] == a[read]) read++;
+            a[write++] = a[start];
             if (read - start == 1) singleCharCount++;
-            else write = writeCount(A, write, read - start);
+            else write = writeCount(a, write, read - start);
         }
 
         if (!writeOne) singleCharCount = 0;
-        if (singleCharCount == 0) return new String(A, 0, write);
+        if (singleCharCount == 0) return new String(a, 0, write);
         int newLen = write + singleCharCount;
-        return round2(A, write - 1, newLen, newLen > A.length ? new char[newLen] : A);
+        return round2(a, write - 1, newLen, newLen > a.length ? new char[newLen] : a);
     }
 
     private static String round2(char[] src, int read, int newLen, char[] dest) {
