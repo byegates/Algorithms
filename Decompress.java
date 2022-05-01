@@ -32,18 +32,16 @@ public class Decompress {
                     newLen++;
                 }
             } else {
-                int curCharCount = 0;
+                int count = 0;
                 while (read < A.length && Character.isDigit(A[read]))
-                    curCharCount = curCharCount * 10 + (A[read++] - '0');
-                newLen += curCharCount;
-                if (curCharCount == 0) continue;
+                    count = count * 10 + (A[read++] - '0');
+                newLen += count;
+                if (count == 0) continue;
 
-                if (read - write >= curCharCount)
-                    for (; curCharCount > 0; curCharCount--)
-                        A[write++] = A[curCharIdx];
-                else
-                    while (curCharIdx < read)
-                        A[write++] = A[curCharIdx++];
+                if (read - write >= count) // we have enough room to decompress now, so do it
+                    for (; count > 0; count--) A[write++] = A[curCharIdx];
+                else // no enough room to decompress now, just copy everything
+                    while (curCharIdx < read) A[write++] = A[curCharIdx++];
             }
         }
 
@@ -52,14 +50,13 @@ public class Decompress {
     }
 
     private static String round2(char[] src, int read, int newLen, char[] dest) {
-        int write = newLen - 1;
-        while (read >= 0) {
+        for (int write = newLen - 1; read >= 0;) {
             if (!Character.isDigit(src[read])) dest[write--] = src[read--];
             else { // reverse read all digits (count)
-                int curCharCount = 0, power = 0;
-                while (read >= 0 && Character.isDigit(src[read])) // a123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
-                    curCharCount += (src[read--] - '0') * (int) (Math.pow(10, power++)); // read is 1 byte before digits on the right char
-                for (;curCharCount > 0; curCharCount--) dest[write--] = src[read];
+                int count = 0;
+                for (int power = 0; read >= 0 && Character.isDigit(src[read]);) // a123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
+                    count += (src[read--] - '0') * (int) (Math.pow(10, power++)); // read is 1 byte before digits on the right char
+                for (;count > 0; count--) dest[write--] = src[read];
                 read--; // after written cur char, go read the next
             }
         }
