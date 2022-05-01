@@ -15,14 +15,13 @@ public class Compress {
     }
 
     public static String compress(char[] A, boolean writeOne) {
-        int singleCharCount = 0;
-        int read = 0, write = 0;
-        while (read < A.length) {
+        int write = 0, singleCharCount = 0;
+        for (int read = 0; read < A.length;) {
             int start = read;
             while (read < A.length && A[start] == A[read]) read++;
             A[write++] = A[start];
             if (read - start == 1) singleCharCount++;
-            else write = copyDigits(A, write, read - start);
+            else write = writeCount(A, write, read - start);
         }
 
         if (!writeOne) singleCharCount = 0;
@@ -41,12 +40,12 @@ public class Compress {
         return new String(dest, 0, newLen);
     }
 
-    private static int copyDigits(char[] A, int write, int count) {
-        int digitsLength = 0;
-        for (int i = count; i > 0; i /= 10) digitsLength++;
-        write += digitsLength;
+    private static int writeCount(char[] A, int write, int count) {
+        int len = 0;
+        for (int i = count; i > 0; i /= 10) len++; // count the len for us to write count
+        write += len;
         for (int i = count; i > 0; i /= 10) A[--write] = (char) (i % 10 + '0');
-        return write + digitsLength;
+        return write + len;
     }
 
     public static void main(String[] args) {
