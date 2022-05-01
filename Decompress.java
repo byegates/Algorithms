@@ -70,8 +70,6 @@ public class Decompress {
         System.out.println(decompress("a1c0b2c4"));
         System.out.println(decompress("a13b21c0d2e11f13"));
         System.out.println(decompress("e4d3c2b21a0"));
-
-        System.out.println(decompress("ap2lec3n"));
         System.out.println(decompress("ap2lec3n"));
     }
 }
