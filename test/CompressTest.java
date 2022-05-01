@@ -25,27 +25,27 @@ class CompressTest {
     String decompRes7 = "eeeedddccbbbbbbbbbbbbbbbbbbbbb";
     
     @Test
-    void tc1() {assertEquals(tc1, Decompress.decompress(Compress.compress(tc1, true), true));}
+    void tc1() {assertEquals(tc1, Decompress.decompress(Compress.compress(tc1, true)));}
     @Test
-    void tc2() {assertEquals(tc2, Decompress.decompress(Compress.compress(tc2, true), true));}
+    void tc2() {assertEquals(tc2, Decompress.decompress(Compress.compress(tc2, true)));}
     @Test
-    void tc3() {assertEquals(tc3, Decompress.decompress(Compress.compress(tc3, true), true));}
+    void tc3() {assertEquals(tc3, Decompress.decompress(Compress.compress(tc3, true)));}
     @Test
-    void tc4() {assertEquals(tc4, Decompress.decompress(Compress.compress(tc4, true), true));}
+    void tc4() {assertEquals(tc4, Decompress.decompress(Compress.compress(tc4, true)));}
     @Test
-    void tc5() {assertEquals(tc5, Decompress.decompress(Compress.compress(tc5, true), true));}
+    void tc5() {assertEquals(tc5, Decompress.decompress(Compress.compress(tc5, true)));}
     @Test
-    void decomp1() {assertEquals(decompRes1, Decompress.decompress(decomp1, true));}
+    void decomp1() {assertEquals(decompRes1, Decompress.decompress(decomp1));}
     @Test
-    void decomp2() {assertEquals(decompRes2, Decompress.decompress(decomp2, true));}
+    void decomp2() {assertEquals(decompRes2, Decompress.decompress(decomp2));}
     @Test
-    void decomp3() {assertEquals(decompRes3, Decompress.decompress(decomp3, true));}
+    void decomp3() {assertEquals(decompRes3, Decompress.decompress(decomp3));}
     @Test
-    void decomp4() {assertEquals(decompRes4, Decompress.decompress(decomp4, true));}
+    void decomp4() {assertEquals(decompRes4, Decompress.decompress(decomp4));}
     @Test
-    void decomp5() {assertEquals(decompRes5, Decompress.decompress(decomp5, true));}
+    void decomp5() {assertEquals(decompRes5, Decompress.decompress(decomp5));}
     @Test
-    void decomp6() {assertEquals(decompRes6, Decompress.decompress(decomp6, true));}
+    void decomp6() {assertEquals(decompRes6, Decompress.decompress(decomp6));}
     @Test
-    void decomp7() {assertEquals(decompRes7, Decompress.decompress(decomp7, true));}
+    void decomp7() {assertEquals(decompRes7, Decompress.decompress(decomp7));}
 }

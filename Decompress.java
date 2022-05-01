@@ -18,16 +18,16 @@
 */
 
 public class Decompress {
-    public static String decompress(String s, boolean readOne) {
-        return decompress(s.toCharArray(), readOne);
+    public static String decompress(String s) {
+        return decompress(s.toCharArray());
     }
 
-    public static String decompress(char[] A, boolean readOne) { // // TC: O(n), SC: O(1)
+    public static String decompress(char[] A) { // // TC: O(n), SC: O(1)
         int newLen = 0, write = 0;
         for (int curCharIdx = 0, read = 0;read < A.length;) {
             if (!Character.isDigit(A[read])) {
                 curCharIdx = read++;
-                if (!readOne && (read == A.length || !Character.isDigit(A[read]))) {
+                if (read == A.length || !Character.isDigit(A[read])) {
                     A[write++] = A[curCharIdx];
                     newLen++;
                 }
@@ -57,9 +57,9 @@ public class Decompress {
             if (!Character.isDigit(src[read])) dest[write--] = src[read--];
             else { // reverse read all digits (count)
                 int curCharCount = 0, power = 0;
-                while (read >= 0 && Character.isDigit(src[read]))
+                while (read >= 0 && Character.isDigit(src[read])) // a123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
                     curCharCount += (src[read--] - '0') * (int) (Math.pow(10, power++)); // read is 1 byte before digits on the right char
-                while (curCharCount-- > 0) dest[write--] = src[read];
+                for (;curCharCount > 0; curCharCount--) dest[write--] = src[read];
                 read--; // after written cur char, go read the next
             }
         }
@@ -67,11 +67,11 @@ public class Decompress {
     }
 
     public static void main(String[] args) {
-        System.out.println(decompress("a1c0b2c4", true));
-        System.out.println(decompress("a13b21c0d2e11f13", true));
-        System.out.println(decompress("e4d3c2b21a0", true));
+        System.out.println(decompress("a1c0b2c4"));
+        System.out.println(decompress("a13b21c0d2e11f13"));
+        System.out.println(decompress("e4d3c2b21a0"));
 
-        System.out.println(decompress("ap2lec3n", true));
-        System.out.println(decompress("ap2lec3n", false));
+        System.out.println(decompress("ap2lec3n"));
+        System.out.println(decompress("ap2lec3n"));
     }
 }
