@@ -73,7 +73,7 @@ public class KthSmallestWithOnly3_5_7AsFactors {
         Helper cur = new Helper(3 * 5 * 7L, 1, 1, 1);
         pq.offer(cur);
         set.add(cur);
-        while (k-- > 1 && !pq.isEmpty()) { // each round we poll 1 and add max 3
+        for (;k > 1 && !pq.isEmpty(); k--) { // each round we poll 1 and add max 3
             cur = pq.poll();
             System.out.println(cur);
             for (int val : new int[]{3, 5, 7})
@@ -89,19 +89,18 @@ public class KthSmallestWithOnly3_5_7AsFactors {
 
 
     public long kth(int k) {
-        PriorityQueue<Long> pq2 = new PriorityQueue<>(k);
-        PriorityQueue<Helper> pq = new PriorityQueue<>(k);
+        PriorityQueue<Long> pq = new PriorityQueue<>(k);
         Set<Long> set = new HashSet<>();
         long cur = 3 * 5 * 7;
-        pq2.offer(cur);
+        pq.offer(cur);
         set.add(cur);
-        while (k-- > 1 && !pq2.isEmpty()) { // each round we poll 1 and add max 3
-            cur = pq2.poll();
+        for (;k > 1 && !pq.isEmpty(); k--) { // each round we poll 1 and add max 3
+            cur = pq.poll();
             for (int val : new int[]{3, 5, 7})
-                enQ(pq2, set, val * cur);
+                enQ(pq, set, val * cur);
         }
 
-        return pq2.isEmpty() ? cur : pq2.peek();
+        return pq.isEmpty() ? cur : pq.peek();
     }
 
     private void enQ(PriorityQueue<Long> pq, Set<Long> set, long val) {
