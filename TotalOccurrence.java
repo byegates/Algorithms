@@ -8,7 +8,7 @@
     What if A is null? We should return 0 in this case.
  */
 public class TotalOccurrence {
-    // Solution 1 starts here
+    // Solution 2 starts here
     // TC: O(log(n) + count)
     // SC: O(1)
     public int totalOccurrence2(int[] a, int T) {
@@ -26,9 +26,9 @@ public class TotalOccurrence {
         for (r = m + 1; r < a.length && a[r] == T; r++) count++;
         return count;
     }
-    // Solution 1 ends here
+    // Solution 2 ends here
 
-    // Solution 2 starts here
+    // Solution 1 starts here
     // TC: O(2*log(n))
     // SC: O(1)
     public int totalOccurrence(int[] a, int T) {
@@ -57,7 +57,7 @@ public class TotalOccurrence {
         }
         return a[r] == T ? r : a[l] == T ? l : -1;
     }
-    // Solution 2 ends here
+    // Solution 1 ends here
     public static void main(String[] args) {
         TotalOccurrence to = new TotalOccurrence();
         System.out.println(to.totalOccurrence2(new int[]{1, 2, 2, 2, 4, 5, 8, 13, 13}, 13) == 2);
