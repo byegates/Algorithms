@@ -21,7 +21,7 @@ public class BinaryTreeDiameter {
         return max;
     }
 
-    private int dfs(TreeNode root) {
+    private int dfs(TreeNode root) { // TC: O(n), SC: O(height)
         if (root == null) return 0;
         int left = dfs(root.left) + 1;
         int right = dfs(root.right) + 1;
