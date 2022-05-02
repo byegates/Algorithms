@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -73,13 +75,34 @@ enum LambdaComparator implements Comparator<Student> {
 enum Grade0 {Fail, Pass}
 enum Grade1 {A, B, C, D, E, F}
 
-public class Student {
+public class Student implements Comparable<Student> {
     String name;
     int id;
     int math;
     char physics;
     Grade0 English;
     Grade1 CS;
+
+    static String[] Names = new String[]{"Sunny", "Pete", "Jason", "Lucy", "Kate", "Anna", "Nate", "John", "Sun"};
+    static int[] IDs = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    static int[] Math = new int[] {90, 80, 75, 60, 83, 95, 77, 93, 88};
+    static Grade0[] EN = new Grade0[] {Grade0.Pass, Grade0.Pass, Grade0.Fail, Grade0.Fail, Grade0.Pass, Grade0.Fail, Grade0.Fail, Grade0.Pass, Grade0.Fail};
+    static char[] Physics = new char[] {'A', 'B', 'C', 'D', 'A', 'B', 'E', 'A', 'C'};
+    static Grade1[] cs = new Grade1[] {Grade1.A, Grade1.B, Grade1.F, Grade1.D, Grade1.E, Grade1.D, Grade1.A, Grade1.C, Grade1.B};
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && math == student.math && physics == student.physics && name.equals(student.name) && English == student.English && CS == student.CS;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id, math, physics, English, CS);
+    }
 
     Student(String name, int id, int math, char physics, Grade0 English, Grade1 CS) {
         this.name = name;
@@ -94,21 +117,22 @@ public class Student {
         return String.format("{%5s, ID: %05d, Math: %d, English: %s, Physics: %s, CS: %s}", name, id, math, English, physics, CS);
     }
 
-    public static List<Student> createSampleStudents() {
+    public static List<Student> createStudentsList() {
         List<Student> list = new ArrayList<>();
-        String[] Names = new String[]{"Sunny", "Pete", "Jason", "Lucy", "Kate", "Anna", "Nate", "John", "Sun"};
-        int[] IDs = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int[] Math = new int[] {90, 80, 75, 60, 83, 95, 77, 93, 88};
-        Grade0[] English = new Grade0[] {Grade0.Pass, Grade0.Pass, Grade0.Fail, Grade0.Fail, Grade0.Pass, Grade0.Fail, Grade0.Fail, Grade0.Pass, Grade0.Fail};
-        char[] Physics = new char[] {'A', 'B', 'C', 'D', 'A', 'B', 'E', 'A', 'C'};
-        Grade1[] CS = new Grade1[] {Grade1.A, Grade1.B, Grade1.F, Grade1.D, Grade1.E, Grade1.D, Grade1.A, Grade1.C, Grade1.B};
         for (int i = 0; i < Names.length; i++)
-            list.add(new Student(Names[i], IDs[i], Math[i], Physics[i], English[i], CS[i]));
+            list.add(new Student(Names[i], IDs[i], Math[i], Physics[i], EN[i], cs[i]));
         return list;
     }
 
+    public static Student[] createStudentsArray() {
+        Student[] students = new Student[Names.length];
+        for (int i = 0; i < Names.length; i++)
+            students[i] = new Student(Names[i], IDs[i], Math[i], Physics[i], EN[i], cs[i]);
+        return students;
+    }
+
     public static void main(String[] args) {
-        List<Student> students = createSampleStudents();
+        List<Student> students = createStudentsList();
         rankByField("NAME", students, true);
         // LambdaComparator.MATH (and everything else we created of course) is an object of both enum and comparator
         // you can call both ordinal method (from enum) and compare method (from comparator) using the object we created
@@ -157,5 +181,10 @@ public class Student {
             System.out.println(pq.poll());
 
         System.out.println();
+    }
+
+    @Override
+    public int compareTo(@NotNull Student o) {
+        return this.name.compareTo(o.name);
     }
 }
