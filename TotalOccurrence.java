@@ -33,12 +33,12 @@ public class TotalOccurrence {
     // SC: O(1)
     public int totalOccurrence2(int[] a, int T) {
         if (a == null || a.length == 0) return 0;
-        int l = largestSmallerOrEqual(a, T);
+        int l = firstOccur(a, T);
         if (l == -1) return 0; // T do not exist
-        return SmallestLargerOrEqual(a, T) - l + 1;
+        return lastOccur(a, T) - l + 1;
     }
 
-    private int largestSmallerOrEqual(int[] a, int T) {
+    private int firstOccur(int[] a, int T) {
         int l = 0, r = a.length - 1;
         while (l < r - 1) {
             int m = l + (r - l) / 2;
@@ -48,7 +48,7 @@ public class TotalOccurrence {
         return a[l] == T ? l : a[r] == T ? r : -1;
     }
 
-    private int SmallestLargerOrEqual(int[] a, int T) {
+    private int lastOccur(int[] a, int T) {
         int l = 0, r = a.length - 1;
         while (l < r - 1) {
             int m = l + (r - l) / 2;
