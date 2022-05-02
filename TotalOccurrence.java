@@ -11,7 +11,7 @@ public class TotalOccurrence {
     // Solution 1 starts here
     // TC: O(log(n) + count)
     // SC: O(1)
-    public int totalOccurrence(int[] a, int T) {
+    public int totalOccurrence2(int[] a, int T) {
         if (a == null || a.length == 0) return 0;
         int l = 0, r = a.length - 1, m = 0;
         while (l <= r) {
@@ -31,7 +31,7 @@ public class TotalOccurrence {
     // Solution 2 starts here
     // TC: O(2*log(n))
     // SC: O(1)
-    public int totalOccurrence2(int[] a, int T) {
+    public int totalOccurrence(int[] a, int T) {
         if (a == null || a.length == 0) return 0;
         int l = firstOccur(a, T);
         if (l == -1) return 0; // T do not exist
@@ -60,7 +60,7 @@ public class TotalOccurrence {
     // Solution 2 ends here
     public static void main(String[] args) {
         TotalOccurrence to = new TotalOccurrence();
-        System.out.println(to.totalOccurrence(new int[]{1, 2, 2, 2, 4, 5, 8, 13, 13}, 13) == 2);
         System.out.println(to.totalOccurrence2(new int[]{1, 2, 2, 2, 4, 5, 8, 13, 13}, 13) == 2);
+        System.out.println(to.totalOccurrence(new int[]{1, 2, 2, 2, 4, 5, 8, 13, 13}, 13) == 2);
     }
 }
