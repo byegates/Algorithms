@@ -97,7 +97,7 @@ public class ReconstructBinaryTreeWithLevelorderAndInorder {
 
     public static void main(String[] args) {
         ReconstructBinaryTreeWithLevelorderAndInorder rli = new ReconstructBinaryTreeWithLevelorderAndInorder();
-        int[] in1 = new int[]{1,6,5,7,4,10,9}, lvl1 = new int[]{4,1,10,5,9,6,7};
+        int[] in1 = new int[]{1, 6, 5, 7, 4, 10, 9}, lvl1 = new int[]{4, 1, 10, 5, 9, 6, 7};
         System.out.println(rli.reconstruct(in1, lvl1)); // [4, 1, 10, null, 5, null, 9, 6, 7]
         System.out.println(rli.reconstruct2(in1, lvl1)); // [4, 1, 10, null, 5, null, 9, 6, 7]
 
