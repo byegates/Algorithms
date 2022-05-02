@@ -60,9 +60,66 @@ public class SearchInShiftedSortedArray {
         return l;
     }
 
+    /*
+    23. Shift Position (find the index of the smallest element's index)
+    Given an integer array A, A is sorted in ascending order first then shifted by an arbitrary number of positions,
+    For Example, A = {3, 4, 5, 1, 2} (shifted left by 2 positions). Find the index of the smallest number.
+    Assumptions
+    There are no duplicate elements in the array
+    Examples
+    A = {3, 4, 5, 1, 2}, return 3
+    A = {1, 2, 3, 4, 5}, return 0
+    Corner Cases
+    What if A is null or A is of zero length? We should return -1 in this case.
+     */
+    public int smallest(int[] a) {
+        if (a == null || a.length == 0) return -1;
+        int l = 0, r = a.length - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (a[m] > a[r]) l = m + 1;
+            else r = m;
+        }
+        return l;
+    }
+    /*
+    21. Search In Shifted Sorted Array I
+    Given a target integer T and an integer array A, A is sorted in ascending order first,
+    then shifted by an arbitrary number of positions.
+    For Example, A = {3, 4, 5, 1, 2} (shifted left by 2 positions).
+    Find the index i such that A[i] == T or return -1 if there is no such index.
+    Assumptions
+    There are no duplicate elements in the array.
+    Examples
+    A = {3, 4, 5, 1, 2}, T = 4, return 1
+    A = {1, 2, 3, 4, 5}, T = 4, return 3
+    A = {3, 5, 6, 1, 2}, T = 4, return -1
+    Corner Cases
+    What if A is null or A is of zero length? We should return -1 in this case.
+     */
+    public int search1(int[] a, int t) {
+        if (a == null || a.length == 0) return -1;
+        int l = 0, r = a.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (a[m] == t) return m;
+            if (a[m] > a[r])
+                if (a[m] > t && t >= a[l]) r = m - 1;
+                else l = m + 1;
+            else
+            if (a[m] < t && t <= a[r]) l = m + 1;
+            else r = m - 1;
+
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         SearchInShiftedSortedArray sol = new SearchInShiftedSortedArray();
         System.out.println(sol.search(new int[]{3, 1, 1}, 1));
         System.out.println(sol.search(new int[]{1, 1, 2, 2, -1, -1, 0, 0, 1, 1}, 0));
+        System.out.println(sol.search(new int[]{3, 4, 5, 1, 2}, 4));
+        System.out.println(sol.search(new int[]{1, 2, 3, 4, 5}, 3));
+        System.out.println(sol.search(new int[]{3, 5, 6, 1, 2}, 4));
     }
 }
