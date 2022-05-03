@@ -8,7 +8,7 @@
     A = {1, 4}, B = {3, 2}, median is 2.5
  */
 public class MedianOfTwoArrays {
-    public double median(int[] a, int[] b) { // TC: O(n + m) (worst: O((n + m)^2)), SC: O(log(n + m))
+    public double median(int[] a, int[] b) { // TC: O(n + m) (worst: O((n + m)^2)), SC: O(log(n + m)) (worst: O(n+m))
         int len1 = a.length, len2 = b.length, len = len1 + len2;
         int medianLen = len / 2;
         quickSelect(a, b, 0, len - 1, medianLen); // if len = 7, medianLen will be 3 which is the idx of the 4th value
