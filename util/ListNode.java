@@ -25,6 +25,8 @@ public class ListNode {
     public ListNode reorder() {return reorder(this);}
     public ListNode reverse() {return reverse(this);}
     public ListNode reverse2() {return reverse2(this);}
+    public boolean hasCycle() {return hasCycle(this);}
+
     public static String toString(ListNode head) {return Arrays.toString(head.toArray());}
 
     public static ListNode reverse(ListNode head) {// Lai34
@@ -195,7 +197,21 @@ public class ListNode {
         return dummy.next;
     }
 
+    public static boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) return false;
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
+        int[] lai36 = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        ListNode hasCycle = ListNode.fromArray(lai36);
+        System.out.println("HasCycle: " + hasCycle.hasCycle());
         System.out.println("ReverseInPairs :");
         int[] Lai35a = new int[]{1,2,3,4,5,6,7,8,9};
         System.out.println(Arrays.toString(Lai35a));
