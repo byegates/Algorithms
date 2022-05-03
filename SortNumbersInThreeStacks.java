@@ -13,7 +13,7 @@
 import java.util.LinkedList;
 
 public class SortNumbersInThreeStacks {
-    public void sort(LinkedList<Integer> s1) { // 2.5*nlogn ==> O(nlogn)
+    public void sort(LinkedList<Integer> s1) { // 5*nlogn ==> O(nlogn)
         LinkedList<Integer> s2 = new LinkedList<>();
         LinkedList<Integer> s3 = new LinkedList<>();
         sort(s1, s2, s3, s1.size()); // sort top s1.size() values in s1 in ascending order from top to bottom
