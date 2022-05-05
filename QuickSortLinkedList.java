@@ -6,7 +6,7 @@ public class QuickSortLinkedList {
         if (head == null) return null;
         if (head.next == null) return tail = head;
 
-        ListNode small = new ListNode(0);
+        ListNode small = new ListNode(0); // will use small as dummy head of all result
         ListNode large = new ListNode(0);
         partition(head, small, large); // use head as pivot
         head.next = null; // must cut it
@@ -33,7 +33,7 @@ public class QuickSortLinkedList {
             cur = cur.next;
         }
 
-        large.next = small.next = null;
+        small.next = large.next = null;
     }
 
     public static void main(String[] args) {
