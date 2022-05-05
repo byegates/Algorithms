@@ -26,8 +26,11 @@ public class ListNode {
     public ListNode reverse() {return reverse(this);}
     public ListNode reverse2() {return reverse2(this);}
     public boolean hasCycle() {return hasCycle(this);}
+    public ListNode cycleNode() {return cycleNode(this);}
 
-    public static String toString(ListNode head) {return Arrays.toString(head.toArray());}
+    public static String toString(ListNode head) {
+        return Arrays.toString(head.toArray());
+    }
 
     public static ListNode reverse(ListNode head) {// Lai34
         ListNode prev = null;
@@ -70,11 +73,19 @@ public class ListNode {
     }
 
     public static int[] toArray(ListNode head) {
-        if (head == null) return new int[0];
         ArrayList<Integer> res = new ArrayList<>();
-        while (head != null) {
+        ListNode cycleNode = cycleNode(head); // will be null if no cycle node
+        while (head != cycleNode) {
             res.add(head.value);
             head = head.next;
+        }
+        if (cycleNode != null) {
+            do {
+                res.add(head.value);
+                head = head.next;
+            } while (head != cycleNode);
+            res.add(Integer.MIN_VALUE);
+            res.add(cycleNode.value);
         }
         return res.stream().mapToInt(i -> i).toArray();
     }
@@ -208,10 +219,29 @@ public class ListNode {
         return false;
     }
 
+    public static ListNode cycleNode(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) break;
+        }
+        if (fast == null || fast.next == null) return null;
+        while (head != slow) {
+            head = head.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
     public static void main(String[] args) {
-        int[] lai36 = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-        ListNode hasCycle = ListNode.fromArray(lai36);
-        System.out.println("HasCycle: " + hasCycle.hasCycle());
+        int[] lai36 = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        ListNode root36 = ListNode.fromArray(lai36);
+        System.out.println("HasCycle: " + root36.hasCycle());
+        root36.next.next.next.next.next.next.next.next.next = root36.next.next.next;
+        System.out.println("HasCycle: " + root36.hasCycle());
+        System.out.printf("Cycle Node: %s\n", root36.cycleNode());
+        System.out.println(Arrays.toString(root36.toArray()));
         System.out.println("ReverseInPairs :");
         int[] Lai35a = new int[]{1,2,3,4,5,6,7,8,9};
         System.out.println(Arrays.toString(Lai35a));
