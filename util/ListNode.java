@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ListNode {
     public int value;
@@ -17,7 +18,7 @@ public class ListNode {
 
     public int size() {return size(this);}
     public  String toString() {return toString(this);}
-    public int[] toArray() {return toArray(this);}
+    public List<Integer> toList() {return toList(this);}
     public ListNode get(int idx) {return get(this, idx);}
     public ListNode appendHead(int value) {return appendHead(this, value);}
     public ListNode appendTail(int value) {return appendTail(this, value);}
@@ -29,7 +30,7 @@ public class ListNode {
     public ListNode cycleNode() {return cycleNode(this);}
 
     public static String toString(ListNode head) {
-        return Arrays.toString(head.toArray());
+        return head.toList().toString();
     }
 
     public static ListNode reverse(ListNode head) {// Lai34
@@ -72,7 +73,7 @@ public class ListNode {
         return dummy.next;
     }
 
-    public static int[] toArray(ListNode head) {
+    public static List<Integer> toList(ListNode head) {
         ArrayList<Integer> res = new ArrayList<>();
         ListNode cycleNode = cycleNode(head); // will be null if no cycle node
         while (head != cycleNode) {
@@ -84,10 +85,10 @@ public class ListNode {
                 res.add(head.value);
                 head = head.next;
             } while (head != cycleNode);
-            res.add(Integer.MIN_VALUE);
+            res.add(null);
             res.add(cycleNode.value);
         }
-        return res.stream().mapToInt(i -> i).toArray();
+        return res;
     }
 
     public static int size(ListNode head) {
@@ -241,7 +242,7 @@ public class ListNode {
         root36.next.next.next.next.next.next.next.next.next = root36.next.next.next;
         System.out.println("HasCycle: " + root36.hasCycle());
         System.out.printf("Cycle Node: %s\n", root36.cycleNode());
-        System.out.println(Arrays.toString(root36.toArray()));
+        System.out.println(root36.toList());
         System.out.println("ReverseInPairs :");
         int[] Lai35a = new int[]{1,2,3,4,5,6,7,8,9};
         System.out.println(Arrays.toString(Lai35a));
@@ -261,11 +262,11 @@ public class ListNode {
         System.out.println(ListNode.middleNode(h2));
 
         System.out.println("Reorder Test :");
-        int[] ans = new int[]{1, 9, 2, 8, 3, 7, 4, 6, 5};
+        List<Integer> ans = Arrays.asList(1, 9, 2, 8, 3, 7, 4, 6, 5);
         System.out.println(Arrays.toString(Lai35a));
         ListNode Lai41 = ListNode.fromArray(Lai35a);
         System.out.println(Lai41.reorder());
-        System.out.println(Arrays.equals(Lai41.toArray(), ans));
+        System.out.println(Lai41.toList().equals(ans));
     }
 
 }
