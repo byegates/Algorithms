@@ -36,16 +36,16 @@ public class LRUCache<K, V> {
 
     public void set(K key, V value) {
         Node<K, V> node = map.get(key);
-        if (node == null && !isFull()) insert(new Node<>(key, value));
+        if (node == null && !isFull()) append(new Node<>(key, value));
         else {
             if (node == null) node = tail;
-            insert(remove(node).update(key, value));
+            append(remove(node).update(key, value));
         }
     }
 
     public V get(K key) {
         Node<K, V> node = map.get(key);
-        return node == null ? null : insert(remove(node)).value;
+        return node == null ? null : append(remove(node)).value;
     }
 
     private Node<K, V> remove(Node<K, V> node) {
@@ -58,7 +58,7 @@ public class LRUCache<K, V> {
         return node;
     }
 
-    private Node<K, V> insert(Node<K, V> node) {
+    private Node<K, V> append(Node<K, V> node) {
         map.put(node.key, node);
         if (head == null) head = tail = node;
         else {
