@@ -2,21 +2,21 @@ import util.ListNode;
 
 public class SelectionSortLinkedList {
     // Solution 1
-    public static ListNode selectionSort(ListNode head) { // Lai28
+    public static ListNode selectionSort(ListNode head) { // Lai28, TCO(n^2), SC: O(1)
         if (head == null || head.next == null) return head;
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode result = new ListNode(0);
+        ListNode toSort = new ListNode(0);
+        toSort.next = head;
+        ListNode sorted = new ListNode(0);
 
-        for (ListNode cur = result; dummy.next != null; cur = cur.next) { // cur is the iteration node of result LinkedList
-            ListNode minPre = dummy; // default first Node as min / minPre
+        for (ListNode cur = sorted; toSort.next != null; cur = cur.next) { // cur is the iteration node of result LinkedList
+            ListNode minPre = toSort; // default first Node as min / minPre
             for (head = minPre.next; head.next != null; head = head.next) // find pre Node for min in current LinkedList
                 if (head.next.value < minPre.next.value) minPre = head;
             cur.next = minPre.next; // insert min to new LinkedList
             minPre.next = minPre.next.next; // delete min from original LinkedList
         }
 
-        return result.next;
+        return sorted.next;
     }
     // Solution 1 ends here
     // Solution 2 "in-place"? TC: O(n^2), SC: O(1)
