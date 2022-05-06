@@ -19,7 +19,27 @@ Left of Center: 3, left vs right sum: 17 vs 13, Array: [1, 8, 3, 5, 9, 4]
 Left of Center: 3, left vs right sum: 17 vs 13, Array: [1, 8, 3, 5, 9, 4]
 Left of Center: 0, left vs right sum:  8 vs 13, Array: [8, 7, 1, 3, 2, 0]
 Left of Center: 0, left vs right sum:  8 vs 13, Array: [8, 7, 1, 3, 2, 0]
- */
+Left of Center: 4, left vs right sum: 22 vs 17, Array: [5, 1, 5, 3, 8, 4, 5, 1, 7]
+Left of Center: 4, left vs right sum: 22 vs 17, Array: [5, 1, 5, 3, 8, 4, 5, 1, 7]
+Left of Center: 5, left vs right sum: 24 vs 23, Array: [4, 9, 1, 7, 0, 3, 7, 6, 1, 9]
+Left of Center: 5, left vs right sum: 24 vs 23, Array: [4, 9, 1, 7, 0, 3, 7, 6, 1, 9]
+Left of Center: 1, left vs right sum:  9 vs  9, Array: [8, 1, 9]
+Left of Center: 1, left vs right sum:  9 vs  9, Array: [8, 1, 9]
+Left of Center: 2, left vs right sum: 19 vs 18, Array: [9, 7, 3, 4, 6, 4, 4]
+Left of Center: 2, left vs right sum: 19 vs 18, Array: [9, 7, 3, 4, 6, 4, 4]
+Left of Center: 0, left vs right sum:  8 vs 10, Array: [8, 5, 4, 1, 0]
+Left of Center: 0, left vs right sum:  8 vs 10, Array: [8, 5, 4, 1, 0]
+Left of Center: 3, left vs right sum: 15 vs 16, Array: [1, 5, 8, 1, 9, 0, 0, 2, 0, 5]
+Left of Center: 3, left vs right sum: 15 vs 16, Array: [1, 5, 8, 1, 9, 0, 0, 2, 0, 5]
+Left of Center: 2, left vs right sum: 10 vs 10, Array: [0, 8, 2, 6, 4]
+Left of Center: 2, left vs right sum: 10 vs 10, Array: [0, 8, 2, 6, 4]
+Left of Center: 1, left vs right sum: 11 vs 11, Array: [8, 3, 3, 8, 0]
+Left of Center: 1, left vs right sum: 11 vs 11, Array: [8, 3, 3, 8, 0]
+Left of Center: 3, left vs right sum: 18 vs 15, Array: [3, 0, 6, 9, 1, 2, 9, 3]
+Left of Center: 3, left vs right sum: 18 vs 15, Array: [3, 0, 6, 9, 1, 2, 9, 3]
+Left of Center: 4, left vs right sum: 21 vs 19, Array: [3, 4, 2, 6, 6, 9, 6, 4, 0]
+Left of Center: 4, left vs right sum: 21 vs 19, Array: [3, 4, 2, 6, 6, 9, 6, 4, 0]
+*/
 
 import java.util.Arrays;
 
@@ -71,7 +91,7 @@ public class CenterOfGravity {
 
     // produce some random tests
     private static void test(CenterOfGravity sol) {
-        int len = (int) (Math.random() * 5) + 3;
+        int len = (int) (Math.random() * 8) + 3;
         int[] a = new int[len];
         for (int i = 0; i < len; i++)
             a[i] = (int) (Math.random() * 10);
