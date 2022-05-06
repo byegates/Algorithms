@@ -12,9 +12,8 @@ public class RotateListbyKplaces {
         }
 
         cur.next = head;
-        k %= len;
 
-        for (int i = 0; i < len - k; i++) cur = cur.next;
+        for (int i = 0; i < len - (k %= len); i++) cur = cur.next;
 
         head = cur.next;
         cur.next = null;
@@ -40,9 +39,8 @@ public class RotateListbyKplaces {
         if (cur.next != null) return faster(head, cur);
 
         cur.next = head;
-        k %= len;
 
-        for (int i = 0; i < len - k; i++) cur = cur.next;
+        for (int i = 0; i < len - (k %= len); i++) cur = cur.next;
 
         head = cur.next;
         cur.next = null;
