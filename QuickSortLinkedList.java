@@ -15,23 +15,23 @@ public class QuickSortLinkedList {
             small.next = quickSort(small.next);
             tail.next = head;
         } else small.next = head;
-        (tail = head).next = quickSort(large.next);
+        tail = head;
+        tail.next = quickSort(large.next);
         return small.next;
     }
 
     private void partition(ListNode head, ListNode small, ListNode large) { // Notice small & large, java pass by value
-        ListNode cur = head;
-        while (cur.next != null) {
-            if (cur.next.value < head.value) {
-                small.next = cur.next;
+        ListNode cur = head.next;
+        while (cur != null) {
+            if (cur.value < head.value) {
+                small.next = cur;
                 small = small.next;
             } else {
-                large.next = cur.next;
+                large.next = cur;
                 large = large.next;
             }
             cur = cur.next;
         }
-
         small.next = large.next = null;
     }
 
