@@ -15,8 +15,7 @@ public class QuickSortLinkedList {
             small.next = quickSort(small.next);
             tail.next = head;
         } else small.next = head;
-        tail = head;
-        head.next = quickSort(large.next);
+        (tail = head).next = quickSort(large.next);
         return small.next;
     }
 
