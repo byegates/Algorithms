@@ -24,19 +24,21 @@ public class SearchInShiftedSortedArray {
             if (A[m] == target) { // with a[0] == target returned earlier, we can do binary search for the 1st occurrence now
                 return firstOccur(A, target, 1, m);
             }
-            if (A[m] < A[r] || A[m] < A[l]) { // mid is in the left ascending segment
+            if (A[m] < A[r] || A[m] < A[l]) { // mid is in the right ascending segment
                 if (target > A[m] && target <= A[r]) {
                     l = m + 1;
                 } else {
                     r = m - 1;
                 }
-            } else if (A[m] > A[l] || A[m] > A[r]) { // mid is in the right ascending segment
+            } else if (A[m] > A[l] || A[m] > A[r]) { // mid is in the left ascending segment
                 if (target < A[m] && target >= A[l]) {
                     r = m - 1;
                 } else {
                     l = m + 1;
                 }
-            } else { // mid-value is equal to either left or right boundary, we can't decide which side is mid in, we can only decrease 1 linear-ly
+            } else { // a[m] == a[l] == a[r], we can't decide which side is mid in, we can only decrease 1 linear-ly
+                // a[m] >= a[r] && a[m] >= a[l]
+                // a[m] <= a[r] && a[m] <= a[l]
                 r--;
             }
         }
@@ -107,8 +109,8 @@ public class SearchInShiftedSortedArray {
                 if (a[m] > t && t >= a[l]) r = m - 1;
                 else l = m + 1;
             else
-            if (a[m] < t && t <= a[r]) l = m + 1;
-            else r = m - 1;
+                if (a[m] < t && t <= a[r]) l = m + 1;
+                else r = m - 1;
 
         }
         return -1;
@@ -116,7 +118,9 @@ public class SearchInShiftedSortedArray {
 
     public static void main(String[] args) {
         SearchInShiftedSortedArray sol = new SearchInShiftedSortedArray();
-        System.out.println(sol.search(new int[]{3, 1, 1}, 1));
+        //System.out.println(sol.search(new int[]{909, 910, 911, 914, 915, 916, 918, 919, 920, 921, 922, 923, 924, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948, 950, 951, 952, 953, 954, 955, 956, 958, 959, 960, 961, 962, 964, 965, 966, 967, 968, 969, 970, 971, 973, 974, 976, 977, 978, 979, 980, 981, 907, 908}, 932));
+        System.out.println(sol.search(new int[]{552, 553, 555, 556, 562, 563, 564, 565, 566, 567, 570, 571, 572, 573, 574, 577, 579, 580, 581, 582, 584, 585, 587, 588, 591, 592, 596, 604, 611, 612, 419, 420, 421, 423, 424, 426, 428, 430, 433, 439, 440, 441, 442, 445, 446, 447, 448, 451, 454, 461, 462, 464, 467, 470, 473, 476, 479, 482, 483, 489, 490, 491, 495, 496, 499, 501, 502, 505, 508, 510, 511, 512, 514, 515, 518, 520, 521, 532, 533, 534, 537, 538, 539, 541, 544, 545, 548, 549}, 564));
+        System.out.println(sol.search(new int[]{3, 1, 1}, 1)); // 1
         System.out.println(sol.search(new int[]{1, 1, 2, 2, -1, -1, 0, 0, 1, 1}, 0));
         System.out.println(sol.search(new int[]{3, 4, 5, 1, 2}, 4));
         System.out.println(sol.search(new int[]{1, 2, 3, 4, 5}, 3));
