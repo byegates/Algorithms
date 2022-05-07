@@ -6,9 +6,7 @@ import java.util.Deque;
 public class RecoverBinarySearchTree {
 
     //use recursive inorder traversal to detect incorrect node
-    TreeNode prev = null;
-    TreeNode node1 = null;
-    TreeNode node2 = null;
+    TreeNode prev, node1, node2;
     public TreeNode recover(TreeNode root) {
         prev = node1 = node2 = null;
         inOrder(root);
@@ -52,9 +50,10 @@ public class RecoverBinarySearchTree {
                 cur = cur.left;
             } else {
                 cur = stack.pollFirst();
-                if (prev != null && prev.key > cur.key)
+                if (prev != null && prev.key > cur.key) {
                     if (node1 == null) node1 = prev;
-                    else node2 = root;
+                    node2 = cur;
+                }
                 prev = cur;
                 cur = cur.right;
             }
