@@ -2,6 +2,8 @@ package util;
 
 import java.util.*;
 
+import static util.Utils.numLength;
+
 public class TreeNode implements Iterable<TreeNode> {
     public int key;
     public TreeNode left;
@@ -60,6 +62,7 @@ public class TreeNode implements Iterable<TreeNode> {
     public TreeNode deleteNode(int key) {return deleteNode(this, key);}
     public boolean pathSumToTarget(int target) {return pathSumToTarget(this, target);}
     public String toString() {return levelOrder(this).toString();}
+    public int maxDigits() {return maxDigits(this);}
 
     public static String toString(TreeNode root) {return levelOrder(root).toString();}
 
@@ -290,6 +293,19 @@ public class TreeNode implements Iterable<TreeNode> {
         root.right = reconstruct(in, rootIdx + 1, inR, pre, preL + leftSize + 1, preR, map);
 
         return root;
+    }
+
+    public static int maxDigits(TreeNode root) {
+        int[] maxDigits = new int[1];
+        maxDigits(root, maxDigits);
+        return maxDigits[0];
+    }
+
+    private static void maxDigits(TreeNode root, int[] maxDigits) {
+        if (root == null) return;
+        maxDigits[0] = Math.max(maxDigits[0], numLength(root.key));
+        maxDigits(root.left, maxDigits);
+        maxDigits(root.right, maxDigits);
     }
 
     @Override
