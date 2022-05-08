@@ -1,8 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
 
-import static util.Matrix.sum;
-
 public class XorGreaterThanAndPair {
     public long bigXorSum(List<Integer> list) {
         int[] count = new int[31]; // for any positive integer, the msb index can be 0 to 30 in total 31 possibilities, (max int is 2^31 - 1)
