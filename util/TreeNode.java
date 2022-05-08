@@ -340,12 +340,13 @@ class PreOrderIterator implements Iterator<TreeNode> {
 
     @Override
     public TreeNode next() {
+        TreeNode next = null;
         if (hasNext()) {
-            TreeNode next = stack.pollFirst();
+            next = stack.pollFirst();
             if (next.right != null) stack.offerFirst(next.right);
             if (next.left != null) stack.offerFirst(next.left);
-            return next;
-        } else return null;
+        }
+        return next;
     }
 
     @Override
@@ -405,7 +406,7 @@ class LevelOrderIterator implements Iterator<TreeNode> {
 
     @Override
     public TreeNode next() {
-        while (hasNext()) {
+        if (hasNext()) {
             TreeNode cur = q.poll();
             if (cur.left != null) q.offer(cur.left);
             if (cur.right != null) q.offer(cur.right);
