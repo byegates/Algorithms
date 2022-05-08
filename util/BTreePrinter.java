@@ -15,8 +15,8 @@ class Node<T extends Comparable<?>> { // not used for now
 
 public class BTreePrinter {
     public static <T extends Comparable<?>> void printNode(TreeNode root) {
-        int maxLevel = root.getHeight();
-        int maxKeyLen = root.maxDigits();
+        int maxLevel = TreeNode.getHeight(root); // root could be null
+        int maxKeyLen = TreeNode.maxDigits(root); // root could be null
         printNodeInternal(Collections.singletonList(root), 1, maxLevel, maxKeyLen);
     }
 
