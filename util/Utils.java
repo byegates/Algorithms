@@ -42,4 +42,70 @@ public class Utils {
     public static List<Integer> generateRandomList() {
         return generateRandomList(3, 11, 0, 10);
     }
+
+    public static int numLength(int num) {
+        if (num < 0) return numOfDigits(-num) + 1;
+        else return numOfDigits(num);
+    }
+
+    public static int numOfDigits(int num) {
+        if (num < 100000) {
+            if (num < 100) {
+                if (num < 10) {
+                    return 1;
+                } else {
+                    return 2;
+                }
+            } else {
+                if (num < 1000) {
+                    return 3;
+                } else {
+                    if (num < 10000) {
+                        return 4;
+                    } else {
+                        return 5;
+                    }
+                }
+            }
+        } else {
+            if (num < 10000000) {
+                if (num < 1000000) {
+                    return 6;
+                } else {
+                    return 7;
+                }
+            } else {
+                if (num < 100000000) {
+                    return 8;
+                } else {
+                    if (num < 1000000000) {
+                        return 9;
+                    } else {
+                        return 10;
+                    }
+                }
+            }
+        }
+    }
+
+    public static boolean listEqualsArray(List<Integer> l, int[] a) {
+        if (l.size() != a.length) return false;
+        for (int i = 0; i < l.size(); i++)
+            if (l.get(i) != a[i]) return false;
+        return true;
+    }
+
+    public static <T> boolean listEqualsArray(List<T> l, T[] a) {
+        if (l.size() != a.length) return false;
+        for (int i = 0; i < l.size(); i++)
+            if (l.get(i).equals(a[i])) return false;
+        return true;
+    }
+
+    public static void main(String[] args) {
+        for (int i = 1; i < Integer.MAX_VALUE/2; i *= 10) {
+            int num = i + i / 10 + i / 100;
+            System.out.printf("%10d: %d\n", num, numOfDigits(num));
+        }
+    }
 }
