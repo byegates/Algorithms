@@ -13,7 +13,7 @@ class Node<T extends Comparable<?>> { // not used for now
     }
 }
 
-class BTreePrinter {
+public class BTreePrinter {
     public static <T extends Comparable<?>> void printNode(TreeNode root) {
         int maxLevel = TreeNode.getHeight(root);
         printNodeInternal(Collections.singletonList(root), 1, maxLevel);
