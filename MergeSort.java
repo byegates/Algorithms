@@ -1,3 +1,6 @@
+import OOD.StudentComparators;
+import OOD.Student;
+
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -122,27 +125,27 @@ public class MergeSort <T extends Comparable<T>> {
     }
 
     public static void main(String[] args) {
-        LambdaComparator math = LambdaComparator.MATH;
+        StudentComparators math = StudentComparators.MATH;
         System.out.println();
-        List<Student> stu1 = Student.createStudentsList();
-        List<Student> stu2 = Student.createStudentsList();
+        List<Student> stu1 = Student.sampleList();
+        List<Student> stu2 = Student.sampleList();
         printStudents(MergeSort.sort(stu1));
         System.out.println();
 
         Collections.sort(stu2);
         System.out.println(stu1.equals(stu2));
-        Student[] arr1 = Student.createStudentsArray();
-        Student[] arr2 = Student.createStudentsArray();
+        Student[] arr1 = Student.sampleArray();
+        Student[] arr2 = Student.sampleArray();
         Arrays.sort(arr1);
         MergeSort.sort(arr2);
         System.out.println(Arrays.equals(arr1, arr2));
-        List<Student> stu3 = Student.createStudentsList();
-        List<Student> stu4 = Student.createStudentsList();
+        List<Student> stu3 = Student.sampleList();
+        List<Student> stu4 = Student.sampleList();
         stu3.sort(math);
         MergeSort.sort(stu4, math);
         System.out.println(stu3.equals(stu4));
-        Student[] arr3 = Student.createStudentsArray();
-        Student[] arr4 = Student.createStudentsArray();
+        Student[] arr3 = Student.sampleArray();
+        Student[] arr4 = Student.sampleArray();
         Arrays.sort(arr3, math);
         MergeSort.sort(arr4, math);
         System.out.println(Arrays.equals(arr3, arr4));
