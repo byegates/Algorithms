@@ -131,7 +131,7 @@ class InOrderIterator implements Iterator<TreeNode> {
 }
 
 class PreOrderIterator implements Iterator<TreeNode> {
-    private Deque<TreeNode> stack;
+    private final Deque<TreeNode> stack;
     PreOrderIterator(TreeNode root) {
         stack = new ArrayDeque<>();
         if (root != null) stack.offerFirst(root);
