@@ -1,7 +1,8 @@
-package util;
+package utilTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import util.Heap;
 
 import java.util.Arrays;
 import java.util.Comparator;
