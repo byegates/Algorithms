@@ -307,7 +307,13 @@ Array takes more space, and map runs slightly slower.
 So it's going to be something like below:
 
 ## Time Complexity
+O((n-1)!/(n-2-k)!), for each node, we can have max n-1 flights from it,
+which create n - 1 node at first level of recursion tree;
+at next level, each node can have n - 1 flights taking off (without going back as we de-dup),
+so its factorial complexity, but we only go down k+1 level
+
 ## Space Complexity
+O(k+1), height of recursion tree
 ## DFS Code
 Below will pass on LaiCode, can't pass on LeetCode (Time Limit Exceeded).
 ```java
@@ -369,7 +375,9 @@ In the graph the pair means destination index and cost from it's related source.
 Pair in queue means the current minimum cost from the single src in input to the current destination index.
 
 ## Time Complexity
+?
 ## Space Complexity
+?
 ## BFS Code
 
 ```java
