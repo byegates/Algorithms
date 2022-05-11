@@ -186,5 +186,111 @@ public class Solution {
 }
 ```
 # Solution 2: BFS with pruning
+The pair we save in queue have a different meaning than in the graph.
+In the graph the pair means destination index and cost from it's related source.
+Pair in queue means the current minimum cost from the single src in input to the current destination index.
 
-# Solution 3： Dijkstra's (Different from BFS?)
+```java
+public class Solution {
+
+    static class Pair {
+        int dst, cost;
+        Pair(int dst, int cost) {
+            this.dst = dst;
+            this.cost = cost;
+        }
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<Pair>[] graph = createGraph(n, flights);
+        Queue<Pair> q = new ArrayDeque<>();
+        int res = Integer.MAX_VALUE;
+
+        q.offer(new Pair(src, 0));
+
+        for (int segments = 0; !q.isEmpty() && segments <= k + 1; segments++) { // k stops will have k + 1 segments of flights
+            int size = q.size();
+            while (size-- > 0) {
+                Pair cur = q.poll();
+                if (cur.dst == dst) res = Math.min(res, cur.cost);
+                List<Pair> neighbors = graph[cur.dst];
+                if (neighbors == null) continue;
+                for (Pair nei : neighbors) {
+                    int newCost = cur.cost + nei.cost;
+                    if (newCost > res) continue; // pruning
+                    q.offer(new Pair(nei.dst, newCost));
+                }
+            }
+        }
+
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+    
+    private List<Pair>[] createGraph(int n, int[][] flights) {
+        List<Pair>[] graph = new List[n];
+        for (int[] flight : flights) {
+            if (graph[flight[0]] == null)
+                graph[flight[0]] = new ArrayList<>();
+            graph[flight[0]].add(new Pair(flight[1], flight[2]));
+        }
+        return graph;
+    }
+
+}
+
+```
+
+## NOTE
+
+Another way to update result price, notice the differences.
+
+```java
+public class Solution {
+
+    static class Pair {
+        int dst, cost;
+        Pair(int dst, int cost) {
+            this.dst = dst;
+            this.cost = cost;
+        }
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        if (src == dst) return 0;
+        List<Pair>[] graph = createGraph(n, flights);
+        Queue<Pair> q = new ArrayDeque<>();
+        int res = Integer.MAX_VALUE;
+
+        q.offer(new Pair(src, 0));
+
+        for (int segments = 0; !q.isEmpty() && segments <= k; segments++) { // k stops will have k + 1 segments of flights
+            int size = q.size();
+            while (size-- > 0) {
+                Pair cur = q.poll();
+                List<Pair> neighbors = graph[cur.dst];
+                if (neighbors == null) continue;
+                for (Pair nei : neighbors) {
+                    int newCost = cur.cost + nei.cost;
+                    if (newCost > res) continue;
+                    q.offer(new Pair(nei.dst, newCost));
+                    if (nei.dst == dst) res = Math.min(res, newCost);
+                }
+            }
+        }
+
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
+    private List<Pair>[] createGraph(int n, int[][] flights) {
+        List<Pair>[] graph = new List[n];
+        for (int[] flight : flights) {
+            if (graph[flight[0]] == null)
+                graph[flight[0]] = new ArrayList<>();
+            graph[flight[0]].add(new Pair(flight[1], flight[2]));
+        }
+        return graph;
+    }
+    
+}
+```
+# Solution 3： Dijkstra's Algorithm
