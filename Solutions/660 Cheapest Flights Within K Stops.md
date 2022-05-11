@@ -92,6 +92,14 @@ i = 2, iterate through all flights:
 
 We return dp[2][dst] if it has a valid value (not +∞), in this case: 700.
 
+## Time Complexity
+O(k*E), E stands for number of edges in the graph, the upper bound of E would be n^2 as there are n nodes in the graph.
+
+It's also O(k * flights.length)
+
+## Space Complexity
+O(k*n) for the new dp matrix we created
+
 ```java
 import java.util.Arrays;
 
@@ -111,7 +119,72 @@ class Solution {
     }
 }
 ```
+# Prep for DFS and BFS ()
+Visual representation of graph
+
+![Visual representation of graph](https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png "Cities as Graph Nodes and cost as weight")
 
 # Solution 1: DFS
+## idea
+We can represent the graph as a map or an array of list(as map key are int array anyway)
+The value of array or map will be edges represented by (adjacent) list of Pair value, each pair represent a destination and the cost of flight from current map key (or array index) to this destination.
+Array takes more space, and map runs slightly slower.
+So it's going to be something like below:
 
+Below will pass on LaiCode, can't pass on LeetCode (Time Limit Exceeded).
+```java
+public class Solution {
+
+    static class Pair {
+        int dst, cost;
+        Pair(int dst, int cost) {
+            this.dst = dst;
+            this.cost = cost;
+        }
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<Pair>[] graph = createGraph(n, flights);
+        boolean[] visited = new boolean[n];
+        int[] res = new int[]{Integer.MAX_VALUE};
+        dfs(src, dst, k + 1, 0, visited, res, graph);
+        return res[0] == Integer.MAX_VALUE ? -1 : res[0];
+    }
+
+    private void dfs(int src, int dst, int k, int cost, boolean[] visited, int[] res, List<Pair>[] graph) {
+        if (src == dst) {
+            res[0] = cost;
+            return;
+        }
+        if (k == 0) return;
+
+        List<Pair> neighbors = graph[src];
+        if (neighbors == null) return;
+
+        for (Pair pair : neighbors) {
+            if (visited[pair.dst]) continue; // standard pruning?
+            int newCost = cost + pair.cost;
+            // pruning, very important to improve time performance
+            if (newCost > res[0]) continue;
+            visited[pair.dst] = true; // pruning
+            dfs(pair.dst, dst, k - 1, newCost, visited, res, graph);
+            visited[pair.dst] = false; //吃了🤮
+        }
+    }
+
+    private List<Pair>[] createGraph(int n, int[][] flights) {
+        List<Pair>[] graph = new List[n];
+        for (int[] flight : flights) {
+            if (graph[flight[0]] == null)
+                graph[flight[0]] = new ArrayList<>();
+            graph[flight[0]].add(new Pair(flight[1], flight[2]));
+        }
+        return graph;
+    }
+
+
+}
+```
 # Solution 2: BFS with pruning
+
+# Solution 3： Dijkstra's (Different from BFS?)
