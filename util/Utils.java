@@ -102,6 +102,24 @@ public class Utils {
         return true;
     }
 
+    public static Integer[] toIntegerArray(int[] a) {
+        Integer[] res = new Integer[a.length];
+        for (int i = 0; i < a.length; i++) res[i] = a[i];
+        return res;
+    }
+
+    public static int[] toIntArray(Integer[] a) {
+        int[] res = new int[a.length];
+        for (int i = 0; i < a.length; i++) res[i] = a[i];
+        return res;
+    }
+
+    public static List<Integer> toList(int[] a) {
+        List<Integer> list = new ArrayList<>();
+        for (int val : a) list.add(val);
+        return list;
+    }
+
     public static void main(String[] args) {
         for (int i = 1; i < Integer.MAX_VALUE/2; i *= 10) {
             int num = i + i / 10 + i / 100;
