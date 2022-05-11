@@ -63,7 +63,26 @@ What we need to return is dp[k+1][dst] which is dp[2][1] which is +∞, so the o
 
 ### Example 2
 
-The dp matrix will look like below:
+The dp matrix will look like below,
+
+Initialized:
+
+|     | 0   | 1   | 2   | 3   |
+|-----|-----|-----|-----|-----|
+| 0   | 0   | +∞  | +∞  | +∞  |
+| 1   | +∞  | +∞  | +∞  | +∞  |
+| 2   | +∞  | +∞  | +∞  | +∞  |
+
+i = 1, iterate through all flights:
+
+|     | 0   | 1   | 2   | 3   |
+|-----|-----|-----|-----|-----|
+| 0   | 0   | +∞  | +∞  | +∞  |
+| 1   | 0   | 100 | +∞  | +∞  |
+| 2   | +∞  | +∞  | +∞  | +∞  |
+
+i = 2, iterate through all flights:
+
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
