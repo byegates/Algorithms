@@ -163,11 +163,11 @@ public class Solution {
 
         for (Pair pair : neighbors) {
             if (visited[pair.dst]) continue; // standard pruning?
-            int newCost = cost + pair.cost;
+            int curCost = cost + pair.cost;
             // pruning, very important to improve time performance
-            if (newCost > res[0]) continue;
+            if (curCost > res[0]) continue;
             visited[pair.dst] = true; // pruning
-            dfs(pair.dst, dst, k - 1, newCost, visited, res, graph);
+            dfs(pair.dst, dst, k - 1, curCost, visited, res, graph);
             visited[pair.dst] = false; //吃了🤮
         }
     }
