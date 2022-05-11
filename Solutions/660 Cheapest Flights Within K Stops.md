@@ -1,7 +1,7 @@
 # Cheapest Flights Within K Stops
-LeetCode: https://leetcode.com/problems/cheapest-flights-within-k-stops/
+[LeetCode 787](https://leetcode.com/problems/cheapest-flights-within-k-stops/)
 
-LaiCode : https://app.laicode.io/app/problem/660
+[LaiCode 660](https://app.laicode.io/app/problem/660)
 ## Description
 Suppose there are m flights connecting n cities. Flight is represented by an int array int[] where the first element is departure city, the second element is destination city and the third element is the price.
 
@@ -27,70 +27,76 @@ Input: n = 5, flights = [[4,1,1],[1,2,3],[0,3,2],[0,4,10],[3,1,1],[1,4,3]], src 
 
 output: -1
 
-# Solution 0: DP (Bellman Ford)
+# Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm))
 4ms on LeetCode
 
-## idea
-We define dp[i][j] as the min cost to take max i times flight to get to city j, and take i flights mean i - 1 stops, so for k stops, we take k + 1 flights;
+## dp definition
+We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
-### Example 3
+### Example 2 from above
+Num of  Cities(n): 4
 
-the dp matrix will start like below:
+From    City(src): 0
 
-|     | 0   | 1   | 2   | 3   | 4   |
-|-----|-----|-----|-----|-----|-----|
-| 0   | +∞  | +∞  | 0   | +∞  | +∞  |
-| 1   | +∞  | +∞  | +∞  | +∞  | +∞  |
-| 2   | +∞  | +∞  | +∞  | +∞  | +∞  |
+To      City(dst): 3
 
-After round 1 (going through all flights for i = 1):
+Max # of Stops(k): 1
 
-|     | 0   | 1   | 2   | 3   | 4   |
-|-----|-----|-----|-----|-----|-----|
-| 0   | +∞  | +∞  | 0   | +∞  | +∞  |
-| 1   | +∞  | +∞  | 0   | +∞  | +∞  |
-| 2   | +∞  | +∞  | +∞  | +∞  | +∞  |
+All flights:
+[0, 1, 100]
+[1, 2, 100]
+[2, 0, 100]
+[1, 3, 600]
+[2, 3, 200]
 
-After round 2 (going through all flights for i = 2):
-
-|     | 0   | 1   | 2   | 3   | 4   |
-|-----|-----|-----|-----|-----|-----|
-| 0   | +∞  | +∞  | 0   | +∞  | +∞  |
-| 1   | +∞  | +∞  | 0   | +∞  | +∞  |
-| 2   | +∞  | +∞  | 0   | +∞  | +∞  |
-
-What we need to return is dp[k+1][dst] which is dp[2][1] which is +∞, so the output is -1
-
-### Example 2
-
-The dp matrix will look like below,
-
-Initialized:
+### Initialization and base case (set dp[0][src] = 0)
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
-| 0   | 0   | +∞  | +∞  | +∞  |
-| 1   | +∞  | +∞  | +∞  | +∞  |
-| 2   | +∞  | +∞  | +∞  | +∞  |
+| 0   | 0   | -1  | -1  | -1  |
+| 1   | -1  | -1  | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  |
 
-i = 1, iterate through all flights:
 
-|     | 0   | 1   | 2   | 3   |
-|-----|-----|-----|-----|-----|
-| 0   | 0   | +∞  | +∞  | +∞  |
-| 1   | 0   | 100 | +∞  | +∞  |
-| 2   | +∞  | +∞  | +∞  | +∞  |
+### i = 1 segment(s) (0 stop(s))
+flights that don't update below table are ignored
 
-i = 2, iterate through all flights:
-
+i: 1, flight: [0, 1, 100]
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
-| 0   | 0   | +∞  | +∞  | +∞  |
-| 1   | 0   | 100 | +∞  | +∞  |
+| 0   | 0   | -1  | -1  | -1  |
+| 1   | 0   | 100 | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  |
+
+### i = 2 segment(s) (1 stop(s))
+flights that don't update below table are ignored
+
+i: 2, flight: [0, 1, 100]
+
+|     | 0   | 1   | 2   | 3   |
+|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  |
+| 1   | 0   | 100 | -1  | -1  |
+| 2   | 0   | 100 | -1  | -1  |
+
+i: 2, flight: [1, 2, 100]
+
+|     | 0   | 1   | 2   | 3   |
+|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  |
+| 1   | 0   | 100 | -1  | -1  |
+| 2   | 0   | 100 | 200 | -1  |
+
+i: 2, flight: [1, 3, 600]
+
+|     | 0   | 1   | 2   | 3   |
+|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  |
+| 1   | 0   | 100 | -1  | -1  |
 | 2   | 0   | 100 | 200 | 700 |
 
-We return dp[2][dst] if it has a valid value (not +∞), in this case: 700.
+We return dp[2][dst]: 700.
 
 ## Time Complexity
 O(k*E), E stands for number of edges in the graph, the upper bound of E would be n^2 as there are n nodes in the graph.
@@ -105,20 +111,191 @@ import java.util.Arrays;
 
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {// TC: O(k * EDGE) ==> k*n^2
-        int[][] dp = new int[k + 2][n]; // dp[i][j]: the min cost to take max i times flight to get to city j, and take i flights mean i - 1 stops, so for k stops, we take k + 1 flights
-        int noFlight = Integer.MAX_VALUE / 2;
-        for (int[] a : dp) Arrays.fill(a, noFlight);
+        int[][] dp = new int[k + 2][n];
+        for (int[] a : dp) Arrays.fill(a, -1);
         dp[0][src] = 0;
         for (int i = 1; i <= k + 1; i++) {
             dp[i][src] = 0;
             for (int[] flight : flights)
-                //dp[i][flight[1]]: when we take max i-flights, the cost to get to city: flight[i]
-                dp[i][flight[1]] = Math.min(dp[i][flight[1]], dp[i - 1][flight[0]] + flight[2]);
+                if (dp[i - 1][flight[0]] != -1) {
+                    int curCost = dp[i - 1][flight[0]] + flight[2];
+                    if (dp[i][flight[1]] == -1 || curCost < dp[i][flight[1]])
+                        dp[i][flight[1]] = curCost;
+                }
         }
-        return dp[k + 1][dst] == noFlight ? -1 : dp[k + 1][dst];
+        return dp[k + 1][dst];
     }
 }
 ```
+### A negative example (Example 3 from above)
+Num of  Cities(n): 5
+
+From    City(src): 2
+
+To      City(dst): 1
+
+Max # of Stops(k): 1
+
+All flights:
+[4, 1, 1]
+[1, 2, 3]
+[0, 3, 2]
+[0, 4, 10]
+[3, 1, 1]
+[1, 4, 3]
+
+### Initialization and base case (set dp[0][src] = 0)
+
+|     | 0   | 1   | 2   | 3   | 4   |
+|-----|-----|-----|-----|-----|-----|
+| 0   | -1  | -1  | 0   | -1  | -1  |
+| 1   | -1  | -1  | -1  | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  | -1  |
+
+
+### i = 1 segment(s) (0 stop(s))
+flights that don't update below table are ignored
+
+i: 1, flight: [4, 1, 1]
+
+|     | 0   | 1   | 2   | 3   | 4   |
+|-----|-----|-----|-----|-----|-----|
+| 0   | -1  | -1  | 0   | -1  | -1  |
+| 1   | -1  | -1  | 0   | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  | -1  |
+
+### i = 2 segment(s) (1 stop(s))
+flights that don't update below table are ignored
+
+i: 2, flight: [4, 1, 1]
+
+|     | 0   | 1   | 2   | 3   | 4   |
+|-----|-----|-----|-----|-----|-----|
+| 0   | -1  | -1  | 0   | -1  | -1  |
+| 1   | -1  | -1  | 0   | -1  | -1  |
+| 2   | -1  | -1  | 0   | -1  | -1  |
+What we need to return is dp[k+1][dst] which is dp[2][1] which is -1
+
+## Additional Example
+
+Num of  Cities(n): 6
+
+From    City(src): 0
+
+To      City(dst): 3
+
+Max # of Stops(k): 1
+
+All flights:
+[0, 1, 6]
+[0, 3, 8]
+[0, 4, 27]
+[0, 5, 19]
+[1, 2, 1]
+[1, 3, 2]
+[1, 4, 30]
+[1, 5, 28]
+[2, 3, 7]
+[2, 5, 25]
+[3, 4, 15]
+[3, 5, 23]
+[4, 5, 21]
+
+### Initialization and base case (set dp[0][src] = 0)
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | -1  | -1  | -1  | -1  | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  | -1  | -1  |
+
+
+### i = 1 segment(s) (0 stop(s))
+flights that don't update below table are ignored
+
+i: 1, flight: [0, 1, 6]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | -1  | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  | -1  | -1  |
+
+i: 1, flight: [0, 3, 8]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | -1  | -1  |
+| 2   | -1  | -1  | -1  | -1  | -1  | -1  |
+
+i: 1, flight: [0, 4, 27]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | -1  |
+| 2   | -1  | -1  | -1  | -1  | -1  | -1  |
+
+i: 1, flight: [0, 5, 19]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | -1  | -1  | -1  | -1  | -1  | -1  |
+
+### i = 2 segment(s) (1 stop(s))
+flights that don't update below table are ignored
+
+i: 2, flight: [0, 1, 6]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | 0   | 6   | -1  | -1  | -1  | -1  |
+
+i: 2, flight: [0, 3, 8]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | 0   | 6   | -1  | 8   | -1  | -1  |
+
+i: 2, flight: [0, 4, 27]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | 0   | 6   | -1  | 8   | 27  | -1  |
+
+i: 2, flight: [0, 5, 19]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | 0   | 6   | -1  | 8   | 27  | 19  |
+
+i: 2, flight: [1, 2, 1]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | 0   | 6   | 7   | 8   | 27  | 19  |
+
+i: 2, flight: [3, 4, 15]
+
+|     | 0   | 1   | 2   | 3   | 4   | 5   |
+|-----|-----|-----|-----|-----|-----|-----|
+| 0   | 0   | -1  | -1  | -1  | -1  | -1  |
+| 1   | 0   | 6   | -1  | 8   | 27  | 19  |
+| 2   | 0   | 6   | 7   | 8   | 23  | 19  |
+
 # Prep for DFS and BFS ()
 Visual representation of graph
 
