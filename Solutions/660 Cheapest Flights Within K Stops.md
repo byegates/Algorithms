@@ -156,8 +156,6 @@ All flights:
 ### i = 1 segment(s) (0 stop(s))
 flights that don't update below table are ignored
 
-i: 1, flight: [4, 1, 1]
-
 |     | 0   | 1   | 2   | 3   | 4   |
 |-----|-----|-----|-----|-----|-----|
 | 0   | -1  | -1  | 0   | -1  | -1  |
@@ -167,13 +165,12 @@ i: 1, flight: [4, 1, 1]
 ### i = 2 segment(s) (1 stop(s))
 flights that don't update below table are ignored
 
-i: 2, flight: [4, 1, 1]
-
 |     | 0   | 1   | 2   | 3   | 4   |
 |-----|-----|-----|-----|-----|-----|
 | 0   | -1  | -1  | 0   | -1  | -1  |
 | 1   | -1  | -1  | 0   | -1  | -1  |
 | 2   | -1  | -1  | 0   | -1  | -1  |
+
 What we need to return is dp[k+1][dst] which is dp[2][1] which is -1
 
 ## Additional Example
