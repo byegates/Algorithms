@@ -61,7 +61,7 @@ All flights:
 ### i = 1 segment(s) (0 stop(s))
 flights that don't update below table are ignored
 
-i: 1, flight: [0, 1, 100]
+i: 1, current flight segment: [0, 1, 100]
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
@@ -72,7 +72,7 @@ i: 1, flight: [0, 1, 100]
 ### i = 2 segment(s) (1 stop(s))
 flights that don't update below table are ignored
 
-i: 2, flight: [0, 1, 100]
+i: 2, current flight segment: [0, 1, 100]
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
@@ -80,7 +80,7 @@ i: 2, flight: [0, 1, 100]
 | 1   | 0   | 100 | -1  | -1  |
 | 2   | 0   | 100 | -1  | -1  |
 
-i: 2, flight: [1, 2, 100]
+i: 2, current flight segment: [1, 2, 100]
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
@@ -88,7 +88,7 @@ i: 2, flight: [1, 2, 100]
 | 1   | 0   | 100 | -1  | -1  |
 | 2   | 0   | 100 | 200 | -1  |
 
-i: 2, flight: [1, 3, 600]
+i: 2, current flight segment: [1, 3, 600]
 
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
@@ -117,9 +117,9 @@ class Solution {
         for (int i = 1; i <= k + 1; i++) {
             dp[i][src] = 0;
             for (int[] flight : flights)
-                if (dp[i - 1][flight[0]] != -1) {
+                if (dp[i - 1][flight[0]] != -1) { // if starting city of current segment was reachable by max i-1 segment(s)
                     int curCost = dp[i - 1][flight[0]] + flight[2];
-                    if (dp[i][flight[1]] == -1 || curCost < dp[i][flight[1]])
+                    if (dp[i][flight[1]] == -1 || curCost < dp[i][flight[1]]) // if with max i-segments, destination city of current flight segment do not have a cost or new cost is lower, we update current cost
                         dp[i][flight[1]] = curCost;
                 }
         }
@@ -210,7 +210,7 @@ All flights:
 ### i = 1 segment(s) (0 stop(s))
 flights that don't update below table are ignored
 
-i: 1, flight: [0, 1, 6]
+i: 1, current flight segment: [0, 1, 6]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -218,7 +218,7 @@ i: 1, flight: [0, 1, 6]
 | 1   | 0   | 6   | -1  | -1  | -1  | -1  |
 | 2   | -1  | -1  | -1  | -1  | -1  | -1  |
 
-i: 1, flight: [0, 3, 8]
+i: 1, current flight segment: [0, 3, 8]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -226,7 +226,7 @@ i: 1, flight: [0, 3, 8]
 | 1   | 0   | 6   | -1  | 8   | -1  | -1  |
 | 2   | -1  | -1  | -1  | -1  | -1  | -1  |
 
-i: 1, flight: [0, 4, 27]
+i: 1, current flight segment: [0, 4, 27]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -234,7 +234,7 @@ i: 1, flight: [0, 4, 27]
 | 1   | 0   | 6   | -1  | 8   | 27  | -1  |
 | 2   | -1  | -1  | -1  | -1  | -1  | -1  |
 
-i: 1, flight: [0, 5, 19]
+i: 1, current flight segment: [0, 5, 19]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -245,7 +245,7 @@ i: 1, flight: [0, 5, 19]
 ### i = 2 segment(s) (1 stop(s))
 flights that don't update below table are ignored
 
-i: 2, flight: [0, 1, 6]
+i: 2, current flight segment: [0, 1, 6]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -253,7 +253,7 @@ i: 2, flight: [0, 1, 6]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | -1  | -1  | -1  | -1  |
 
-i: 2, flight: [0, 3, 8]
+i: 2, current flight segment: [0, 3, 8]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -261,7 +261,7 @@ i: 2, flight: [0, 3, 8]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | -1  | 8   | -1  | -1  |
 
-i: 2, flight: [0, 4, 27]
+i: 2, current flight segment: [0, 4, 27]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -269,7 +269,7 @@ i: 2, flight: [0, 4, 27]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | -1  | 8   | 27  | -1  |
 
-i: 2, flight: [0, 5, 19]
+i: 2, current flight segment: [0, 5, 19]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -277,7 +277,7 @@ i: 2, flight: [0, 5, 19]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | -1  | 8   | 27  | 19  |
 
-i: 2, flight: [1, 2, 1]
+i: 2, current flight segment: [1, 2, 1]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
@@ -285,7 +285,7 @@ i: 2, flight: [1, 2, 1]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | 7   | 8   | 27  | 19  |
 
-i: 2, flight: [3, 4, 15]
+i: 2, current flight segment: [3, 4, 15]
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
 |-----|-----|-----|-----|-----|-----|-----|
