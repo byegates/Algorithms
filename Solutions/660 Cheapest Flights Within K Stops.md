@@ -294,3 +294,56 @@ public class Solution {
 }
 ```
 # Solution 3： Dijkstra's Algorithm
+Would this really work?
+```java
+public class Solution {
+
+    static class Pair implements Comparable<Pair>{
+        int dst, cost, segments;
+        Pair(int dst, int cost, int segments) {
+            this.dst = dst;
+            this.cost = cost;
+            this.segments = segments;
+        }
+
+        @Override
+        public int compareTo(Pair o) {
+            return Integer.compare(cost, o.cost);
+        }
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        List<Pair>[] graph = createGraph(n, flights);
+        PriorityQueue<Pair> q = new PriorityQueue<>();
+        int res = Integer.MAX_VALUE;
+
+        q.offer(new Pair(src, 0, k + 1));
+
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+
+            if (cur.dst == dst) return cur.cost;
+            if (cur.segments == 0) continue;
+            List<Pair> neighbors = graph[cur.dst];
+            if (neighbors == null) continue;
+
+            for (Pair nei : neighbors)
+                q.offer(new Pair(nei.dst, cur.cost + nei.cost, cur.segments - 1));
+
+        }
+
+        return -1;
+    }
+
+    private List<Pair>[] createGraph(int n, int[][] flights) {
+        List<Pair>[] graph = new List[n];
+        for (int[] flight : flights) {
+            if (graph[flight[0]] == null)
+                graph[flight[0]] = new ArrayList<>();
+            graph[flight[0]].add(new Pair(flight[1], flight[2], 0)); // segments mean nothing here, just for the sake of convenience, we use the same Pair class both in priority queue and here
+        }
+        return graph;
+    }
+    
+}
+```
