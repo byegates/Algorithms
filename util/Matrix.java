@@ -16,6 +16,30 @@ public class Matrix {
         return sb.toString();
     }
 
+    public static String toStringMD(int[][] mx, int width) {
+        int rows = mx.length, cols = mx[0].length;
+        StringBuilder sb = new StringBuilder();
+        // add header
+        sb.append("| ").append(" ".repeat(width));
+        for (int j = 0; j < cols; j++) sb.append(String.format("| %-" + width + "s", j));
+        sb.append("|\n");
+
+        // add ----- line
+        for (int j = 0; j <= cols; j++) sb.append("|-").append("-".repeat(width));
+        sb.append("|\n");
+
+        // add context
+        for (int i = 0; i < rows; i++) {
+            int[] row = mx[i];
+            sb.append(String.format("| %-" + width + "s|", i));
+            for (int j = 0; j < cols; j++) {
+                sb.append(String.format(" %-" + width + "s", row[j])).append("|");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     public static String toString(int[] a, int width) {
         return toString(new int[][]{a}, width);
     }
