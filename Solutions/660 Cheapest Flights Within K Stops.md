@@ -106,6 +106,7 @@ It's also O(k * flights.length)
 ## Space Complexity
 O(k*n) for the new dp matrix we created
 
+## DP Code
 ```java
 import java.util.Arrays;
 
@@ -305,6 +306,9 @@ The value of array or map will be edges represented by (adjacent) list of Pair v
 Array takes more space, and map runs slightly slower.
 So it's going to be something like below:
 
+## Time Complexity
+## Space Complexity
+## DFS Code
 Below will pass on LaiCode, can't pass on LeetCode (Time Limit Exceeded).
 ```java
 public class Solution {
@@ -363,6 +367,10 @@ public class Solution {
 The pair we save in queue have a different meaning than in the graph.
 In the graph the pair means destination index and cost from it's related source.
 Pair in queue means the current minimum cost from the single src in input to the current destination index.
+
+## Time Complexity
+## Space Complexity
+## BFS Code
 
 ```java
 public class Solution {
@@ -469,6 +477,11 @@ public class Solution {
 ```
 # Solution 3： Dijkstra's Algorithm
 Would this really work?
+
+## Time Complexity
+## Space Complexity
+## BFS Code
+
 ```java
 public class Solution {
 
