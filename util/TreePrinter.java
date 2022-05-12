@@ -1,3 +1,16 @@
+/*
+  If your tree is big, by nature it will take up lots of spaces at deeper depth.
+  if you have a tree with height of 8, then the number of nodes at the last level is 2^7 = 128
+  say the value of each node is something like -106, 108, meaning, it takes up to 4 spaces (perfectly reasonable)
+  And to make it pretty (or not to ugly), you add 2 spaces between each node value
+  then you need 128 * (4+2) = 768. depend on the monitor you use, but not a lot of terminal can display this width.
+  So, you shouldn't reasonably use this to print too big of a tree, and expect to see everything.
+
+  On complexity,
+  we traverse the tree multiple times to get different information (height, max key length, all values) and then print the tree
+  Of course this can be optimized, but as it's not expected you'll use this to print a very big tree,
+  in addition, this is just the first version, so we are aiming for simplicity and quick completion rather than performance.
+ */
 package util;
 
 import java.util.*;
@@ -6,46 +19,43 @@ public class TreePrinter {
     public static String toString(TreeNode root) {
         if (root == null) return "";
         int maxKeyLen = root.maxDigits();
-        int depth = root.getHeight();
+        int height = root.getHeight();
         StringBuilder sb = new StringBuilder();
-        List<List<Integer>> res = new ArrayList<>();
-        bfs(root, depth, res);
-        construct(res, depth, maxKeyLen + 2, sb);
+        List<List<Integer>> allKeys = new ArrayList<>();
+        bfs(root, height, allKeys);
+        construct(allKeys, height, maxKeyLen + 2, sb);
         return sb.toString();
     }
 
-    private static void construct(List<List<Integer>> res, int depth, int width, StringBuilder sb) {
+    private static void construct(List<List<Integer>> allKeys, int height, int width, StringBuilder sb) {
         int lvl = 1;
-        int lvlNodeWidth = (int) Math.pow(2, depth - lvl) * width;
+        int lvlNodeWidth = (int) Math.pow(2, height - lvl) * width; // the width of each node at each level, it's going to decrease by half per level
 
-        for (List<Integer> level : res) {
-            for (int i = 0; i < level.size(); i++) {
-                Integer val = level.get(i);
-                if (lvl > 1) { // print '/' and '\' val == null ? " " :
-                    String s = i % 2 == 0 ? "/" : "\\"; // "\n"
-                    sb.append(center(s, lvlNodeWidth, i % 2 != 0));
+        for (List<Integer> curLevelKeys : allKeys) {
+            for (int i = 0; i < curLevelKeys.size(); i++) {
+                if (lvl > 1) { // we print '/' and '\' first and starting from 2nd level
+                    String s = i % 2 == 0 ? "/" : "\\";
+                    sb.append(center(s, lvlNodeWidth, i % 2 != 0)); // always rightAlign '\' and leftAlign '/'
                 }
             }
-            sb.append("\n");
+            sb.append("\n"); // done printing all the back and forward slashes
 
-            for (int i = 0; i < level.size(); i++) {
-                Integer val = level.get(i);
-                if (val == null) sb.append(center("x", lvlNodeWidth, true));
-                else sb.append(center(val.toString(), lvlNodeWidth, true));
+            for (Integer key : curLevelKeys) {
+                if (key == null) sb.append(center("x", lvlNodeWidth, true));
+                else sb.append(center(key.toString(), lvlNodeWidth, true));
             }
-            sb.append("\n");
-            lvlNodeWidth /= 2;
+            sb.append("\n"); // done print one level of keys
+            lvlNodeWidth /= 2; // reduce width per node by half per level
             lvl++;
         }
     }
 
-    private static void bfs(TreeNode root, int depth, List<List<Integer>> res) {
+    private static void bfs(TreeNode root, int height, List<List<Integer>> res) {
 
         Queue<TreeNode> q = new LinkedList<>();
         q.offer(root);
 
-        int lvl = 1;
-        while (!q.isEmpty()) {
+        for (int lvl = 1; lvl <= height; lvl++) { // because we offer null to q, so q is never going to be empty, we stop based on lvl/depth
             int size = q.size();
             List<Integer> tmp = new ArrayList<>();
             while (size--> 0) {
@@ -61,14 +71,14 @@ public class TreePrinter {
                 }
             }
             res.add(tmp);
-            if(lvl++ == depth) break;
         }
      }
 
-    private static String center(String s, int width, boolean leftAligned) { //
+    private static String center(String s, int width, boolean leftAligned) {
+        // center align string within certain width, when can't align exactly at center, leftAligned determines we align s to the left or right
         if (s.length() >= width) return s;
         int diff = width - s.length();
-        int mid1 = diff / 2; // 5: 2, 3, 4: 2, 2
+        int mid1 = diff / 2;
         int mid2 = diff - mid1;
         if (leftAligned) {
             return " ".repeat(mid1) + s + " ".repeat(mid2);
