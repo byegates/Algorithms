@@ -61,7 +61,11 @@ public class TreeNode implements Iterable<TreeNode> {
     public List<List<Integer>> layerByLayer() {return layerByLayer(this);}
     public TreeNode deleteNode(int key) {return deleteNode(this, key);}
     public boolean pathSumToTarget(int target) {return pathSumToTarget(this, target);}
-    public String toString() {return levelOrder(this).toString();}
+
+    public String toString() {
+        return TreePrinter.toString(this);
+    }
+
     public int maxDigits() {return maxDigits(this);}
 
     public static String toString(TreeNode root) {return levelOrder(root).toString();}
