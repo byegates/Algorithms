@@ -28,12 +28,12 @@ public class TreePrinter {
     }
 
     private static void construct(List<List<Integer>> allKeys, int height, int width, StringBuilder sb) {
-        int lvl = 1;
-        int lvlNodeWidth = (int) Math.pow(2, height - lvl) * width; // the width of each node at each level, it's going to decrease by half per level
+        int depth = 1;
+        int lvlNodeWidth = (int) Math.pow(2, height - depth) * width; // the width of each node at each level, it's going to decrease by half per level
 
         for (List<Integer> curLevelKeys : allKeys) {
             for (int i = 0; i < curLevelKeys.size(); i++)
-                if (lvl > 1) // we print '/' and '\' first and starting from 2nd level
+                if (depth > 1) // we print '/' and '\' first and starting from 2nd level
                     sb.append(center(i % 2 == 0 ? "/" : "\\", lvlNodeWidth, i % 2 != 0)); // always rightAlign '/' and leftAlign '\'
 
             sb.append("\n"); // done printing all the back and forward slashes
@@ -44,16 +44,16 @@ public class TreePrinter {
             sb.append("\n"); // done print one level of keys
 
             lvlNodeWidth /= 2; // reduce width per node by half per level
-            lvl++;
+            depth++;
         }
     }
 
     private static void bfs(TreeNode root, int height, List<List<Integer>> res) {
 
-        Queue<TreeNode> q = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>(); // LinkedList allow null to be offered, while ArrayDeque does not
         q.offer(root);
 
-        for (int lvl = 1; lvl <= height; lvl++) { // because we offer null to q, so q is never going to be empty, we stop based on lvl/depth
+        for (int depth = 1; depth <= height; depth++) { // because we offer null to q, so q is never going to be empty, we stop based on depth and height
             int size = q.size();
             List<Integer> tmp = new ArrayList<>();
             while (size--> 0) {
