@@ -7,9 +7,9 @@
   So, you shouldn't reasonably use this to print too big of a tree, and expect to see everything.
 
   On complexity,
-  we traverse the tree multiple times to get different information (height, max key length, all values) and then print the tree
-  Of course this can be optimized, but as it's not expected you'll use this to print a very big tree,
-  in addition, this is just the first version, so we are aiming for simplicity and quick completion rather than performance.
+  we traverse the tree multiple times to get different information (height, max key length, all values) before print the tree
+  Of course this can be optimized (probably will be soon), but as it's not expected you'll use this to print a very big tree,
+  and this is just the first version, so we are aiming for simplicity and quick completion rather than performance.
  */
 package util;
 
