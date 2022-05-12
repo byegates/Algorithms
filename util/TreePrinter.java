@@ -18,11 +18,11 @@ import java.util.*;
 public class TreePrinter {
     public static String toString(TreeNode root) {
         if (root == null) return "";
-        int maxKeyLen = root.maxDigits();
+        int maxKeyLen = root.maxDigits(); // traverse the whole tree to get the max length from key value, will print all key nodes based on this max length to make sure all nodes takes up the same space
         int height = root.getHeight();
-        StringBuilder sb = new StringBuilder();
         List<List<Integer>> allKeys = new ArrayList<>();
         bfs(root, height, allKeys);
+        StringBuilder sb = new StringBuilder();
         construct(allKeys, height, maxKeyLen + 2, sb);
         return sb.toString();
     }
@@ -74,7 +74,7 @@ public class TreePrinter {
 
     private static String center(String s, int width, boolean leftAligned) {
         // center align string within certain width, when can't align exactly at center, leftAligned determines we align s to the left or right
-        if (s.length() >= width) return s;
+        if (s.length() >= width) return s; // this is not supposed to happen, but put it here as base case
         int diff = width - s.length();
         int mid1 = diff / 2;
         int mid2 = diff - mid1;
