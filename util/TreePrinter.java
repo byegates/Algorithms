@@ -104,7 +104,12 @@ public class TreePrinter {
         System.out.println(TreePrinter.toString(TreeNode.fromLevelOrder(new Integer[] {10, 12, 14, null, 16, 17})));
         System.out.println(TreePrinter.toString(TreeNode.fromLevelOrder(new Integer[] {10, 12, 14, null, -108, 17})));
         System.out.println(TreePrinter.toString(TreeNode.fromLevelOrder(new Integer[] {10, 12, 14, null, 16, 17, -18, 27, null, 36, 48, null})));
-        TreeNode root2 = TreeNode.fromLevelOrder(new Integer[] {111, 111, 112, 111, 112, 113, 114, 121, 122, 123, 224, 225, 226, 227, 228, 231, null, 333, 334, null, 336, null, 338, 339, 330, null, 332, 333, null, 335, 336});
+        Integer[] arr2 = new Integer[] {111, 111, 112, 111, 112, 113, 114, 121, 122, 123, 224, 225, 226, 227, 228, 231, null, 333, 334, null, 336, null, 338, 339, 330, null, 332, 333, null, 335, 336};
+        TreeNode root2 = TreeNode.fromLevelOrder(arr2);
         System.out.println(root2);
+        // test case with more negative numbers
+        Integer[] arr2b = new Integer[arr2.length];
+        for (int i = 0; i < arr2.length; i++) arr2b[i] = arr2[i] != null ? i % 2 == 0 ? arr2[i] : -arr2[i] : null;
+        System.out.println(TreePrinter.toString(TreeNode.fromLevelOrder(arr2b)));
     }
 }
