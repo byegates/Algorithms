@@ -1,15 +1,16 @@
 /*
   If your tree is big, by nature it will take up lots of spaces at deeper depth.
-  if you have a tree with height of 8, then the number of nodes at the last level is 2^7 = 128
-  say the value of each node is something like -106, 108, meaning, it takes up to 4 spaces (perfectly reasonable)
-  And to make it pretty (or not to ugly), you add 2 spaces between each node value
-  then you need 128 * (4+2) = 768. depend on the monitor you use, but not a lot of terminal can display this width.
   So, you shouldn't reasonably use this to print too big of a tree, and expect to see everything.
 
+  Example:
+  if you have a tree with height of 8, then the number of nodes at the last level is 2^7 = 128
+  say the value of each node is something like -106, 108, meaning, each node key takes up to 4 spaces when you print them out (perfectly reasonable)
+  And to make it pretty (or not too ugly), you add 2 spaces for each node value
+  then you need 128 * (4+2) = 768 spaces as the width of your printed tree.
+  Depend on the monitor you use, but most if not none can display this width.
+
   On complexity,
-  we traverse the tree multiple times to get different information (height, max key length, all values) before print the tree
-  Of course this can be optimized (probably will be soon), but as it's not expected you'll use this to print a very big tree,
-  and this is just the first version, so we are aiming for simplicity and quick completion rather than performance.
+  we traverse the tree multiple times to get different information (height, max key length, all values) for simplicity and quick completion rather than performance.
  */
 package util;
 
