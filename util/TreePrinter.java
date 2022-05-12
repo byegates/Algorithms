@@ -9,7 +9,7 @@
   then you need 128 * (4+2) = 768 spaces as the width of your printed tree.
   Depend on the monitor you use, but most if not none can display this width.
 
-  On complexity,
+  NOTE,
   we traverse the tree multiple times to get different information (height, max key length, all values) for simplicity and quick completion rather than performance.
  */
 package util;
