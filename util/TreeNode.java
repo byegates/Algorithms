@@ -14,7 +14,10 @@ public class TreeNode implements Iterable<TreeNode> {
         this.left = left;
         this.right = right;
     }
-    public TreeNode(int key) {this(key, null, null);}
+
+    public TreeNode(int key) {
+        this(key, null, null);
+    }
 
     public static TreeNode fromLevelOrder(Integer[] A) {
         if (A == null || A.length==0) return null;
@@ -50,25 +53,61 @@ public class TreeNode implements Iterable<TreeNode> {
         return res;
     }
 
-    public List<Integer> inOrder() {return inOrder(this);}
-    public List<Integer> preOrder() {return preOrder(this);}
-    public List<Integer> postOrder() {return postOrder(this);}
-    public List<Integer> postOrderIterative() {return postOrderIterative(this);}
-    public List<Integer> levelOrder() {return levelOrder(this);}
-    public TreeNode insert(int key) {return insert(this, key);}
-    public int getHeight() {return getHeight(this);}
-    public boolean isCompleted() {return isCompleted(this);}
-    public List<List<Integer>> layerByLayer() {return layerByLayer(this);}
-    public TreeNode deleteNode(int key) {return deleteNode(this, key);}
-    public boolean pathSumToTarget(int target) {return pathSumToTarget(this, target);}
+    public List<Integer> inOrder() {
+        return inOrder(this);
+    }
+
+    public List<Integer> preOrder() {
+        return preOrder(this);
+    }
+
+    public List<Integer> postOrder() {
+        return postOrder(this);
+    }
+
+    public List<Integer> postOrderIterative() {
+        return postOrderIterative(this);
+    }
+
+    public List<Integer> levelOrder() {
+        return levelOrder(this);
+    }
+
+    public TreeNode insert(int key) {
+        return insert(this, key);
+    }
+
+    public int getHeight() {
+        return getHeight(this);
+    }
+
+    public boolean isCompleted() {
+        return isCompleted(this);
+    }
+
+    public List<List<Integer>> layerByLayer() {
+        return layerByLayer(this);
+    }
+
+    public TreeNode deleteNode(int key) {
+        return deleteNode(this, key);
+    }
+
+    public boolean pathSumToTarget(int target) {
+        return pathSumToTarget(this, target);
+    }
 
     public String toString() {
         return TreePrinter.toString(this);
     }
 
-    public int maxDigits() {return maxDigits(this);}
+    public static String toString(TreeNode root) {
+        return levelOrder(root).toString();
+    }
 
-    public static String toString(TreeNode root) {return levelOrder(root).toString();}
+    public int maxDigits() {
+        return maxDigits(this);
+    }
 
     public static TreeNode deleteNode(TreeNode root, int key) {
         if (root == null) return null;
