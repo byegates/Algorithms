@@ -7,16 +7,16 @@ public class Debugger {
         //Creating a tree from Integer Array
         Integer[] A = new Integer[]{7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
         TreeNode root = TreeNode.fromLevelOrder(A);
-        //BTreePrinter.printNode(root);
+        System.out.println(root);
         // delete a tree node
         root = root.deleteNode(7);
         //System.out.println(root.levelOrder());
-        //BTreePrinter.printNode(root);
+        System.out.println(root);
 
         // Creating Binary Tree from String Array
         String[] strArr = new String[]{"17","13","21","9","14","18","46","5","#","#","#","#","#","32","47","#","#","22","42","#","49","#","29"};
         TreeNode root2 = TreeNode.fromLevelOrderSpecial(strArr);
-        //BTreePrinter.printNode(root2);
+        System.out.println(root2);
 
         // Creating graph and some prints
         int[][] matrix = new int[][]{
@@ -52,7 +52,7 @@ public class Debugger {
         System.out.println();
         for (int i : hpA) {
             hp.offer(i);
-            BTreePrinter.printNode(TreeNode.fromLevelOrder(hp.array()));
+            System.out.println(TreeNode.fromLevelOrder(hp.array()));
             System.out.printf("Current size : %d (cur cap: %d)\n", hp.size(), hp.cap());
             System.out.println("Heap after offer : " + hp);
             System.out.println();
@@ -60,7 +60,7 @@ public class Debugger {
 
         while (!hp.isEmpty()) {
             System.out.println("Poll : " + hp.poll());
-            BTreePrinter.printNode(TreeNode.fromLevelOrder(hp.array()));
+            System.out.println(TreeNode.fromLevelOrder(hp.array()));
             System.out.printf("Current size : %d (cur cap: %d)\n", hp.size(), hp.cap());
             System.out.println(hp);
             System.out.println();
@@ -71,17 +71,21 @@ public class Debugger {
 
         // test iterator with for each loop
         TreeNode rootItr = TreeNode.fromLevelOrderSpecial(new String[]{"5","2","12","1","3","#","14"});
-        BTreePrinter.printNode(rootItr);
         List<Integer> res = new ArrayList<>();
-        for (Iterator<TreeNode> it = rootItr.iterator();it.hasNext();) // use iterator the old way
-            res.add(it.next().key);
-        System.out.println(res);
-        res = new ArrayList<>();
-        for (TreeNode treeNode : rootItr) // use for each loop directly
-            res.add(treeNode.key);
-        System.out.println(res);
 
         // TreeNode can now be printed directly (in level order)
+        System.out.println("\nPrint a tree directly: ");
         System.out.println(rootItr);
+
+        // create an iterator and iterate it manually
+        for (Iterator<TreeNode> it = rootItr.iterator();it.hasNext();)
+            res.add(it.next().key);
+        System.out.printf("Iterate an iterator manually: %s\n", res);
+
+        // use for each loop directly on an iterable
+        res = new ArrayList<>();
+        for (TreeNode treeNode : rootItr)
+            res.add(treeNode.key);
+        System.out.printf("For each loop on an iterable: %s\n", res);
     }
 }

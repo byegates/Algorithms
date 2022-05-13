@@ -5,18 +5,17 @@ import java.util.*;
 public class TreeIterators {
 
     public static void main(String[] args) {
-        //TreeNode root = TreeNode.fromLevelOrder(new Integer[] {50, 25, 75, 15, 40, 60, 90, 10, 20, 30, 45, 55, 65, 80, 100, null, null, null, null, null, null, null, null, null, null, 62, null, 78, 85, null, null, 61, 63, 76, null, null, null, null, null, null, null, null, 77});
-        Integer[] arr = new Integer[] {50, 25, 75, 15, 40, 60, 90, 10, null, 30};
-
         // create tree from arr and take a quick peek
+//        TreeNode root = TreeNode.fromLevelOrder(new Integer[] {50, 25, 75, 15, 40, 60, 90, 10, 20, 30, 45, 55, 65, 80, 100, null, null, null, null, null, null, null, null, null, null, 62, null, 78, 85, null, null, 61, 63, 76, null, null, null, null, null, null, null, null, 77});
+        Integer[] arr = new Integer[] {50, 25, 75, 15, 40, 60, 90, 10, null, 30};
         TreeNode root = TreeNode.fromLevelOrder(arr);
-        BTreePrinter.printNode(root);
+        System.out.println(root);
 
 
         // Iterate an iterator manually
-//        System.out.printf("Iterate an iterator manually: %s\n", iterate(new PreOrderIterator(root)));
-//        System.out.printf("Iterate an iterator manually: %s\n", iterate(new InOrderIterator(root)));
-//        System.out.printf("Iterate an iterator manually: %s\n", iterate(new PostOrderIterator(root)));
+        System.out.printf("Iterate an iterator manually: %s\n", iterate(new PreOrderIterator(root)));
+        System.out.printf("Iterate an iterator manually: %s\n", iterate(new InOrderIterator(root)));
+        System.out.printf("Iterate an iterator manually: %s\n", iterate(new PostOrderIterator(root)));
         System.out.printf("Iterate an iterator manually: %s\n", iterate(new LevelOrderIterator(root)));
 
         // use for each loop directly on an iterable

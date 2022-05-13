@@ -1,4 +1,3 @@
-import util.BTreePrinter;
 import util.TreeNode;
 
 public class DistanceOfTwoNodesInBST {
@@ -26,7 +25,7 @@ public class DistanceOfTwoNodesInBST {
     public static void main(String[] args) {
         DistanceOfTwoNodesInBST db = new DistanceOfTwoNodesInBST();
         TreeNode root = TreeNode.fromLevelOrder(new Integer[]{4, 2, 6, 1, 3, 5, 7});
-        BTreePrinter.printNode(root);
+        System.out.println(root);
         System.out.println(db.distanceBST(root, 1, 2)); // 1
         System.out.println(db.distanceBST(root, 1, 3)); // 2
         System.out.println(db.distanceBST(root, 1, 4)); // 2
