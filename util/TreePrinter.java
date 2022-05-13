@@ -24,7 +24,7 @@ public class TreePrinter {
         List<List<Integer>> allKeys = new ArrayList<>();
         bfs(root, height, allKeys);
         StringBuilder sb = new StringBuilder();
-        construct(allKeys, height, maxKeyLen + 2, sb);
+        construct(allKeys, height, maxKeyLen + (maxKeyLen == 1 ? 2 : 1), sb);
         return sb.toString();
     }
 
