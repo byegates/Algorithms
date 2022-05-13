@@ -372,6 +372,8 @@ public class TreeNode implements Iterable<TreeNode> {
         for (int i = 0; i < arr2.length; i++) arr2b[i] = arr2[i] != null ? i % 2 == 0 ? arr2[i] : -arr2[i] : null;
         res.add(TreeNode.fromLevelOrder(arr2));
         res.add(TreeNode.fromLevelOrder(arr2b));
+        res.add(TreeNode.fromLevelOrderSpecial(new String[]{"460","59","35","#","287","272","61","292","148","354","140","277","442","130","453","#","96","46","#","119","90","304","#","202","360","300","472","299","110","406","365","142","#","288","276","#","332","87","#","29"}));
+        res.add(TreeNode.fromLevelOrder(new Integer[]{1, 3, 2, 4, null, null, 5}));
         return res;
     }
 
