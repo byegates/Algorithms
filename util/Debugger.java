@@ -14,17 +14,12 @@ public class Debugger {
         System.out.println(root);
 
         // Creating Binary Tree from String Array
-        String[] strArr = new String[]{"17","13","21","9","14","18","46","5","#","#","#","#","#","32","47","#","#","22","42","#","49","#","29"};
+        String[] strArr = new String[]{"17", "13", "21", "9", "14", "18", "46", "5", "#", "#", "#", "#", "#", "32", "47", "#", "#", "22", "42", "#", "49", "#", "29"};
         TreeNode root2 = TreeNode.fromLevelOrderSpecial(strArr);
         System.out.println(root2);
 
         // Creating graph and some prints
-        int[][] matrix = new int[][]{
-                {1, 2},
-                {1, 3},
-                {2, 4},
-                {3, 4},
-        };
+        int[][] matrix = new int[][]{{1, 2}, {1, 3}, {2, 4}, {3, 4},};
         List<GraphNode> graph = GraphNode.fromMatrixToList(matrix);
         GraphNode n5 = new GraphNode(5);
         graph.add(n5);
@@ -39,7 +34,7 @@ public class Debugger {
         System.out.println("Heap after  self heapsort  : " + heap);
 
         // Pass an array to heapsort method directly, this will get rid of the original array... not good?
-        Integer[] A3 = new Integer[]{4,8,2,5,3,0,6,7,1};
+        Integer[] A3 = new Integer[]{4, 8, 2, 5, 3, 0, 6, 7, 1};
         heap.heapsort(A3);
         System.out.println("Outside arr after heapsort : " + Arrays.toString(A3));
         System.out.println("Original Heap still intact : " + heap);
@@ -70,7 +65,7 @@ public class Debugger {
         //TreeNode sameRoot = TreeNode.fromLevelOrder(root.levelOrder().toArray(Integer[]::new));
 
         // test iterator with for each loop
-        TreeNode rootItr = TreeNode.fromLevelOrderSpecial(new String[]{"5","2","12","1","3","#","14"});
+        TreeNode rootItr = TreeNode.fromLevelOrderSpecial(new String[]{"5", "2", "12", "1", "3", "#", "14"});
         List<Integer> res = new ArrayList<>();
 
         // TreeNode can now be printed directly (in level order)
@@ -78,7 +73,7 @@ public class Debugger {
         System.out.println(rootItr);
 
         // create an iterator and iterate it manually
-        for (Iterator<TreeNode> it = rootItr.iterator();it.hasNext();)
+        for (Iterator<TreeNode> it = rootItr.iterator(); it.hasNext(); )
             res.add(it.next().key);
         System.out.printf("Iterate an iterator manually: %s\n", res);
 
