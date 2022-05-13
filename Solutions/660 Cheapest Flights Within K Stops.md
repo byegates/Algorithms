@@ -542,3 +542,54 @@ public class Solution {
     
 }
 ```
+
+# Additional Note
+## Code to print dp matrix in Markdown table format
+```java
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {// TC: O(k * EDGE) ==> k*n^2
+        System.out.printf("Num of  Cities(n): %d\n\nFrom    City(src): %d\n\nTo      City(dst): %d\n\nMax # of Stops(k): %d\n\nAll flights:\n%s\n\n", n, src, dst, k, Utils.toString(flights));
+        int[][] dp = new int[k + 2][n];
+        for (int[] a : dp) Arrays.fill(a, -1);
+        dp[0][src] = 0;
+        System.out.println("### Initialization and base case (set dp[0][src] = 0)\n");
+        System.out.println(toStringMD(dp, 4));
+
+        String cur, pre = "";
+
+        for (int i = 1; i <= k + 1; i++) {
+            dp[i][src] = 0;
+            System.out.printf("\n### i = %d segment(s) (%d stop(s))\nflights that don't update below table are ignored\n", i, i - 1);
+            for (int[] flight : flights) {
+                if (dp[i - 1][flight[0]] != -1) {
+
+                    int newCost = dp[i - 1][flight[0]] + flight[2];
+                    if (dp[i][flight[1]] == -1 || newCost < dp[i][flight[1]])
+                        dp[i][flight[1]] = newCost;
+                }
+                cur = toStringMD(dp, 4);
+                if (!cur.equals(pre))
+                    System.out.printf("\ni: %d, current flight segment: %s\n\n%s", i, Arrays.toString(flight), cur);
+                pre = cur;
+                //System.out.printf("i: %d, flight: %s\n\n%s", i, Arrays.toString(flight), cur);
+            }
+        }
+
+        return dp[k + 1][dst];
+    }
+}
+```
+## Test cases in code format
+```java
+class Solution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.findCheapestPrice(6, new int[][]{{0, 1, 6}, {0, 3, 8}, {0, 4, 27}, {0, 5, 19}, {1, 2, 1}, {1, 3, 2}, {1, 4, 30}, {1, 5, 28}, {2, 3, 7}, {2, 5, 25}, {3, 4, 15}, {3, 5, 23}, {4, 5, 21}}, 0, 3, 25));// 8
+        System.out.println(sol.findCheapestPrice(6, new int[][]{{0, 1, 6}, {0, 3, 8}, {0, 4, 27}, {0, 5, 19}, {1, 2, 1}, {1, 3, 2}, {1, 4, 30}, {1, 5, 28}, {2, 3, 7}, {2, 5, 25}, {3, 4, 15}, {3, 5, 23}, {4, 5, 21}}, 0, 3, 1));// 8
+        System.out.println(sol.findCheapestPrice(4, new int[][]{{0, 1, 1}, {0, 2, 5}, {1, 2, 1}, {2, 3, 1}}, 0, 3, 1)); // 6
+        System.out.println(sol.findCheapestPrice(3, new int[][]{{0, 1, 400}, {1, 2, 250}, {0, 2, 750}}, 0, 2, 1)); // 650
+        System.out.println(sol.findCheapestPrice(5, new int[][]{{4,1,1},{1,2,3},{0,3,2},{0,4,10},{3,1,1},{1,4,3}}, 2, 1, 1)); // -1
+        System.out.println(sol.findCheapestPrice(4, new int[][]{{0,1,100},{1,2,100},{2,0,100},{1,3,600},{2,3,200}}, 0, 3, 1)); // -1
+    }
+}
+```
