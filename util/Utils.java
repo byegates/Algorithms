@@ -196,6 +196,5 @@ public class Utils {
             for (int x : row)
                 sum += x;
         return sum;
-
     }
 }

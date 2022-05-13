@@ -91,27 +91,6 @@ public class TreePrinter {
     }
 
     public static void main(String[] args) {
-        TreeNode root = TreeNode.fromLevelOrder(new Integer[]{5, null, 8, null, 4, 3, 4});
-        print(root);
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, 13, 14, 15, 16, 17, null, null, -108}));
-
-        print(TreeNode.fromLevelOrder(new Integer[] {1, 2, 3, 4, 5, 6, 7}));
-        print(TreeNode.fromLevelOrder(new Integer[] {1, 1, 2, 1, 2, 3, 4, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6}));
-        print(TreeNode.fromLevelOrder(new Integer[] {1, 2, -3, 4, 5, 6, 7}));
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, 13, 14, 15, 16, 17}));
-        print(TreeNode.fromLevelOrder(new Integer[] {11, 11, 12, 11, 12, 13, 14, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 39, 30, 31, 32, 33, 34, 35, 36}));
-        print(TreeNode.fromLevelOrder(new Integer[] {11, 11, 12, 11, 12, 13, 14, 21, 22, 23, 24, 25, 26, 27, 28, 31, null, 33, 34, null, 36, null, 38, 39, 30, null, 32, 33, null, 35, 36}));
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, -13, 14, 15, 16, 17}));
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, 13, 14, 15, 16, 17, null, null, -108}));
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, 14, null, 16, 17}));
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, 14, null, -108, 17}));
-        print(TreeNode.fromLevelOrder(new Integer[] {10, 12, 14, null, 16, 17, -18, 27, null, 36, 48, null}));
-        Integer[] arr2 = new Integer[] {111, 111, 112, 111, 112, 113, 114, 121, 122, 123, 224, 225, 226, 227, 228, 231, null, 333, 334, null, 336, null, 338, 339, 330, null, 332, 333, null, 335, 336};
-        TreeNode root2 = TreeNode.fromLevelOrder(arr2);
-        System.out.println(root2);
-        // test case with more negative numbers
-        Integer[] arr2b = new Integer[arr2.length];
-        for (int i = 0; i < arr2.length; i++) arr2b[i] = arr2[i] != null ? i % 2 == 0 ? arr2[i] : -arr2[i] : null;
-        print(TreeNode.fromLevelOrder(arr2b));
+        for (TreeNode root : TreeNode.sampleTrees()) System.out.println(root);
     }
 }
