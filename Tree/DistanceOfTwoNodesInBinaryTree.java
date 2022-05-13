@@ -1,3 +1,4 @@
+package Tree;
 /*
     Find distance between two given keys of a Binary Tree, no parent pointers are given.
     Distance between two nodes is the minimum number of edges to be traversed to reach one node from others.
