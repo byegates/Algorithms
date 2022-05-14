@@ -25,6 +25,7 @@ import util.TreeNode;
 
 public class ReconstructBinaryTreeWithLevelorderAndInorder {
 
+    // Solution 0, TC: O(n), SC: O(n)
     private static class Aggregate {
         public TreeNode node;
         public int low, high, idx;
@@ -36,7 +37,7 @@ public class ReconstructBinaryTreeWithLevelorderAndInorder {
         }
     }
 
-    public TreeNode reconstruct(int[] in, int[] lvl) { // TC: O(n), SC: O(n)
+    public TreeNode reconstruct(int[] in, int[] lvl) {
         if (in.length == 0) return null;
 
         Queue<Aggregate> frontier = new ArrayDeque<>();
@@ -65,7 +66,9 @@ public class ReconstructBinaryTreeWithLevelorderAndInorder {
 
         return root;
     }
+    // Solution 0 ends here
 
+    // Solution 1 with map and list
     public Map<Integer, Integer> valToIdxMap(int[] in, Map<Integer, Integer> map) {
         for (int i = 0; i < in.length; i++)
             map.put(in[i], i);
@@ -81,20 +84,21 @@ public class ReconstructBinaryTreeWithLevelorderAndInorder {
 
     private TreeNode helper(List<Integer> list, Map<Integer, Integer> map) {
         if (list.isEmpty()) return null;
-        TreeNode root = new TreeNode(list.remove(0));
+        TreeNode root = new TreeNode(list.get(0));
         List<Integer> left = new ArrayList<>();
         List<Integer> right = new ArrayList<>();
 
-        for (int num : list)
-            if (map.get(num) < map.get(root.key))
-                left.add(num);
-            else right.add(num);
+        for (int i = 1; i < list.size(); i++)
+            if (map.get(list.get(i)) < map.get(root.key))
+                left.add(list.get(i));
+            else right.add(list.get(i));
 
         root.left = helper(left, map);
         root.right = helper(right, map);
 
         return root;
     }
+    // Solution 1 ends here
 
     public static void main(String[] args) {
         ReconstructBinaryTreeWithLevelorderAndInorder rli = new ReconstructBinaryTreeWithLevelorderAndInorder();
