@@ -188,19 +188,19 @@ public class TreeNode implements Iterable<TreeNode> {
     }
 
     static public List<Integer> levelOrder(TreeNode root){
-        List<Integer> A = new ArrayList<>();
-        if(root == null){return A;}
-        Deque<TreeNode> Q = new ArrayDeque<>();
-        A.add(root.key);
-        Q.offerLast(root);
-        while(!Q.isEmpty()){
-            TreeNode cur = Q.pollFirst();
-            A.add(cur.left == null ? null : cur.left.key);
-            A.add(cur.right == null ? null : cur.right.key);
-            if (cur.left != null) Q.offerLast(cur.left);
-            if (cur.right != null) Q.offerLast(cur.right);
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        Deque<TreeNode> q = new ArrayDeque<>();
+        res.add(root.key);
+        q.offerLast(root);
+        while(!q.isEmpty()){
+            TreeNode cur = q.pollFirst();
+            res.add(cur.left == null ? null : cur.left.key);
+            res.add(cur.right == null ? null : cur.right.key);
+            if (cur.left != null) q.offerLast(cur.left);
+            if (cur.right != null) q.offerLast(cur.right);
         }
-        return trimTrailingNull(A);
+        return trimTrailingNull(res);
     }
 
     public List<Integer> levelOrderWithoutNull(TreeNode root){
@@ -374,6 +374,7 @@ public class TreeNode implements Iterable<TreeNode> {
         res.add(TreeNode.fromLevelOrder(arr2b));
         res.add(TreeNode.fromLevelOrderSpecial(new String[]{"460","59","35","#","287","272","61","292","148","354","140","277","442","130","453","#","96","46","#","119","90","304","#","202","360","300","472","299","110","406","365","142","#","288","276","#","332","87","#","29"}));
         res.add(TreeNode.fromLevelOrder(new Integer[]{1, 3, 2, 4, null, null, 5}));
+        res.add(TreeNode.fromLevelOrder(new Integer[]{31, 11, null, 7, 26, 2, 8, 16, 30, null, 6, null, 10, 13, 22, 27}));
         return res;
     }
 
