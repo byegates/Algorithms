@@ -51,7 +51,7 @@ class Solution {
   public boolean isBipartite(List<GraphNode> graph) {
     Map<GraphNode, Integer> visited = new HashMap<>();
     for (GraphNode node : graph) {
-      if (visited.containsKey(node)) continue; // early termination, why?
+      if (visited.containsKey(node)) continue; // graph maybe disconnected
       if (!isBipartite(node, visited)) return false;
     }
     return true;
@@ -92,8 +92,7 @@ A graph is bipartite if the nodes can be partitioned into two independent sets A
 Return true if and only if it is bipartite.
 
 ### Example 1
-
-![Graph1](https://assets.leetcode.com/uploads/2020/10/21/bi2.jpg)
+![Graph1](../Images/Bipartite_Example1.png)
 
 Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
 
@@ -119,12 +118,12 @@ All the values of graph[u] are unique.
 If graph[u] contains v, then graph[v] contains u.
 </pre>
 
-### BFS
+### BFS (1ms)
 ```java
 class Solution {
     public static boolean isBipartite(int[][] graph) { // // TC: O(V+E), SC: O(V)
         int[] group = new int[graph.length];
-        for (int node = 0; node < graph.length; node++)
+        for (int node = 0; node < graph.length; node++) // graph may be disconnected
             if (group[node] == 0)
                 if (!isBipartite(node, graph, group))
                     return false;
@@ -148,7 +147,35 @@ class Solution {
     }
 }
 ```
-### DFS
-```java
+### DFS (0ms)
+We have to loop through all nodes (with some logic of de-dup of course), just in case the graph is disconnected.
 
+For each node we assign different groups as we go deep in levels with DFS, when we meet a node with assigned group, we return true or false based on value;
+
+There's no 吃 or 🤮?
+
+#### DFS search tree of example 1
+![DFS search tree of example 1](../Images/Bipartite_Example1_DFS.jpeg)
+#### DFS search tree of example 2
+
+```java
+class Solution {
+    static boolean isBipartite(int[][] graph) {
+        int[] groups = new int[graph.length];
+        for (int cur = 0; cur < graph.length; cur++)
+            if (groups[cur] == 0 && !dfs(cur, 1, groups, graph)) return false;
+        return true;
+    }
+
+    static private boolean dfs(int cur, int group, int[] groups, int[][] graph) {
+        if (groups[cur] != 0) return groups[cur] == group;
+
+        groups[cur] = group;
+        for (int nei : graph[cur])
+            if (!dfs(nei, -group, groups, graph))
+                return false;
+
+        return true;
+    }
+}
 ```
