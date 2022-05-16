@@ -119,6 +119,12 @@ If graph[u] contains v, then graph[v] contains u.
 </pre>
 
 ### BFS (1ms)
+#### Example 1
+Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
+![](../Images/Bipartite_Example1_BFS.jpeg)
+#### Example 2
+Input: graph = [[1,3],[0,2],[1,3],[0,2]]
+![](../Images/Bipartite_Example2_BFS.jpeg)
 ```java
 class Solution {
     public static boolean isBipartite(int[][] graph) { // // TC: O(V+E), SC: O(V)
