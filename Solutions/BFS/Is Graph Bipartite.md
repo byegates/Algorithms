@@ -123,24 +123,23 @@ If graph[u] contains v, then graph[v] contains u.
 ```java
 class Solution {
     public static boolean isBipartite(int[][] graph) { // // TC: O(V+E), SC: O(V)
-        int[] visited = new int[graph.length];
-        Arrays.fill(visited, -1); // initialize, -1 means not visited
+        int[] group = new int[graph.length];
         for (int node = 0; node < graph.length; node++)
-            if (visited[node] == -1)
-                if (!isBipartite(node, graph, visited))
+            if (group[node] == 0)
+                if (!isBipartite(node, graph, group))
                     return false;
         return true;
     }
     private static boolean isBipartite(int node, int[][] graph, int[] visited) {
         Queue<Integer> q = new ArrayDeque<>();
         q.offer(node);
-        visited[node] = 0;
+        visited[node] = 1; // two group name will be 1 vs -1
         while (!q.isEmpty()) {
             int cur = q.poll();
             int curGroup = visited[cur];
             for (int nei : graph[cur]) {
-                if (visited[nei] == -1) {
-                    visited[nei] = 1 - curGroup;
+                if (visited[nei] == 0) {
+                    visited[nei] = -curGroup;
                     q.offer(nei);
                 } else if (visited[nei] == curGroup) return false;
             }
@@ -150,3 +149,6 @@ class Solution {
 }
 ```
 ### DFS
+```java
+
+```
