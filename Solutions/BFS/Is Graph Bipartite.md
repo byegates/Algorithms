@@ -30,6 +30,8 @@ Assumptions
 
 The graph is represented by a list of nodes, and the list of nodes is not null.
 
+![](https://assets.leetcode.com/users/images/335dc44e-965c-4779-9757-40ffad537f5a_1613330997.6753454.png)
+[Above picture copied from LeetCode discussion](https://leetcode.com/problems/is-graph-bipartite/discuss/1065709/C%2B%2B-or-DFS-or-O(n)-8ms-Beats-100-or-Explanation)
 ## Analysis
 Standard BFS, with de-dup and tag node and its neighbors into different groups.
 
@@ -40,6 +42,10 @@ But of course we check for duplicates before entering a new BFS with any new nod
 TC: O(V+E)
 
 Why is TC V+E? Go through an example.
+
+For undirected graph, connection between two nodes should be counted as two edges.
+
+Should be same for both BFS and DFS
 
 SC: O(V)
 
