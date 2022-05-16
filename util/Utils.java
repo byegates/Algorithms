@@ -25,6 +25,7 @@ public class Utils {
     }
 
     public static String toString(int e, int radix) {
+        if ( e < 0) return Integer.toString(e, radix);
         StringBuilder sb = new StringBuilder();
         sb.append("0".repeat(Integer.numberOfLeadingZeros(e)));
         String s = Integer.toString(e, radix);
