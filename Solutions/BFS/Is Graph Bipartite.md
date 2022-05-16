@@ -155,9 +155,11 @@ For each node we assign different groups as we go deep in levels with DFS, when 
 There's no 吃 or 🤮?
 
 #### DFS search tree of example 1
+Input: graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
 ![DFS search tree of example 1](../Images/Bipartite_Example1_DFS.jpeg)
 #### DFS search tree of example 2
-
+Input: graph = [[1,3],[0,2],[1,3],[0,2]]
+![DFS search tree of example 2](../Images/Bipartite_Example2_DFS.jpeg)
 ```java
 class Solution {
     static boolean isBipartite(int[][] graph) {
