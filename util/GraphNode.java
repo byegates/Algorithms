@@ -43,7 +43,7 @@ public class GraphNode {
         return graph;
     }
 
-    public static boolean isBipartite(List<GraphNode> graph) { // // TC: O(V+E), SC: O(V)
+    public static boolean isBipartite(List<GraphNode> graph) {// TC: O(V+E), SC: O(V)
         Map<GraphNode, Integer> visited = new HashMap<>();
         for (GraphNode node : graph)
             if (!isBipartite(node, visited)) return false;
@@ -68,5 +68,5 @@ public class GraphNode {
             }
         }
         return true;
-    } // TC: V+E?, SC: E
+    }
 }
