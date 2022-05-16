@@ -351,6 +351,28 @@ public class TreeNode implements Iterable<TreeNode> {
         maxDigits(root.right, maxDigits);
     }
 
+    private static TreeNode BST(int[] a, int l, int r) {
+        if (l > r) return null;
+        int mid = r - (r - l) / 2;
+        TreeNode root = new TreeNode(a[mid]);
+        root.left  = BST(a, l, mid - 1);
+        root.right = BST(a, mid + 1, r);
+        return root;
+    }
+
+    public static TreeNode inOrderToBST(int[] a) {
+        return BST(a, 0, a.length - 1);
+    }
+    static class Node {
+        TreeNode node;
+        int min, max;
+        Node(TreeNode node, int min, int max) {
+            this.node = node;
+            this.min = min;
+            this.max = max;
+        }
+    }
+
     public static List<TreeNode> sampleTrees() {
         List<TreeNode> res = new ArrayList<>();
         res.add(TreeNode.fromLevelOrder(new Integer[]{5, null, 8, null, 4, 3, 4}));
