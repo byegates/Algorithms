@@ -23,26 +23,27 @@ Output: [[1]]
 #### Statistics
 int is not enough for n = 20
 <pre>
- 1: 1
- 2: 2
- 3: 5
- 4: 14
- 5: 42
- 6: 132
- 7: 429
- 8: 1430
- 9: 4862
-10: 16796
-11: 58786
-12: 208012
-13: 742900
-14: 2674440
-15: 9694845
-16: 35357670
-17: 129644790
-18: 477638700
-19: 1767263190
-20: 6564120420 (6.5B/65亿+, long)
+ n num of BSTs                      n!     n!/#BSTs
+ 1:          1 vs                    1 (        1x)
+ 2:          2 vs                    2 (        1x)
+ 3:          5 vs                    6 (        1x)
+ 4:         14 vs                   24 (        1x)
+ 5:         42 vs                  120 (        2x)
+ 6:        132 vs                  720 (        5x)
+ 7:        429 vs                 5040 (       11x)
+ 8:       1430 vs                40320 (       28x)
+ 9:       4862 vs               362880 (       74x)
+10:      16796 vs              3628800 (      216x)
+11:      58786 vs             39916800 (      679x)
+12:     208012 vs            479001600 (     2302x)
+13:     742900 vs           6227020800 (     8382x)
+14:    2674440 vs          87178291200 (    32596x)
+15:    9694845 vs        1307674368000 (   134883x)
+16:   35357670 vs       20922789888000 (   591746x)
+17:  129644790 vs      355687428096000 (  2743553x)
+18:  477638700 vs     6402373705728000 ( 13404218x)
+19: 1767263190 vs   121645100408832000 ( 68832475x)
+20: 6564120420 vs  2432902008176640000 (370636407x)
 </pre>
 
 ## Time and Space
@@ -87,6 +88,8 @@ public class Solution {
 }
 ```
 ### LeetCode
+Some LeetCode solution re-uses same left trees to make the code run faster, but the reuses of references is logically and physically not appropriate.
+
 LeetCode has 3-PARM tree constructor which is easier to use
 
 ```java
