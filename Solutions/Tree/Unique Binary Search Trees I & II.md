@@ -4,7 +4,8 @@
 [LeetCode 95. Unique Binary Search Trees II](https://leetcode.com/problems/unique-binary-search-trees-ii/)
 
 ## Description
-Given an integer n, return all the structurally unique BST's (binary search trees), which has exactly n nodes of unique values from 1 to n. Return the answer in any order.
+Given an integer n, return all the structurally unique BST's (binary search trees),
+which has exactly n nodes of unique values from 1 to n. Return the answer in any order.
 
 ### Example 1
 ![](https://assets.leetcode.com/uploads/2021/01/18/uniquebstn3.jpg)
@@ -60,7 +61,7 @@ public class Solution {
     if (l > r) {
       res.add(null);
       return res;
-    };
+    }
 
     if (l == r) {
       res.add(new TreeNode(l));
