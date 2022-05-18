@@ -1,6 +1,6 @@
 # Table of Content
-1. [Kth Smallest Number In Sorted Matrix](#Kth-Smallest-Number-In-Sorted-Matrix)
-2. [Kth-Smallest-Sum-In-Two-Sorted-Arrays](#Kth-Smallest-Sum-In-Two-Sorted-Arrays)
+1. [26 Kth Smallest Number In Sorted Matrix](#Kth-Smallest-Number-In-Sorted-Matrix)
+2. [27 Kth-Smallest-Sum-In-Two-Sorted-Arrays](#Kth-Smallest-Sum-In-Two-Sorted-Arrays)
 <pre>
 </pre>
 
