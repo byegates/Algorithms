@@ -134,10 +134,10 @@ Input: graph = [[1,3],[0,2],[1,3],[0,2]]
 ```java
 class Solution {
     public static boolean isBipartite(int[][] graph) { // // TC: O(V+E), SC: O(V)
-        int[] group = new int[graph.length];
+        int[] visited = new int[graph.length];
         for (int node = 0; node < graph.length; node++) // graph may be disconnected
-            if (group[node] == 0)
-                if (!isBipartite(node, graph, group))
+            if (visited[node] == 0)
+                if (!isBipartite(node, graph, visited))
                     return false;
         return true;
     }
