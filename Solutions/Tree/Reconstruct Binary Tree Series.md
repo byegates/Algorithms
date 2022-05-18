@@ -8,8 +8,87 @@
 # Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation
 ## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
 [LaiCode 210 Reconstruct Binary Search Tree With Postorder Traversal](https://app.laicode.io/app/problem/210)
+
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+    int cur;
+    public TreeNode reconstruct(int[] post) {
+        cur = post.length - 1;
+        return reconstruct(post, Integer.MIN_VALUE);
+    }
+
+    private TreeNode reconstruct(int[] post, int min) {
+        if (cur < 0 || post[cur] <= min) return null;
+        TreeNode root = new TreeNode(post[cur--]);
+        root.right = reconstruct(post, root.key);
+        root.left = reconstruct(post, min);
+        return root;
+    }
+}
+```
+
 ## Reconstruct-Binary-Search-Tree-With-Preorder-Traversal
 [LaiCode 211 Reconstruct Binary Search Tree With Postorder Traversal](https://app.laicode.io/app/problem/211)
+
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+  int cur = 0;
+  public TreeNode reconstruct(int[] pre) {
+    return dfs(pre, Integer.MAX_VALUE);
+  }
+
+  private TreeNode dfs(int[] pre, int max) {
+    if (cur == pre.length || pre[cur] > max)
+      return null;
+
+    TreeNode root = new TreeNode(pre[cur++]);
+    root.left = dfs(pre, root.key);
+    root.right = dfs(pre, max);
+    return root;
+  }
+}
+```
+[LeetCode 1008. Construct Binary Search Tree from Preorder Traversal](https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/)
+
+TC: O(n)
+
+SC: O(height)
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    int cur;
+    public TreeNode bstFromPreorder(int[] pre) {
+        return dfs(pre, Integer.MAX_VALUE);
+    }
+
+    private TreeNode dfs(int[] pre, int max) {
+        if (cur == pre.length || pre[cur] > max) return null;
+        return new TreeNode(pre[cur], dfs(pre, pre[cur++]), dfs(pre, max));
+    }
+}
+```
+
 ## Valid-Post-order-Traversal-Of-Binary-Search-Tree
 [LaiCode 304 Valid Post-order Traversal Of Binary Search Tree](https://app.laicode.io/app/problem/304)
 ## Verify-Preorder-Sequence-in-Binary-Search-Tree
