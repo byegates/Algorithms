@@ -200,7 +200,50 @@ TC: O(n)
 SC: O(height)
 
 ```java
+class Solution {
 
+    static class Pair {
+        TreeNode node;
+        int idx;
+        Pair(TreeNode node, int idx) {
+            this.node = node;
+            this.idx = idx;
+        }
+    }
+
+  public List<Integer> verticalOrder(TreeNode root) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] range = bfs(root, map);
+
+        List<Integer> res = new ArrayList<>();
+        for (int i = range[0]; i <= range[1]; i++) res.addAll(map.get(i));
+
+        return res;
+    }
+
+    private int[] bfs(TreeNode root, Map<Integer, List<Integer>> map) {
+        Queue<Pair> q = new ArrayDeque<>();
+        if (root != null) q.offer(new Pair(root, 0));
+
+        int min = 0, max = -1; // so that size (max - min + 1) is 0 when root is null
+
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+            min = Math.min(min, cur.idx);
+            max = Math.max(max, cur.idx);
+
+            List<Integer> list = map.getOrDefault(cur.idx, new ArrayList<>());
+            list.add(cur.node.key);
+            map.put(cur.idx, list);
+
+            if (cur.node.left  != null) q.offer(new Pair(cur.node.left , cur.idx - 1));
+            if (cur.node.right != null) q.offer(new Pair(cur.node.right, cur.idx + 1));
+        }
+
+        return new int[] {min, max};
+    }
+
+}
 ```
 # 406-Diagonal-Sum-of-a-Binary-Tree
 [LaiCode 406. Diagonal Sum of a Binary Tree](https://app.laicode.io/app/problem/406)
