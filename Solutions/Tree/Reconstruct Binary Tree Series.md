@@ -1,9 +1,9 @@
 # Table of Contents
 1. [Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation](#Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation)
-   1. [Reconstruct-Binary-Search-Tree-With-Postorder-Traversal](##Reconstruct-Binary-Search-Tree-With-Postorder-Traversal)
-   2. [Reconstruct-Binary-Search-Tree-With-Preorder-Traversal](##Reconstruct-Binary-Search-Tree-With-Preorder-Traversal)
-   3. [Valid-Post-order-Traversal-Of-Binary-Search-Tree](##Valid-Post-order-Traversal-Of-Binary-Search-Tree)
-   4. [Verify-Preorder-Sequence-in-Binary-Search-Tree](##Verify-Preorder-Sequence-in-Binary-Search-Tree)
+   1. [Reconstruct-Binary-Search-Tree-With-Postorder-Traversal](#Reconstruct-Binary-Search-Tree-With-Postorder-Traversal)
+   2. [Reconstruct-Binary-Search-Tree-With-Preorder-Traversal](#Reconstruct-Binary-Search-Tree-With-Preorder-Traversal)
+   3. [Valid-Post-order-Traversal-Of-Binary-Search-Tree](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
+   4. [Verify-Preorder-Sequence-in-Binary-Search-Tree](#Verify-Preorder-Sequence-in-Binary-Search-Tree)
 2. [Reconstruct Binary Search Tree With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
 # Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation
 ## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
