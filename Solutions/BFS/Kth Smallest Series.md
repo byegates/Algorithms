@@ -103,7 +103,7 @@ public class Solution {
   }
 }
 ```
-# 27. Kth-Smallest-Sum-In-Two-Sorted-Arrays
+# Kth-Smallest-Sum-In-Two-Sorted-Arrays
 [LaiCode 27. Kth Smallest Sum In Two Sorted Arrays](https://app.laicode.io/app/problem/27)
 ## Description
 Given two sorted arrays A and B, of sizes m and n respectively. Define s = a + b, where a is one element from A and b is one element from B. Find the Kth smallest s out of all possible s'.
