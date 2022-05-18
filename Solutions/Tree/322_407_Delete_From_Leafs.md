@@ -1,5 +1,6 @@
 # Delete Zero Nodes From Leaf
 [322. Delete Zero Nodes From Leaf](https://app.laicode.io/app/problem/322)
+
 [LeetCode 1325. Delete Leaves With a Given Value](https://leetcode.com/problems/delete-leaves-with-a-given-value/)
 ### TC & SC
 TC: O(n)
