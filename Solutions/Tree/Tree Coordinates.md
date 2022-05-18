@@ -3,6 +3,7 @@
 2. [LaiCode 297. Top View Of Binary Tree](#297-Top-View-Of-Binary-Tree)
 3. [LaiCode 298. Vertical List Of Binary Tree](#298-Vertical-List-Of-Binary-Tree)
 4. [LaiCode 426. Binary Tree Vertical Order Traversal](#426-Binary-Tree-Vertical-Order-Traversal)
+5. [LaiCode 406. Diagonal Sum of a Binary Tree](#406-Diagonal-Sum-of-a-Binary-Tree)
 
 # 296-Right-View-Of-Binary-Tree
 [LaiCode 296. Right View Of Binary Tree](https://app.laicode.io/app/problem/296)
