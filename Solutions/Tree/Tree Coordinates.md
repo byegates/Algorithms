@@ -5,10 +5,16 @@
 4. [LaiCode 426. Binary Tree Vertical Order Traversal](#426-Binary-Tree-Vertical-Order-Traversal)
 5. [LaiCode 406. Diagonal Sum of a Binary Tree](#406-Diagonal-Sum-of-a-Binary-Tree)
 
+# Quick Note
+This series is pretty much about assign coordinates to each node in Binary Tree,
+x coordinate is the level/depth of each node and
+y coordinate decrease by 1 when go left, increase by 1 when go right
+
 # 296-Right-View-Of-Binary-Tree
 [LaiCode 296. Right View Of Binary Tree](https://app.laicode.io/app/problem/296)
 ## Description
-Given a Binary Tree, return the right view of it. Right view of a Binary Tree is list of nodes visible when tree is visited from Right side, the order of the nodes in the list should be from top to bottom level of the original tree.
+Given a Binary Tree, return the right view of it.
+Right view of a Binary Tree is list of nodes visible when tree is visited from Right side, the order of the nodes in the list should be from top to bottom level of the original tree.
 
 Examples:
 <pre>
@@ -267,11 +273,11 @@ For the above input tree, output should be:
 
 
 ## Analysis
+<pre>
 right most: 0,0, 1,1, 2,2
 2nd diag: 1,-1, 2,0, 2,0, 3,1
 3rd diag: 2,-2, 3,-1
 
-<pre>
 let lvl(depth) be row #
 for col #: let root be col 0, if we go left col -1, if we go right col +1
 for first dashed line (right, top): row - col = 0
