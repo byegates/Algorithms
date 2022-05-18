@@ -4,7 +4,8 @@
    2. [Reconstruct-Binary-Search-Tree-With-Preorder-Traversal](#Reconstruct-Binary-Search-Tree-With-Preorder-Traversal)
    3. [Valid-Post-order-Traversal-Of-Binary-Search-Tree](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
    4. [Verify-Preorder-Sequence-in-Binary-Search-Tree](#Verify-Preorder-Sequence-in-Binary-Search-Tree)
-2. [Reconstruct Binary Search Tree With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
+2. [Reconstruct Binary Tree With Preorder And Inorder](#Reconstruct-Binary-Tree-With-Preorder-And-Inorder)
+3. [Reconstruct Binary Search Tree With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
 # Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation
 ## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
 [LaiCode 210 Reconstruct Binary Search Tree With Postorder Traversal](https://app.laicode.io/app/problem/210)
@@ -91,8 +92,75 @@ class Solution {
 
 ## Valid-Post-order-Traversal-Of-Binary-Search-Tree
 [LaiCode 304 Valid Post-order Traversal Of Binary Search Tree](https://app.laicode.io/app/problem/304)
+
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+  int cur;
+  public boolean validPostOrder(int[] post) {
+    cur = post.length - 1;
+    dfs(post, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    return cur == -1;
+  }
+
+  private void dfs(int[] post, int min, int max) {
+    if (cur < 0 || post[cur] <= min || post[cur] >= max) return;
+
+    int rootKey = post[cur--];
+    dfs(post, rootKey, max);
+    dfs(post, min, rootKey);
+  }
+}
+```
 ## Verify-Preorder-Sequence-in-Binary-Search-Tree
 [LeetCode 255. Verify Preorder Sequence in Binary Search Tree](https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree/)
+
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+    int idx = 0;
+    public boolean verifyPreorder(int[] pre) {
+        dfs(pre, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return idx == pre.length;
+    }
+    
+    private void dfs(int[] pre, int min, int max) {
+        if (idx == pre.length || pre[idx] <= min || pre[idx] >= max) return;
+        
+        int rootKey = pre[idx++]; // must increase the index here
+        dfs(pre, min, rootKey); // pretend to create left subtree
+        dfs(pre, rootKey, max); // pretend to create right subtree 
+    }
+}
+```
+# Reconstruct-Binary-Tree-With-Preorder-And-Inorder
+[LaiCode 213. Reconstruct Binary Tree With Preorder And Inorder](https://app.laicode.io/app/problem/213)
+
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+    int preIdx = 0, inIdx = 0;
+    public TreeNode reconstruct(int[] in, int[] pre) {
+        return reconstruct(in, pre, Integer.MAX_VALUE);
+    }
+
+    private TreeNode reconstruct(int[] in, int[] pre, int parentKey) {
+        if (preIdx >= in.length || in[inIdx] == parentKey) return null;
+
+        TreeNode root = new TreeNode(pre[preIdx++]);
+        root.left  = reconstruct(in, pre, root.key);
+        inIdx++;
+        root.right = reconstruct(in, pre,  parentKey);
+        return root;
+    }
+}
+```
 # Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal
 [LaiCode 212. Reconstruct Binary Search Tree With Level Order Traversal](https://app.laicode.io/app/problem/212)
 
