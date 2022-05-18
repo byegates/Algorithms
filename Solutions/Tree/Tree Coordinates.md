@@ -199,6 +199,16 @@ TC: O(n)
 
 SC: O(height)
 
+## Code
+The only difference between 426 and 298:
+```java
+for (int i = range[0]; i <= range[1]; i++) res.add(map.get(i));
+```
+vs
+```java
+for (int i = range[0]; i <= range[1]; i++) res.addAll(map.get(i));
+```
+### Complete Code
 ```java
 class Solution {
 
