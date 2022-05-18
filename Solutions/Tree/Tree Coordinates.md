@@ -52,6 +52,32 @@ class Solution {
 ```
 # 297-Top-View-Of-Binary-Tree
 [LaiCode 297. Top View Of Binary Tree](https://app.laicode.io/app/problem/297)
+## Description
+Given a binary tree, get the top view of it. The nodes in the output list should be from left to right. A node x belongs to the output if x is the topmost node at its column.
+
+Examples:
+<pre>
+     1
+   /   \
+  2     3
+ / \   / \
+4  (5,6)  7
+</pre>
+the top view is [4, 2, 1, 3, 7]
+
+#### 这题有点无聊
+<pre>
+                       6                        
+            /                      \            
+           2                       7            
+      /          \            /          \      
+     x           4           8           x      
+   /    \      /    \      /    \      /    \   
+  x     x     x     1     9     x     x     x   
+ /  \  /  \  /  \  /  \  /  \  /  \  /  \  /  \ 
+ x  x  x  x  x  x  x  5 10  x  x  x  x  x  x  x 
+</pre>
+预期结果是: [10, 2, 6, 7, 5] (想象一下坐标)
 ## TC & SC
 TC: O(n)
 
@@ -95,6 +121,33 @@ class Solution {
 ```
 # 298-Vertical-List-Of-Binary-Tree
 [LaiCode 298. Vertical List Of Binary Tree](https://app.laicode.io/app/problem/298)
+## Description
+Given a binary tree, get the vertical representation of it as a list of lists.
+
+The columns should be from left to right, and for each column the nodes should be placed from top to bottom, from left to right.
+
+The following example illustrates vertical order traversal. Input:
+<pre>
+
+            1
+          /   \
+         2     3
+        /  \  / \
+       4   5,6   7
+             \     \
+              8     9  
+</pre>
+
+Output:
+
+<pre>
+[[4],         // left most column
+[2],         // 2nd left-most column
+[1, 5, 6], // 3rd left-most column, top->bottom, left->right
+[3, 8],
+[7],
+[9]]
+</pre>
 
 ## TC & SC
 TC: O(n)
