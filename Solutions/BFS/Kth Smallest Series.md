@@ -3,7 +3,7 @@
 2. [27 Kth-Smallest-Sum-In-Two-Sorted-Arrays](#Kth-Smallest-Sum-In-Two-Sorted-Arrays)
 3. [193. Kth Smallest With Only 3, 5, 7 As Factors](#193-Kth-Smallest-With-Only-3-5-7-As-Factors)
    1. [192. Kth Smallest With Only 2, 3 As Factors](#192-Kth-Smallest-With-Only-2-3-As-Factors)
-4. [194. Kth Closest Point To <0,0,0>](#194-Kth-Closest-Point-To-<000>)
+4. [194. Kth Closest Point To <0,0,0>](#194-Kth-Closest-Point-To-000)
 
 # Notes
 这个系列基本都是用PriorityQueue, 从最小的value开始bfs, more 总结 to come
@@ -209,5 +209,5 @@ class Solution {
 
 # 192-Kth-Smallest-With-Only-2-3-As-Factors
 
-# 194-Kth-Closest-Point-To-<000>
+# 194-Kth-Closest-Point-To-000
 
