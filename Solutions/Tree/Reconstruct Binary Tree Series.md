@@ -253,7 +253,7 @@ class Solution {
     dfs(po, in, inL, rootIdx - 1, pre, preL + 1, preL + leftLen, map); // pretend to create left  subtree
     dfs(po, in, rootIdx + 1, inR, pre, preL + leftLen + 1, preR, map); // pretend to create right subtree
 
-    po[idx++] = pre[preL]; // post order traversal
+    po[idx++] = pre[preL]; // post order
   }
 }
 ```
