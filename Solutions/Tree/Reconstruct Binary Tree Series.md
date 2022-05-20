@@ -198,11 +198,11 @@ class Solution { // p is index for preOrder, po is index for post order(output)
   private void reconstruct(int[] in, int[] pre, int[] po, Idx idx, int parentKey) {
     if (idx.p == pre.length || in[idx.i] == parentKey) return;
 
-    int rootKey = pre[idx.p++];
+    int rootKey = pre[idx.p++]; // preOrder
     reconstruct(in, pre, po, idx, rootKey);
-    idx.i++;
+    idx.i++; // inOrder
     reconstruct(in, pre, po, idx, parentKey);
-    po[idx.po++] = rootKey;
+    po[idx.po++] = rootKey; // postOrder
   }
 }
 ```
