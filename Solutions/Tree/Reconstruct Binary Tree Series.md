@@ -230,6 +230,60 @@ class Solution { // p is index for preOrder, po is index for post order(output)
   }
 }
 ```
+## Solution 2, postOrder
+```java
+class Solution {
+  int idx = 0; // index for post order, backwards
+  public int[] postOrder(int[] pre, int[] in) { // TC: O(3n) → O(n), SC: O(height)
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < in.length; i++) map.put(in[i], i);
+
+    int[] po = new int[in.length];
+    dfs(po, in, 0, in.length - 1, pre, 0, pre.length - 1, map);
+    return po;
+  }
+
+  private void dfs(int[] po, int[] in, int inL, int inR, int[] pre, int preL, int preR, Map<Integer, Integer> map) {
+    if (inR < inL) return;
+
+
+    int rootIdx = map.get(pre[preL]);
+    int leftLen = rootIdx - inL;
+
+    dfs(po, in, inL, rootIdx - 1, pre, preL + 1, preL + leftLen, map); // pretend to create left  subtree
+    dfs(po, in, rootIdx + 1, inR, pre, preL + leftLen + 1, preR, map); // pretend to create right subtree
+
+    po[idx++] = pre[preL]; // post order traversal
+  }
+}
+```
+## Solution 2b, anti-pre order, backwards
+```java
+class Solution {
+  int idx; // index for post order, backwards
+  public int[] postOrder(int[] pre, int[] in) { // TC: O(3n) → O(n), SC: O(height)
+    Map<Integer, Integer> map = new HashMap<>();
+    idx = in.length - 1;
+    for (int i = 0; i < in.length; i++) map.put(in[i], i);
+
+    int[] po = new int[in.length];
+    dfs(po, in, 0, in.length - 1, pre, 0, pre.length - 1, map);
+    return po;
+  }
+
+  private void dfs(int[] po, int[] in, int inL, int inR, int[] pre, int preL, int preR, Map<Integer, Integer> map) {
+    if (inR < inL) return;
+
+    po[idx--] = pre[preL]; // anti-preOrder to create postOrder array
+
+    int rootIdx = map.get(pre[preL]);
+    int leftLen = rootIdx - inL;
+
+    dfs(po, in, rootIdx + 1, inR, pre, preL + leftLen + 1, preR, map); // pretend to create right subtree
+    dfs(po, in, inL, rootIdx - 1, pre, preL + 1, preL + leftLen, map); // pretend to create left  subtree
+  }
+}
+```
 # Reconstruct-BST-With-Level-Order-Traversal
 [LaiCode 212. Reconstruct BST With Level Order Traversal](https://app.laicode.io/app/problem/212)
 
