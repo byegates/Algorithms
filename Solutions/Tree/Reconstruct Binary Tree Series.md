@@ -35,29 +35,6 @@ class Solution {
   }
 }
 ```
-## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
-[LaiCode 211 Reconstruct BST With Postorder Traversal](https://app.laicode.io/app/problem/211)
-
-TC: O(n)
-
-SC: O(height)
-```java
-class Solution {
-    int cur;
-    public TreeNode reconstruct(int[] post) {
-        cur = post.length - 1;
-        return reconstruct(post, Integer.MIN_VALUE);
-    }
-
-    private TreeNode reconstruct(int[] post, int min) {
-        if (cur < 0 || post[cur] <= min) return null;
-        TreeNode root = new TreeNode(post[cur--]);
-        root.right = reconstruct(post, root.key);
-        root.left = reconstruct(post, min);
-        return root;
-    }
-}
-```
 [LeetCode 1008. Construct Binary Search Tree from Preorder Traversal](https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/)
 
 TC: O(n)
@@ -89,6 +66,29 @@ class Solution {
     private TreeNode dfs(int[] pre, int max) {
         if (cur == pre.length || pre[cur] > max) return null;
         return new TreeNode(pre[cur], dfs(pre, pre[cur++]), dfs(pre, max));
+    }
+}
+```
+## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
+[LaiCode 211 Reconstruct BST With Postorder Traversal](https://app.laicode.io/app/problem/211)
+
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+    int cur;
+    public TreeNode reconstruct(int[] post) {
+        cur = post.length - 1;
+        return reconstruct(post, Integer.MIN_VALUE);
+    }
+
+    private TreeNode reconstruct(int[] post, int min) {
+        if (cur < 0 || post[cur] < min) return null;
+        TreeNode root = new TreeNode(post[cur--]);
+        root.right = reconstruct(post, root.key);
+        root.left = reconstruct(post, min);
+        return root;
     }
 }
 ```
