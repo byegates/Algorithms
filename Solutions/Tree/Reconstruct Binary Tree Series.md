@@ -7,6 +7,7 @@
 2. [213. Reconstruct Binary Tree With Preorder And Inorder](#Reconstruct-Binary-Tree-With-Preorder-And-Inorder)
    1. [301. Get Post-order Sequence By Pre-order and In-order](#Get-Post-order-Sequence-By-Pre-order-and-In-order)
 3. [212. Reconstruct BST With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
+4. [215. Reconstruct Binary Tree With Levelorder And Inorder](#Reconstruct-Binary-Tree-With-Levelorder-And-Inorder)
 
 # Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation
 ## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
@@ -141,6 +142,8 @@ class Solution {
 ```
 # Reconstruct-Binary-Tree-With-Preorder-And-Inorder
 [LaiCode 213. Reconstruct Binary Tree With Preorder And Inorder](https://app.laicode.io/app/problem/213)
+
+[LeetCode 105. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
 
 TC: O(n)
 
@@ -336,5 +339,105 @@ class Solution {
 
         return root;
     }
+}
+```
+# Reconstruct-Binary-Tree-With-Levelorder-And-Inorder
+[LaiCode 215. Reconstruct Binary Tree With Levelorder And Inorder](https://app.laicode.io/app/problem/215)
+
+## Description
+Given the levelorder and inorder traversal sequence of a binary tree, reconstruct the original tree.
+
+<pre>
+Assumptions
+The given sequences are not null, and they have the same length
+There are no duplicate keys in the binary tree
+
+Examples
+levelorder traversal = {5, 3, 8, 1, 4, 11}
+inorder traversal = {1, 3, 4, 5, 8, 11}
+
+the corresponding binary tree is
+      5
+    /    \
+   3      8
+ /   \     \
+1     4     11
+</pre>
+
+## Solution 0 Linear scan with queue and map based on index
+If you find this solution hard to understand, go to solution 1 which is decent and good for interviews generally.
+```java
+class Solution { //TC: O(n), SC: O(n)
+   private static class Aggregate {
+      public TreeNode node;
+      public int low, high, idx;
+      public Aggregate(int key, int idx, int low, int high) {
+         node = new TreeNode(key);
+         this.low = low;
+         this.high = high;
+         this.idx = idx;
+      }
+   }
+
+   public TreeNode reconstruct(int[] in, int[] lvl) {
+      if (in.length == 0) return null;
+
+      Queue<Aggregate> frontier = new ArrayDeque<>();
+      Map<Integer, Integer> map = valToIdxMap(in, new HashMap<>());
+
+      frontier.add(new Aggregate(lvl[0], map.get(lvl[0]), 0, in.length));
+      TreeNode root = frontier.element().node;
+
+      for (int i = 1; i < lvl.length; i++) {
+         int idx = map.get(lvl[i]);
+         for (Aggregate front = frontier.element(); (!(front.low <= idx && idx < front.idx) || front.node.left != null) && (!(front.idx + 1 <= idx && idx < front.high) || front.node.right != null); front = frontier.element())
+            frontier.remove();
+
+         Aggregate front = frontier.element();
+         Aggregate aggregate;
+         if (idx < front.idx) {
+            aggregate = new Aggregate(lvl[i], idx, front.low, front.idx);
+            front.node.left = aggregate.node;
+         } else {
+            aggregate = new Aggregate(lvl[i], idx, front.idx + 1, front.high);
+            front.node.right = aggregate.node;
+         }
+
+         frontier.add(aggregate);
+      }
+
+      return root;
+   }
+
+   private Map<Integer, Integer> valToIdxMap(int[] in, Map<Integer, Integer> map) {
+      for (int i = 0; i < in.length; i++) map.put(in[i], i);
+      return map;
+   }
+}
+```
+
+## Solution 1 level order value to index map
+```java
+class Solution { // TC: O(n*height): O(nlog(n)) ~ O(n^2), SC: O(n)
+  public TreeNode reconstruct(int[] in, int[] lvl) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < lvl.length; i++) map.put(lvl[i], i);
+    return reconstruct(in, map, 0, in.length - 1);
+  }
+
+  private TreeNode reconstruct(int[] in, Map<Integer, Integer> map, int inL, int inR){
+    if (inL > inR) return null;
+
+    int rootIdx = inL;
+    for (int i = rootIdx + 1; i <= inR; i++) // find the root(min) idx of inorder numbers in lvl order
+      if (map.get(in[i]) < map.get(in[rootIdx]))
+        rootIdx = i;
+
+    TreeNode root = new TreeNode(in[rootIdx]);
+    root.left = reconstruct(in, map, inL, rootIdx - 1);
+    root.right = reconstruct(in, map, rootIdx + 1, inR);
+
+    return root;
+  }
 }
 ```
