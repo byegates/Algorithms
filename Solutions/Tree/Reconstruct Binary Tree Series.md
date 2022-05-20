@@ -6,7 +6,7 @@
    4. [304. Valid Postorder Traversal Of BST](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
 2. [213. Reconstruct Binary Tree With Preorder And Inorder](#Reconstruct-Binary-Tree-With-Preorder-And-Inorder)
    1. [301. Get Post-order Sequence By Pre-order and In-order](#Get-Post-order-Sequence-By-Pre-order-and-In-order)
-3. [212. Reconstruct BST With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
+3. [212. Reconstruct BST With Level Order Traversal](#Reconstruct-BST-With-Level-Order-Traversal)
 4. [215. Reconstruct Binary Tree With Levelorder And Inorder](#Reconstruct-Binary-Tree-With-Levelorder-And-Inorder)
 
 # Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation
@@ -143,30 +143,54 @@ class Solution {
 [LaiCode 213. Reconstruct Binary Tree With Preorder And Inorder](https://app.laicode.io/app/problem/213)
 
 [LeetCode 105. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
-
-TC: O(n)
-
-SC: O(height)
+## Solution 1
 ```java
-class Solution {
-    int preIdx = 0, inIdx = 0;
-    public TreeNode reconstruct(int[] in, int[] pre) {
-        return reconstruct(in, pre, Integer.MAX_VALUE);
-    }
+class Solution { // TC: O(n), SC: O(height)
+   static class Idx {
+      int i = 0, p = 0; // i as index for inorder, p as index for preorder
+   }
+   public TreeNode buildTree(int[] pre, int[] in) {
+      return dfs(in, pre, new Idx(), Integer.MAX_VALUE);
+   }
 
-    private TreeNode reconstruct(int[] in, int[] pre, int parentKey) {
-        if (preIdx >= in.length || in[inIdx] == parentKey) return null;
+   private TreeNode dfs(int[] in, int[] pre, Idx idx, int parentKey) {
+      if (idx.p == pre.length || in[idx.i] == parentKey) return null;
 
-        TreeNode root = new TreeNode(pre[preIdx++]);
-        root.left  = reconstruct(in, pre, root.key);
-        inIdx++;
-        root.right = reconstruct(in, pre,  parentKey);
-        return root;
-    }
+      TreeNode root = new TreeNode(pre[idx.p++]);
+      root.left  = dfs(in, pre, idx, root.val);
+      idx.i++;
+      root.right = dfs(in, pre, idx,  parentKey);
+      return root;
+   }
 }
 ```
+## Solution 2, using value to index map of inOrder and index boundary
+```java
+class Solution {
+  public TreeNode reconstruct(int[] in, int[] pre) { // TC: O(3n) → O(n), SC: O(height)
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < in.length; i++) map.put(in[i], i);
 
+    return reconstruct(in, 0, in.length - 1, pre, 0, pre.length - 1, map);
+  }
+
+  private TreeNode reconstruct(int[] in, int inL, int inR, int[] pre, int preL, int preR, Map<Integer, Integer> map) {
+    if (inR < inL) return null;
+
+    TreeNode root = new TreeNode(pre[preL]);
+
+    int rootIdx = map.get(pre[preL]);
+    int leftLen = rootIdx - inL;
+
+    root.left  = reconstruct(in, inL, rootIdx - 1, pre, preL + 1, preL + leftLen, map);
+    root.right = reconstruct(in, rootIdx + 1, inR, pre, preL + leftLen + 1, preR, map);
+
+    return root;
+  }
+}
+```
 # Get-Post-order-Sequence-By-Pre-order-and-In-order
+[LaiCode 301. Get Post-order Sequence By Pre-order and In-order](https://app.laicode.io/app/problem/301)
 ## Description
 Given Inorder and Preorder traversals of a binary tree, get the Postorder traversal without reconstructing a binary tree.
 <pre>
@@ -206,8 +230,8 @@ class Solution { // p is index for preOrder, po is index for post order(output)
   }
 }
 ```
-# Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal
-[LaiCode 212. Reconstruct Binary Search Tree With Level Order Traversal](https://app.laicode.io/app/problem/212)
+# Reconstruct-BST-With-Level-Order-Traversal
+[LaiCode 212. Reconstruct BST With Level Order Traversal](https://app.laicode.io/app/problem/212)
 
 ## Description
 Given the levelorder traversal sequence of a binary search tree, reconstruct the original tree.
