@@ -1,11 +1,13 @@
 # Table of Contents
-1. [Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation](#Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation)
-   1. [Reconstruct-Binary-Search-Tree-With-Postorder-Traversal](#Reconstruct-Binary-Search-Tree-With-Postorder-Traversal)
-   2. [Reconstruct-Binary-Search-Tree-With-Preorder-Traversal](#Reconstruct-Binary-Search-Tree-With-Preorder-Traversal)
-   3. [Valid-Post-order-Traversal-Of-Binary-Search-Tree](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
-   4. [Verify-Preorder-Sequence-in-Binary-Search-Tree](#Verify-Preorder-Sequence-in-Binary-Search-Tree)
-2. [Reconstruct Binary Tree With Preorder And Inorder](#Reconstruct-Binary-Tree-With-Preorder-And-Inorder)
-3. [Reconstruct Binary Search Tree With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
+1. [BST Pre-Order and Post-Order Reconstruction and Validation](#Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation)
+   1. [210. Reconstruct BST With Postorder Traversal](#Reconstruct-Binary-Search-Tree-With-Postorder-Traversal)
+   2. [211. Reconstruct BST With Preorder Traversal](#Reconstruct-Binary-Search-Tree-With-Preorder-Traversal)
+   3. [304. Valid Postorder Traversal Of BST](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
+   4. [LeetCode 255. Verify Preorder Sequence in BST](#Verify-Preorder-Sequence-in-Binary-Search-Tree)
+2. [213. Reconstruct Binary Tree With Preorder And Inorder](#Reconstruct-Binary-Tree-With-Preorder-And-Inorder)
+   1. [301. Get Post-order Sequence By Pre-order and In-order](#Get-Post-order-Sequence-By-Pre-order-and-In-order)
+3. [212. Reconstruct BST With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
+
 # Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation
 ## Reconstruct-Binary-Search-Tree-With-Postorder-Traversal
 [LaiCode 210 Reconstruct Binary Search Tree With Postorder Traversal](https://app.laicode.io/app/problem/210)
@@ -159,6 +161,47 @@ class Solution {
         root.right = reconstruct(in, pre,  parentKey);
         return root;
     }
+}
+```
+
+# Get-Post-order-Sequence-By-Pre-order-and-In-order
+## Description
+Given Inorder and Preorder traversals of a binary tree, get the Postorder traversal without reconstructing a binary tree.
+<pre>
+Assumptions:
+The given Inorder and Preorder traversals are guaranteed to be valid.
+
+Examples:
+Input:
+Inorder traversal in[] = {4, 2, 5, 1, 3, 6}
+Preorder traversal pre[] = {1, 2, 4, 5, 3, 6}
+
+Output:
+Postorder traversal is {4, 5, 2, 6, 3, 1}
+</pre>
+
+## Solution 1: TC: O(n), SC: O(height)
+```java
+class Solution { // p is index for preOrder, po is index for post order(output)
+  static class Idx {
+    int i = 0, p = 0, po = 0;
+  }
+
+  public int[] postOrder(int[] pre, int[] in) {
+    int[] po = new int[in.length];
+    reconstruct(in, pre, po, new Idx(), Integer.MAX_VALUE);
+    return po;
+  }
+
+  private void reconstruct(int[] in, int[] pre, int[] po, Idx idx, int parentKey) {
+    if (idx.p == pre.length || in[idx.i] == parentKey) return;
+
+    int rootKey = pre[idx.p++];
+    reconstruct(in, pre, po, idx, rootKey);
+    idx.i++;
+    reconstruct(in, pre, po, idx, parentKey);
+    po[idx.po++] = rootKey;
+  }
 }
 ```
 # Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal
