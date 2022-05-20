@@ -246,7 +246,6 @@ class Solution {
   private void dfs(int[] po, int[] in, int inL, int inR, int[] pre, int preL, int preR, Map<Integer, Integer> map) {
     if (inR < inL) return;
 
-
     int rootIdx = map.get(pre[preL]);
     int leftLen = rootIdx - inL;
 
