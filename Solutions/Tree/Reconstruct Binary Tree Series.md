@@ -2,8 +2,8 @@
 1. [BST Pre-Order and Post-Order Reconstruction and Validation](#Binary-Search-Tree-Pre-and-Post-Order-Reconstruction-and-Validation)
    1. [210. Reconstruct BST With Preorder Traversal](#Reconstruct-Binary-Search-Tree-With-Preorder-Traversal)
    2. [211. Reconstruct BST With Postorder Traversal](#Reconstruct-Binary-Search-Tree-With-Postorder-Traversal)
-   3. [304. Valid Postorder Traversal Of BST](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
-   4. [LeetCode 255. Verify Preorder Sequence in BST](#Verify-Preorder-Sequence-in-Binary-Search-Tree)
+   3. [LeetCode 255. Verify Preorder Sequence in BST](#Verify-Preorder-Sequence-in-Binary-Search-Tree)
+   4. [304. Valid Postorder Traversal Of BST](#Valid-Post-order-Traversal-Of-Binary-Search-Tree)
 2. [213. Reconstruct Binary Tree With Preorder And Inorder](#Reconstruct-Binary-Tree-With-Preorder-And-Inorder)
    1. [301. Get Post-order Sequence By Pre-order and In-order](#Get-Post-order-Sequence-By-Pre-order-and-In-order)
 3. [212. Reconstruct BST With Level Order Traversal](#Reconstruct-Binary-Search-Tree-With-Level-Order-Traversal)
@@ -92,7 +92,29 @@ class Solution {
     }
 }
 ```
+## Verify-Preorder-Sequence-in-Binary-Search-Tree
+[LeetCode 255. Verify Preorder Sequence in Binary Search Tree](https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree/)
 
+TC: O(n)
+
+SC: O(height)
+```java
+class Solution {
+    int idx = 0;
+    public boolean verifyPreorder(int[] pre) {
+        dfs(pre, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return idx == pre.length;
+    }
+    
+    private void dfs(int[] pre, int min, int max) {
+        if (idx == pre.length || pre[idx] <= min || pre[idx] >= max) return;
+        
+        int rootKey = pre[idx++]; // must increase the index here
+        dfs(pre, min, rootKey); // pretend to create left subtree
+        dfs(pre, rootKey, max); // pretend to create right subtree 
+    }
+}
+```
 ## Valid-Post-order-Traversal-Of-Binary-Search-Tree
 [LaiCode 304 Valid Post-order Traversal Of Binary Search Tree](https://app.laicode.io/app/problem/304)
 
@@ -115,29 +137,6 @@ class Solution {
     dfs(post, rootKey, max);
     dfs(post, min, rootKey);
   }
-}
-```
-## Verify-Preorder-Sequence-in-Binary-Search-Tree
-[LeetCode 255. Verify Preorder Sequence in Binary Search Tree](https://leetcode.com/problems/verify-preorder-sequence-in-binary-search-tree/)
-
-TC: O(n)
-
-SC: O(height)
-```java
-class Solution {
-    int idx = 0;
-    public boolean verifyPreorder(int[] pre) {
-        dfs(pre, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        return idx == pre.length;
-    }
-    
-    private void dfs(int[] pre, int min, int max) {
-        if (idx == pre.length || pre[idx] <= min || pre[idx] >= max) return;
-        
-        int rootKey = pre[idx++]; // must increase the index here
-        dfs(pre, min, rootKey); // pretend to create left subtree
-        dfs(pre, rootKey, max); // pretend to create right subtree 
-    }
 }
 ```
 # Reconstruct-Binary-Tree-With-Preorder-And-Inorder
