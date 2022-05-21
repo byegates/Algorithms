@@ -18,6 +18,7 @@ InOrder(300) or PreOrder(523) Traversal Tree.
 
 # [LaiCode 300. Convert Binary Tree To Doubly Linked List I](https://app.laicode.io/app/problem/300)
 ## Space O(1) Solution
+只看代码不一定好理解，有机会我找个图
 ```java
 class Solution { // TC: O(n), SC: O(1)
   public TreeNode toDoubleLinkedList(TreeNode root) {
@@ -212,10 +213,43 @@ class Solution {
 }
 ```
 # [LaiCode 523. Flatten Binary Tree to Linked List](https://app.laicode.io/app/problem/523)
-[114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)
+[LeetCode 114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)
+
+## Description
+Given a binary tree, flatten it to a linked list in-place.
+
+For example,
+Given
+<pre>
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+</pre>
+The flattened tree should look like:
+<pre>
+1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6</pre>
+
+## 图示一下
+![A good visualization](https://assets.leetcode.com/users/images/1c892c17-ff56-4740-8a81-47f40d38d36e_1620996109.3450835.png "A good visualization")
+
+![A even better visualization](https://i.imgur.com/sqnrz9m.gif "Dynamic")
+
+[JS, Python, Java, C++ | Simple O(1) Space & Recursive Solutions w/ Explanation](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/1207642/JS-Python-Java-C%2B%2B-or-Simple-O(1)-Space-and-Recursive-Solutions-w-Explanation)
 
 It's actually preOrder with a bit of twist
-## Solution 0: Space O(1)
+## Solution 0: Space O(1) (简装版Morris Traversal?)
 ```java
 class Solution { // TC: O(n), SC: O(1)
     public TreeNode flatten(TreeNode root) {
