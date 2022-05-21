@@ -1,16 +1,16 @@
 ### 一万米高空总结
 这两题看清楚本质的话，做的事情很简单:
-InOrder(300) or PreOrder(523) Traversal Tree.
+InOrder(300) or PreOrder(523) Traverse a Tree.
 然后按照Traverse的顺序把pre和cur之间单链或者双链起来。
 
 先不考虑有点跳跃的，SpaceO(1)的解法。常规做法的话，就是要先把InOrder/PreOrder的traversal，不管是iterative还是recursion，给写出来。
 
-写出来之后，因为要前后连起来，再定义一个prev，看看按照Order的顺序把prev在合适的地方设置好，设置完了之后，就会发现，前后连起来很容易：
+写出来之后，因为要前后连起来，再定义一个prev，按照Order的顺序把prev在合适的地方设置好，设置完了之后，就会发现，前后连起来很容易：
 
 1. 双链: prev.right = curr; curr.left = prev;
 2. 单链: prev.right = curr; curr.left = null;
 
-然后注意一下小细节，prev最开始是空，不能直接.right, 会NPE, 所以单独判断一次。
+然后注意一下小细节，prev最开始是空，不能直接.right, 会NPE, 所以单独判断一次。（这个时候也是InOrder记录你要返回的node的好机会，因为prev == null的时候肯定是第一个node）
 
 按照这个思路的话，iterative写法比recursion更容易插入prev(不容传参), 更好写。
 
