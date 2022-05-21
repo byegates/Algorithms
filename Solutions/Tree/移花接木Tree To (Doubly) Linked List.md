@@ -241,15 +241,14 @@ The flattened tree should look like:
          \
           6</pre>
 
-## 图示一下
+## Solution 0: Space O(1) (简装版Morris Traversal?)
+### 图示一下 Space O(1) 的过程
 ![A good visualization](https://assets.leetcode.com/users/images/1c892c17-ff56-4740-8a81-47f40d38d36e_1620996109.3450835.png "A good visualization")
 
 ![A even better visualization](https://i.imgur.com/sqnrz9m.gif "Dynamic")
 
 [JS, Python, Java, C++ | Simple O(1) Space & Recursive Solutions w/ Explanation](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/1207642/JS-Python-Java-C%2B%2B-or-Simple-O(1)-Space-and-Recursive-Solutions-w-Explanation)
 
-It's actually preOrder with a bit of twist
-## Solution 0: Space O(1) (简装版Morris Traversal?)
 ```java
 class Solution { // TC: O(n), SC: O(1)
     public TreeNode flatten(TreeNode root) {
