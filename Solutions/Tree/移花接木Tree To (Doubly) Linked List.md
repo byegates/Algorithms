@@ -18,7 +18,7 @@ InOrder(300) or PreOrder(523) Traverse a Tree.
 
 # [LaiCode 300. Convert Binary Tree To Doubly Linked List I](https://app.laicode.io/app/problem/300)
 ## Space O(1) Solution
-只看代码不一定好理解，有机会我找个图
+只看代码不一定好理解，有机会搞个图
 ```java
 class Solution { // TC: O(n), SC: O(1)
   public TreeNode toDoubleLinkedList(TreeNode root) {
