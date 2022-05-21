@@ -47,6 +47,7 @@ class Solution { // TC: O(n), SC: O(1)
 ```
 ## Space O(height), regular Solution
 ### Standard Iterative
+比标准的InOrder Traversal多4行代码，注意哪4行，以及每一行在干嘛
 ```java
 class Solution { // TC: O(n)
   public TreeNode toDoubleLinkedList(TreeNode root) {
@@ -71,6 +72,10 @@ class Solution { // TC: O(n)
 }
 ```
 ### Recursion inOrder
+也是比标准的InOrder多四行，什么是标准的InOrder:
+1. 先去左边
+2. 对自己做一些事情
+3. 再去右边
 ```java
 class Solution { // TC: O(n), SC: O(height)
   TreeNode prev, head;
@@ -155,6 +160,7 @@ class Solution { // TC: O(n), SC: O(1)
 ```
 ## Space O(height)
 ### Iterative InOrder
+跟LaiCode题的唯一区别是要把最后一个node和第一个node连成环。也是一个标准的InOrder Traversal
 ```java
 class Solution {
     public Node treeToDoublyList(Node root) {
@@ -186,6 +192,7 @@ class Solution {
 }
 ```
 ### Recursion InOrder
+跟LaiCode题的唯一区别是要把最后一个node和第一个node连成环。也是一个标准的InOrder Traversal
 ```java
 class Solution {
   Node prev, head;
@@ -290,6 +297,12 @@ class Solution { // TC: O(n)
 }
 ```
 ### Solution 2 Recursion, PreOrder
+标准的PreOrder Recursion
+1. 对自己先做一些事情
+2. 去自己左边
+3. 去自己右边
+
+当然，对自己做事情之前要把左右先保存一下，那是因为如果不保存的话，就去不了自己的左边和右边了
 ```java
 class Solution { // TC : O(n), SC: O(height)
   TreeNode prev;
@@ -315,7 +328,17 @@ class Solution { // TC : O(n), SC: O(height)
   }
 } 
 ```
-### Solution 3 Recursion, Anti-PreOrder
+### Solution 3 Recursion, Anti-PostOrder
+PreOrder是 中左右
+
+PostOrder是 左右中
+
+这一题用的是 右左中（类似于反着postOrder），因为右左中traverse的结果，直接反序就是：中左右，也就是我们想要的PreOrder
+
+所以这个右左中的Recursion也很标准:
+1. 先去右边
+2. 再去左边
+3. 对自己做些事情
 ```java
 class Solution { // TC: O(n), SC: O(height)
   TreeNode prev;
