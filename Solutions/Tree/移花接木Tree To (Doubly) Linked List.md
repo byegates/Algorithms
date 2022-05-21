@@ -51,9 +51,26 @@ class Solution { // TC: O(n)
   }
 }
 ```
-### Recursion
+### Recursion inOrder
 ```java
+class Solution { // TC: O(n), SC: O(height)
+  TreeNode prev, head;
+  public TreeNode toDoubleLinkedList(TreeNode root) {
+    prev = head = null;
+    dfs(root);
+    return head;
+  }
 
+  private void dfs(TreeNode root) {
+    if (root == null) return;
+    dfs(root.left);
+    if (prev == null) head = root;
+    else prev.right = root;
+    root.left = prev;
+    prev = root;
+    dfs(root.right);
+  }
+}
 ```
 ## [43. In-order Traversal Of Binary Tree (iterative)](https://app.laicode.io/app/problem/43)
 We could use space O(1) solution from above to do this too. (Just as a fun demonstration, this way the structure of the tree is changed, be aware)
@@ -115,6 +132,65 @@ class Solution { // TC: O(n), SC: O(1)
     
     return root;
     }
+}
+```
+## Space O(height)
+### Iterative InOrder
+```java
+class Solution {
+    public Node treeToDoublyList(Node root) {
+
+    Deque<Node> stack = new ArrayDeque<>();
+    Node cur = root, prev = null;
+    while (cur != null || !stack.isEmpty()) {
+      if (cur != null) {
+        stack.offerFirst(cur);
+        cur = cur.left;
+      } else {
+        cur = stack.pollFirst();
+        if (prev == null) root = cur;
+        else prev.right = cur;
+        cur.left = prev;
+        prev = cur;
+        cur = cur.right;
+      }
+    }
+    
+    if (prev != null) {
+        prev.right = root;
+        root.left = prev;
+    }
+
+    return root;
+    
+    }
+}
+```
+### Recursion InOrder
+```java
+class Solution {
+  Node prev, head;
+  public Node treeToDoublyList(Node root) {
+    prev = head = null;
+    dfs(root);
+      
+  if (prev != null) {
+        prev.right = head;
+        head.left = prev;
+    }
+
+    return head;
+  }
+
+  private void dfs(Node root) {
+    if (root == null) return;
+    dfs(root.left);
+    if (prev == null) head = root;
+    else prev.right = root;
+    root.left = prev;
+    prev = root;
+    dfs(root.right);
+  }
 }
 ```
 # [LaiCode 523. Flatten Binary Tree to Linked List](https://app.laicode.io/app/problem/523)
