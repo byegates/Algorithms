@@ -1,3 +1,21 @@
+### 一万米高空总结
+这两题看清楚本质的话，做的事情很简单:
+InOrder(300) or PreOrder(523) Traversal Tree.
+然后按照Traverse的顺序把pre和cur之间单链或者双链起来。
+
+先不考虑有点跳跃的，SpaceO(1)的解法。常规做法的话，就是要先把InOrder/PreOrder的traversal，不管是iterative还是recursion，给写出来。
+
+写出来之后，因为要前后连起来，再定义一个prev，看看按照Order的顺序把prev在合适的地方设置好，设置完了之后，就会发现，前后连起来很容易：
+
+1. 双链: prev.right = curr; curr.left = prev;
+2. 单链: prev.right = curr; curr.left = null;
+
+然后注意一下小细节，prev最开始是空，不能直接.right, 会NPE, 所以单独判断一次。
+
+按照这个思路的话，iterative写法比recursion更容易插入prev(不容传参), 更好写。
+
+还有一个要注意的是，preOrder recursion写法，树的左右结构会被破坏掉，所以就先用两个变量在左右被断开前，把左右保存一下。
+
 # [LaiCode 300. Convert Binary Tree To Doubly Linked List I](https://app.laicode.io/app/problem/300)
 ## Space O(1) Solution
 ```java
