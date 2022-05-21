@@ -17,34 +17,6 @@ InOrder(300) or PreOrder(523) Traverse a Tree.
 还有一个要注意的是，preOrder recursion写法，树的左右结构会被破坏掉，所以就先用两个变量在左右被断开前，把左右保存一下。
 
 # [LaiCode 300. Convert Binary Tree To Doubly Linked List I](https://app.laicode.io/app/problem/300)
-## Space O(1) Solution
-只看代码不一定好理解，有机会搞个图
-```java
-class Solution { // TC: O(n), SC: O(1)
-  public TreeNode toDoubleLinkedList(TreeNode root) {
-    TreeNode curr = root;
-    TreeNode prev = null;
-    while (curr != null) {
-      if (curr.left != null) { // process left subtree until null found
-        TreeNode left = curr.left;
-        TreeNode runner = left;
-        while (runner.right != null) runner = runner.right;
-        runner.right = curr;
-        if (prev != null) prev.right = curr.left;
-        curr.left = null; // must cut here, otherwise left tree process will loop indefinitely
-        curr = left;
-      } else {
-        curr.left = prev;
-        if (prev == null) root = curr;
-        prev = curr;
-        curr = curr.right;
-      }
-    }
-
-    return root;
-  }
-}
-```
 ## Space O(height), regular Solution
 ### Standard Iterative
 比标准的InOrder Traversal多4行代码，注意哪4行，以及每一行在干嘛
@@ -96,6 +68,34 @@ class Solution { // TC: O(n), SC: O(height)
   }
 }
 ```
+## Space O(1) Solution
+只看代码不一定好理解，有机会搞个图
+```java
+class Solution { // TC: O(n), SC: O(1)
+  public TreeNode toDoubleLinkedList(TreeNode root) {
+    TreeNode curr = root;
+    TreeNode prev = null;
+    while (curr != null) {
+      if (curr.left != null) { // process left subtree until null found
+        TreeNode left = curr.left;
+        TreeNode runner = left;
+        while (runner.right != null) runner = runner.right;
+        runner.right = curr;
+        if (prev != null) prev.right = curr.left;
+        curr.left = null; // must cut here, otherwise left tree process will loop indefinitely
+        curr = left;
+      } else {
+        curr.left = prev;
+        if (prev == null) root = curr;
+        prev = curr;
+        curr = curr.right;
+      }
+    }
+
+    return root;
+  }
+}
+```
 ## [43. In-order Traversal Of Binary Tree (iterative)](https://app.laicode.io/app/problem/43)
 We could use space O(1) solution from above to do this too. (Just as a fun demonstration, this way the structure of the tree is changed, be aware)
 ```java
@@ -125,39 +125,6 @@ class Solution {
 }
 ```
 # [LeetCode 426. Convert Binary Search Tree to Sorted Doubly Linked List](https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/)
-## Space O(1)
-```java
-class Solution { // TC: O(n), SC: O(1)
-    public Node treeToDoublyList(Node root) {
-
-    Node curr = root;
-    Node prev = null;
-    while (curr != null) {
-      if (curr.left != null) { // process left subtree until null found
-        Node left = curr.left;
-        Node runner = left;
-        while (runner.right != null) runner = runner.right;
-        runner.right = curr;
-        if (prev != null) prev.right = curr.left;
-        curr.left = null; // must cut here, otherwise left tree process will loop indefinitely
-        curr = left;
-      } else {
-        curr.left = prev;
-        if (prev == null) root = curr;
-        prev = curr;
-        curr = curr.right;
-      }
-    }
-        
-    if (root != null) {
-        prev.right = root;
-        root.left = prev;
-    }
-    
-    return root;
-    }
-}
-```
 ## Space O(height)
 ### Iterative InOrder
 跟LaiCode题的唯一区别是要把最后一个node和第一个node连成环。也是一个标准的InOrder Traversal
@@ -219,6 +186,39 @@ class Solution {
   }
 }
 ```
+## Space O(1)
+```java
+class Solution { // TC: O(n), SC: O(1)
+    public Node treeToDoublyList(Node root) {
+
+    Node curr = root;
+    Node prev = null;
+    while (curr != null) {
+      if (curr.left != null) { // process left subtree until null found
+        Node left = curr.left;
+        Node runner = left;
+        while (runner.right != null) runner = runner.right;
+        runner.right = curr;
+        if (prev != null) prev.right = curr.left;
+        curr.left = null; // must cut here, otherwise left tree process will loop indefinitely
+        curr = left;
+      } else {
+        curr.left = prev;
+        if (prev == null) root = curr;
+        prev = curr;
+        curr = curr.right;
+      }
+    }
+        
+    if (root != null) {
+        prev.right = root;
+        root.left = prev;
+    }
+    
+    return root;
+    }
+}
+```
 # [LaiCode 523. Flatten Binary Tree to Linked List](https://app.laicode.io/app/problem/523)
 [LeetCode 114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)
 
@@ -248,32 +248,6 @@ The flattened tree should look like:
          \
           6</pre>
 
-## Solution 0: Space O(1) (简装版Morris Traversal?)
-### 图示一下 Space O(1) 的过程
-![A good visualization](https://assets.leetcode.com/users/images/1c892c17-ff56-4740-8a81-47f40d38d36e_1620996109.3450835.png "A good visualization")
-
-![A even better visualization](https://i.imgur.com/sqnrz9m.gif "Dynamic")
-
-[JS, Python, Java, C++ | Simple O(1) Space & Recursive Solutions w/ Explanation](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/1207642/JS-Python-Java-C%2B%2B-or-Simple-O(1)-Space-and-Recursive-Solutions-w-Explanation)
-
-```java
-class Solution { // TC: O(n), SC: O(1)
-    public TreeNode flatten(TreeNode root) {
-        TreeNode curr = root;
-        while (curr != null) {
-            if (curr.left != null) {
-                TreeNode runner = curr.left;
-                while (runner.right != null) runner = runner.right;
-                runner.right = curr.right;
-                curr.right = curr.left;
-                curr.left = null;
-            }
-            curr = curr.right;
-        }
-        return root;
-    }
-}
-```
 ## Space O(height) regular Solution
 ### Solution 1: standard Iterative preOrder Traversal
 Looks quite simple? (Simpler than recursion, you could say)
@@ -359,5 +333,31 @@ class Solution { // TC: O(n), SC: O(height)
 
     prev = root;
   }
+}
+```
+## Solution 0: Space O(1) (简装版Morris Traversal?)
+### 图示一下 Space O(1) 的过程
+![A good visualization](https://assets.leetcode.com/users/images/1c892c17-ff56-4740-8a81-47f40d38d36e_1620996109.3450835.png "A good visualization")
+
+![A even better visualization](https://i.imgur.com/sqnrz9m.gif "Dynamic")
+
+[JS, Python, Java, C++ | Simple O(1) Space & Recursive Solutions w/ Explanation](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/1207642/JS-Python-Java-C%2B%2B-or-Simple-O(1)-Space-and-Recursive-Solutions-w-Explanation)
+
+```java
+class Solution { // TC: O(n), SC: O(1)
+    public TreeNode flatten(TreeNode root) {
+        TreeNode curr = root;
+        while (curr != null) {
+            if (curr.left != null) {
+                TreeNode runner = curr.left;
+                while (runner.right != null) runner = runner.right;
+                runner.right = curr.right;
+                curr.right = curr.left;
+                curr.left = null;
+            }
+            curr = curr.right;
+        }
+        return root;
+    }
 }
 ```
