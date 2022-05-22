@@ -2,7 +2,8 @@
 [LeetCode 200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
 
 [LaiCode 525. Number of Islands](https://app.laicode.io/app/problem/525)
-We change the value on grid to '2' for de-dup, no need for boolean matrix
+
+访问过的island点把value直接改成'2'同时就起到了去重的作用，可以不用一个新的boolean矩阵，当然，这样就改变了原输入数组的值了。
 ```java
 class Solution { // TC: O(4*m*n) ==> O(m*n), SC: O(m*n), height of recursion tree
   private static final int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, };
@@ -143,5 +144,61 @@ class Solution {
 
     return res;
   }
+}
+```
+# 827. Making A Large Island
+[LeetCode 827. Making A Large Island](https://leetcode.com/problems/making-a-large-island/)
+```java
+class Solution { // TC: O(m*n), SC: O(m*n)
+    private static final int[][] DIRS = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, };
+    public int largestIsland(int[][] grid) {
+        int rows, cols, max = 0;
+        if (grid == null || (rows = grid.length) == 0 || (cols = grid[0].length) == 0) return 0;
+
+        Map<Integer, Integer> map = new HashMap<>();
+        // 第一遍遍历，数每个岛的面积，用1d index的负数做编号把面积存到map，用负数为了用grid自身来去重
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                if (grid[i][j] == 1) {
+                    int idx = -(i * cols + j + 1); // index needs to start from -1, installed of 0, as 0 indicates water on the grid
+                    int cur = dfs(grid, i, j, idx, rows, cols);
+                    map.put(idx, cur);
+                    max = Math.max(max, cur); // update it here too in case no 0 on the whole map.
+                }
+
+        //  尝试假装把每个0变成1看最后size会怎么样
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                if (grid[i][j] == 0) {
+                    int cur = 1;
+                    Set<Integer> set = new HashSet<>(); // de-dup same island from around of each 0
+                    for (int[] dir : DIRS) {
+                        int i2 = i + dir[0], j2 = j + dir[1];
+                        int idx;
+                        if (inValid(i2, j2, rows, cols) || set.contains(idx = grid[i2][j2])) continue;
+                        cur += map.getOrDefault(idx, 0);
+                        set.add(idx);
+                    }
+                    max = Math.max(max, cur);
+                }
+
+        return max;
+    }
+
+    private int dfs(int[][]grid, int i, int j, int idx, int rows, int cols) {
+        if (inValid(i, j, rows, cols) || grid[i][j] != 1) return 0;
+
+        int count = 1;
+        grid[i][j] = idx;
+
+        for (int[] dir : DIRS)
+            count += dfs(grid, i + dir[0], j + dir[1], idx, rows, cols);
+
+        return count;
+    }
+
+    private boolean inValid(int i, int j, int rows, int cols) {
+        return i < 0 || j < 0 || i >= rows || j >= cols;
+    }
 }
 ```
