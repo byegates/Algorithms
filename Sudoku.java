@@ -38,24 +38,23 @@ public class Sudoku {
 
     int depth;
     List<Cell> emptyCells = new ArrayList<>(); // search space, int[] for interview, class is better
-    int[] row = new int[9]; // for each row what numbers have been used
-    int[] col = new int[9]; // for each col what numbers have been used
-    int[] box = new int[9]; // for each box what numbers have been used
+    int[]  rows = new int[9]; // for each row what numbers have been used
+    int[]  cols = new int[9]; // for each col what numbers have been used
+    int[] boxes = new int[9]; // for each box what numbers have been used
 
     public static void main(String[] args) {
         // solve a sudoku and print the comparison
         char[][] board = YUANHAO;
         char[][] b2 = new char[board.length][];
-        for (int i = 0; i < board.length; i++)
-            b2[i] = board[i].clone();
+        for (int i = 0; i < board.length; i++) b2[i] = board[i].clone();
 
         Sudoku sudoku = new Sudoku();
 
-        sudoku.solveSudoku(board);
-        sudoku.printSudoku(board, b2);
-        sudoku.printSudokuAsArray(board, b2);
+        sudoku.solveSudoku(b2);
+        sudoku.printSudoku(b2, board);
+        sudoku.printSudokuAsArray(b2, board);
 
-        char[][] b3 = Leet1;
+        char[][] b3 = YUANHAO;
         boolean isValid = sudoku.isValidSudoku(b3);
 
         sudoku.printValidSudoku(b3);
@@ -65,55 +64,46 @@ public class Sudoku {
     public void solveSudoku(char[][] board) {
         depth = 0;
         // initialization
-        for (int r = 0; r < 9; r++)
-            for (int c = 0; c < 9; c++) {
-                Cell cell = new Cell(r, c, boxNumber(r, c));
-                if (board[r][c] == '.') emptyCells.add(cell);
-                else setBitUsed(cell, 1 << (board[r][c] - '1'));
+        for (int row = 0; row < 9; row++)
+            for (int col = 0; col < 9; col++) {
+                Cell c = new Cell(row, col, (row / 3) * 3 + (col / 3));
+                if (board[row][col] == '.') emptyCells.add(c);
+                else {
+                    int val = board[row][col] - '1';
+                     rows[row] |= 1 << val;
+                     cols[col] |= 1 << val;
+                    boxes[c.b] |= 1 << val;
+                }
             }
 
         dfs(board, 0);
-        System.out.printf("\n" + BLUE + "Depth of Search: " + RED_BOLD_BRIGHT + "%d" + RESET + '\n', depth);
+        System.out.printf("\n" + BLUE + "Depth of Search: " + RED_BOLD_BRIGHT + "%,d" + RESET + '\n', depth);
     }
 
-    private boolean dfs(char[][] board, int d) {
-        if (d == emptyCells.size()) return true;
+    private boolean dfs(char[][] board, int i) {
+        if (i == emptyCells.size()) return true;
         depth++;
-        Cell cell = emptyCells.get(d);
-        for (int i = 0; i < 9; i++) {
-            if (cellUsed(cell, i)) continue;
-            int[] beforeStatus = new int[]{row[cell.r], col[cell.c], box[cell.b]};
-            board[cell.r][cell.c] = (char) (i + '1');
-            setBitUsed(cell, 1 << i);
-            if (dfs(board, d + 1)) return true;
-            recoverBeforeStatus(cell, beforeStatus); // 吃了🤮
+        Cell c = emptyCells.get(i);
+        for (int val = 0; val < 9; ++val) {
+            if (
+                (( rows[c.r] >> val) & 1) == 1 ||
+                (( cols[c.c] >> val) & 1) == 1 ||
+                ((boxes[c.b] >> val) & 1) == 1
+            )
+                continue; // skip if that value is existed!
+            board[c.r][c.c] = (char) ('1' + val);
+            int oldRow = rows[c.r], oldCol = cols[c.c], oldBox = boxes[c.b]; // backup old values
+             rows[c.r] |= 1 << val;
+             cols[c.c] |= 1 << val;
+            boxes[c.b] |= 1 << val;
+            if (dfs(board, i + 1)) return true;
+             rows[c.r] = oldRow;
+             cols[c.c] = oldCol;
+            boxes[c.b] = oldBox; // 吃了🤮
         }
         return false;
     }
 
-    private void recoverBeforeStatus(Cell cell, int[] beforeStatus) {
-        row[cell.r] = beforeStatus[0];
-        col[cell.c] = beforeStatus[1];
-        box[cell.b] = beforeStatus[2];
-    }
-
-    private boolean cellUsed(Cell cell, int i) {
-        return used(row[cell.r], i) || used(col[cell.c], i) || used(box[cell.b], i);
-    }
-
-    private boolean used(int x, int i) {
-        return ((x >> i) & 1) == 1;
-    }
-
-    private int boxNumber(int c, int r) {
-        return r / 3 * 3 + c / 3;
-    }
-
-    private void setBitUsed(Cell cell, int bitUsed) {
-        row[cell.r] |= bitUsed;
-        col[cell.c] |= bitUsed;
-        box[cell.b] |= bitUsed;
-    }
 // TC: 9^81 → 9^n where n is the number of empty Cells
 // SC: 3 * n + 27 + 81, what do you say this is…
 
@@ -128,8 +118,12 @@ public class Sudoku {
             for (int c = 0; c < N; c++) {
                 if (board[r][c] == '.') continue;
                 int i = board[r][c] - '1';
-                int b = boxNumber(r, c);
-                if (used(row[r], i) || used(col[c], i) || used(box[b], i)) return false;
+                int b = (r / 3) * 3 + (c / 3);
+                if (
+                    ((row[r] >> i) & 1) == 1 ||
+                    ((col[c] >> i) & 1) == 1 ||
+                    ((box[b] >> i) & 1) == 1
+                ) return false;
                 row[r] |= 1 << i;
                 col[c] |= 1 << i;
                 box[b] |= 1 << i;
@@ -148,14 +142,14 @@ public class Sudoku {
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board[r].length; c++) {
                 String coloredNumber = switch (board[r][c]) {
-                    case '1' -> RED + board[r][c] + "  " + RESET;
-                    case '2' -> GREEN + board[r][c] + "  " + RESET;
-                    case '3' -> YELLOW + board[r][c] + "  " + RESET;
-                    case '4' -> BLUE + board[r][c] + "  " + RESET;
-                    case '5' -> PURPLE + board[r][c] + "  " + RESET;
-                    case '6' -> CYAN + board[r][c] + "  " + RESET;
-                    case '7' -> BLACK + board[r][c] + "  " + RESET;
-                    case '8' -> WHITE + board[r][c] + "  " + RESET;
+                    case '1' -> RED              + board[r][c] + "  " + RESET;
+                    case '2' -> GREEN            + board[r][c] + "  " + RESET;
+                    case '3' -> YELLOW           + board[r][c] + "  " + RESET;
+                    case '4' -> BLUE             + board[r][c] + "  " + RESET;
+                    case '5' -> PURPLE           + board[r][c] + "  " + RESET;
+                    case '6' -> CYAN             + board[r][c] + "  " + RESET;
+                    case '7' -> BLACK            + board[r][c] + "  " + RESET;
+                    case '8' -> WHITE            + board[r][c] + "  " + RESET;
                     case '9' -> CYAN_BOLD_BRIGHT + board[r][c] + "  " + RESET;
                     default -> ".  ";
                 };
