@@ -237,6 +237,9 @@ class Solution {
 ```
 
 ## Solution 4: 李显龙 c Solution Java 版本
+[李显龙Original 0ms c Code](https://drive.google.com/drive/u/0/folders/0B2G2LjIu7WbdfjhaUmVzc1lCR2hUdk5fZllCOHdtbFItbU5qYzdqZGVxdmlnRkJyYVQ4VU0?resourcekey=0-D2Vpv_-JlV4qo2aSDdGFLA)
+
+[知乎](https://www.zhihu.com/question/30110719)
 ```java
 class Solution {
     static final int ALL_ZEROS = 0;
