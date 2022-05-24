@@ -147,13 +147,9 @@ class Solution {
         for (int i = 0; i < 9; i++)
             if (!rows[r][i] && !cols[c][i] && !boxes[boxN][i]) {
                 board[r][c] = (char) (i + '1');
-                rows[r][i] = true;
-                cols[c][i] = true;
-                boxes[boxN][i] = true;
+                rows[r][i] = cols[c][i] = boxes[boxN][i] = true;
                 if (dfs(board, d + 1)) return true;
-                rows[r][i] = false;
-                cols[c][i] = false;
-                boxes[boxN][i] = false;
+                rows[r][i] = cols[c][i] = boxes[boxN][i] = false;
             }
 
         board[r][c] = '.';
