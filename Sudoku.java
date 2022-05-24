@@ -36,20 +36,31 @@ import static resources.SudokuBoards.*;
 
 public class Sudoku {
 
-    static class Cell {
-        int r, c, b; // the row, col and box number for each cell
-        Cell(int r, int c, int b) {
-            this.r = r;
-            this.c = c;
-            this.b = b;
-        }
-    }
-
     int depth;
     List<Cell> emptyCells = new ArrayList<>(); // search space, int[] for interview, class is better
     int[] row = new int[9]; // for each row what numbers have been used
     int[] col = new int[9]; // for each col what numbers have been used
     int[] box = new int[9]; // for each box what numbers have been used
+
+    public static void main(String[] args) {
+        // solve a sudoku and print the comparison
+        char[][] board = MAKER;
+        char[][] b2 = new char[board.length][];
+        for (int i = 0; i < board.length; i++)
+            b2[i] = board[i].clone();
+
+        Sudoku sudoku = new Sudoku();
+
+        sudoku.solveSudoku(board);
+        sudoku.printSudoku(board, b2);
+        sudoku.printSudokuAsArray(board, b2);
+
+        char[][] b3 = Leet1;
+        boolean isValid = sudoku.isValidSudoku(b3);
+
+        sudoku.printValidSudoku(b3);
+        sudoku.printRes(isValid);
+    }
 
     public void solveSudoku(char[][] board) {
         depth = 0;
@@ -72,10 +83,10 @@ public class Sudoku {
         for (int i = 0; i < 9; i++) {
             if (cellUsed(cell, i)) continue;
             int[] beforeStatus = new int[]{row[cell.r], col[cell.c], box[cell.b]};
-            board[cell.r][cell.c] = (char)(i + '1');
+            board[cell.r][cell.c] = (char) (i + '1');
             setBitUsed(cell, 1 << i);
             if (dfs(board, d + 1)) return true;
-            recoverBeforeStatus(cell, beforeStatus); // recover before status before try next branch
+            recoverBeforeStatus(cell, beforeStatus); // 吃了🤮
         }
         return false;
     }
@@ -89,6 +100,7 @@ public class Sudoku {
     private boolean cellUsed(Cell cell, int i) {
         return used(row[cell.r], i) || used(col[cell.c], i) || used(box[cell.b], i);
     }
+
     private boolean used(int x, int i) {
         return ((x >> i) & 1) == 1;
     }
@@ -108,22 +120,21 @@ public class Sudoku {
 // above are solution for Sudoku Solver only
 // below are for Sudoku board validations
 
-    public boolean isValidSudoku(char[][] board){
+    public boolean isValidSudoku(char[][] board) {
         int N = 9;
         int[] row = new int[N], col = new int[N], box = new int[N];
 
-        for (int r = 0;r < N;r++)
-            for (int c = 0;c < N;c++) {
+        for (int r = 0; r < N; r++)
+            for (int c = 0; c < N; c++) {
                 if (board[r][c] == '.') continue;
                 int i = board[r][c] - '1';
-                int b = r/3*3+c/3;
+                int b = boxNumber(r, c);
                 if (used(row[r], i) || used(col[c], i) || used(box[b], i)) return false;
                 row[r] |= 1 << i;
                 col[c] |= 1 << i;
                 box[b] |= 1 << i;
             }
         return true;
-
     }
 
     private void printRes(boolean isValid) {
@@ -150,13 +161,11 @@ public class Sudoku {
                 };
                 System.out.print(coloredNumber);
 
-                if ( (c + 1) % 3 == 0 && c != 8)
-                    System.out.print("|  ");
+                if ((c + 1) % 3 == 0 && c != 8) System.out.print("|  ");
             }
             System.out.print("\n");
 
-            if ( (r + 1) % 3 == 0 && r != 8)
-                System.out.print("-------------------------------\n");
+            if ((r + 1) % 3 == 0 && r != 8) System.out.print("-------------------------------\n");
         }
     }
 
@@ -196,24 +205,14 @@ public class Sudoku {
 
     }
 
-    public static void main(String[] args) {
-        // solve a sudoku and print the comparison
-        char[][] board = MAKER;
-        char[][] b2 = new char[board.length][];
-        for (int i = 0; i < board.length; i++)
-            b2[i] = board[i].clone();
+    static class Cell {
+        int r, c, b; // the row, col and box number for each cell
 
-        Sudoku sudoku = new Sudoku();
-
-        sudoku.solveSudoku(board);
-        sudoku.printSudoku(board, b2);
-        sudoku.printSudokuAsArray(board, b2);
-
-        char[][] b3 = Leet1;
-        boolean isValid = sudoku.isValidSudoku(b3);
-
-        sudoku.printValidSudoku(b3);
-        sudoku.printRes(isValid);
+        Cell(int r, int c, int b) {
+            this.r = r;
+            this.c = c;
+            this.b = b;
+        }
     }
 
 }
