@@ -121,16 +121,16 @@ class Solution {
     private boolean[][] boxes;
 
     public void solveSudoku(char[][] board) {
-        rows  = new boolean[9][9];
-        cols  = new boolean[9][9];
+         rows = new boolean[9][9];
+         cols = new boolean[9][9];
         boxes = new boolean[9][9];
 
         for (int r = 0; r < 9; r++)
             for (int c = 0; c < 9; c++)
                 if (board[r][c] != '.') {
                     int i = board[r][c] - '1';
-                    int boxN = r / 3 * 3 + c / 3;
-                    rows[r][i] = cols[c][i] = boxes[boxN][i] = true;
+                    int b = r / 3 * 3 + c / 3;
+                    rows[r][i] = cols[c][i] = boxes[b][i] = true;
                 }
 
         dfs(board, 0);
@@ -142,13 +142,13 @@ class Solution {
         int r = d / 9, c = d % 9;
         if (board[r][c] != '.') return dfs(board, d + 1);
 
-        int boxN = r / 3 * 3 + c / 3;
+        int b = r / 3 * 3 + c / 3; // box number
         for (int i = 0; i < 9; i++)
-            if (!rows[r][i] && !cols[c][i] && !boxes[boxN][i]) {
+            if (!rows[r][i] && !cols[c][i] && !boxes[b][i]) {
                 board[r][c] = (char) (i + '1');
-                rows[r][i] = cols[c][i] = boxes[boxN][i] = true;
+                rows[r][i] = cols[c][i] = boxes[b][i] = true;
                 if (dfs(board, d + 1)) return true;
-                rows[r][i] = cols[c][i] = boxes[boxN][i] = false;
+                rows[r][i] = cols[c][i] = boxes[b][i] = false;
             }
 
         board[r][c] = '.';
