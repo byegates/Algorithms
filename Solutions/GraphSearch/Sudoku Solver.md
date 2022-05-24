@@ -129,9 +129,8 @@ class Solution {
             for (int c = 0; c < 9; c++)
                 if (board[r][c] != '.') {
                     int i = board[r][c] - '1';
-                    rows[r][i] = true;
-                    cols[c][i] = true;
-                    boxes[r / 3 * 3 + c / 3][i] = true;
+                    int boxN = r / 3 * 3 + c / 3;
+                    rows[r][i] = cols[c][i] = boxes[boxN][i] = true;
                 }
 
         dfs(board, 0);
@@ -158,7 +157,7 @@ class Solution {
 }
 ```
 
-## Solution 3 bit operation (3-8ms)
+## Solution 3 bit operation (3ms)
 ### Time and Space
 TC: O(9^m)
 
@@ -175,59 +174,45 @@ class Solution {
         }
     }
 
-    List<Cell> emptyCells = new ArrayList<>(); // search space, int[] for interview, class is better
-    int[] row = new int[9]; // for each row what numbers have been used
-    int[] col = new int[9]; // for each col what numbers have been used
-    int[] box = new int[9]; // for each box what numbers have been used
-
+    List<Cell> emptyCells = new ArrayList<>();
+    int[] rows = new int[9], cols = new int[9], boxes = new int[9];
     public void solveSudoku(char[][] board) {
-        // initialization
-        for (int r = 0; r < 9; r++)
-            for (int c = 0; c < 9; c++) {
-                Cell cell = new Cell(r, c, boxNumber(r, c));
-                if (board[r][c] == '.') emptyCells.add(cell);
-                else setBitUsed(cell, 1 << (board[r][c] - '1'));
+        for (int row = 0; row < 9; row++)
+            for (int col = 0; col < 9; col++) {
+                Cell c = new Cell(row, col, (row / 3) * 3 + (col / 3));
+                if (board[row][col] == '.') emptyCells.add(c);
+                else {
+                    int val = board[row][col] - '1';
+                     rows[row] |= 1 << val;
+                     cols[col] |= 1 << val;
+                    boxes[c.b] |= 1 << val;
+                }
             }
 
         dfs(board, 0);
     }
+    boolean dfs(char[][] board, int i) {
+        if (i == emptyCells.size()) return true; // Check if we filled all empty cells?
 
-    private boolean dfs(char[][] board, int d) {
-        if (d == emptyCells.size()) return true;
-        Cell cell = emptyCells.get(d);
-        for (int i = 0; i < 9; i++) {
-            if (cellUsed(cell, i)) continue;
-            int[] beforeStatus = new int[]{row[cell.r], col[cell.c], box[cell.b]};
-            board[cell.r][cell.c] = (char) (i + '1');
-            setBitUsed(cell, 1 << i);
-            if (dfs(board, d + 1)) return true;
-            recoverBeforeStatus(cell, beforeStatus); // 吃了🤮
+        Cell c = emptyCells.get(i);
+        for (int val = 0; val < 9; ++val) {
+            if (
+                (( rows[c.r] >> val) & 1) == 1 ||
+                (( cols[c.c] >> val) & 1) == 1 || 
+                ((boxes[c.b] >> val) & 1) == 1
+            )
+                continue; // skip if that value is existed!
+            board[c.r][c.c] = (char) ('1' + val);
+            int oldRow = rows[c.r], oldCol = cols[c.c], oldBox = boxes[c.b]; // backup old values
+             rows[c.r] |= 1 << val;
+             cols[c.c] |= 1 << val;
+            boxes[c.b] |= 1 << val;
+            if (dfs(board, i + 1)) return true;
+             rows[c.r] = oldRow;
+             cols[c.c] = oldCol;
+            boxes[c.b] = oldBox; // 吃了🤮
         }
         return false;
-    }
-
-    private void recoverBeforeStatus(Cell cell, int[] beforeStatus) {
-        row[cell.r] = beforeStatus[0];
-        col[cell.c] = beforeStatus[1];
-        box[cell.b] = beforeStatus[2];
-    }
-
-    private boolean cellUsed(Cell cell, int i) {
-        return used(row[cell.r], i) || used(col[cell.c], i) || used(box[cell.b], i);
-    }
-
-    private boolean used(int x, int i) {
-        return ((x >> i) & 1) == 1;
-    }
-
-    private int boxNumber(int c, int r) {
-        return r / 3 * 3 + c / 3;
-    }
-
-    private void setBitUsed(Cell cell, int bitUsed) {
-        row[cell.r] |= bitUsed;
-        col[cell.c] |= bitUsed;
-        box[cell.b] |= bitUsed;
     }
 }
 ```
