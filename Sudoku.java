@@ -44,7 +44,7 @@ public class Sudoku {
 
     public static void main(String[] args) {
         // solve a sudoku and print the comparison
-        char[][] board = MAKER;
+        char[][] board = YUANHAO;
         char[][] b2 = new char[board.length][];
         for (int i = 0; i < board.length; i++)
             b2[i] = board[i].clone();
