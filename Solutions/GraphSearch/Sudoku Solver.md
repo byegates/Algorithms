@@ -20,8 +20,8 @@ class Solution {
                     if (valid(board, i, j, c)) {
                         board[i][j] = c; //Put c for this cell
                         if (solve(board)) return true; //If it's the solution return true
-                        board[i][j] = '.'; //吃了吐
                     }
+                board[i][j] = '.'; //吃了吐
                 return false;
             }
         return true;
@@ -37,7 +37,7 @@ class Solution {
 }
 ```
 
-### Solution 1b (17ms)
+### Solution 1b (14ms)
 #### Space
 O(81)
 ```java
@@ -55,8 +55,8 @@ class Solution {
             if (valid(board, r, c, num)) {
                 board[r][c] = num;
                 if (dfs(board, d + 1)) return true;
-                board[r][c] = '.';//吃了吐
             }
+        board[r][c] = '.';//吃了吐
         return false;
     }
 
