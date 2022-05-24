@@ -199,7 +199,7 @@ public class SudokuBoards {
             {'.', '.', '.',   '.', '.', '.',   '.', '.', '.', },
     };
 
-    public class Results {
+    public static class Results {
         public static final char[][] MAKER = {
                 {'7', '1', '8',   '6', '9', '3',   '5', '2', '4', },
                 {'2', '6', '4',   '5', '7', '1',   '3', '8', '9', },
