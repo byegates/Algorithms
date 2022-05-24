@@ -202,3 +202,35 @@ class Solution { // TC: O(m*n), SC: O(m*n)
     }
 }
 ```
+# Number of Distinct Islands
+[694. Number of Distinct Islands](https://leetcode.com/problems/number-of-distinct-islands/)
+```java
+class Solution {
+    private static final int[][] DIRS = new int[][] {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    public int numDistinctIslands(int[][] grid) {
+        int rows, cols;
+        if (grid == null ||(rows = grid.length) == 0 || (cols = grid[0].length) == 0) return 0;
+        Set<List<List<Integer>>> set = new HashSet<>();
+        
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                if (grid[i][j] == 1) {
+                    List<List<Integer>> list = new ArrayList<>();
+                    dfs(grid, i, j, i, j, rows, cols, list);
+                    set.add(list);
+                }
+        
+        return set.size();
+    }
+    
+    private void dfs(int[][] grid, int i, int j, int i0, int j0, int rows, int cols, List<List<Integer>> list) {
+        if (i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] != 1) return;
+        
+        list.add(Arrays.asList(i - i0, j - j0));
+        grid[i][j] = -1;
+        
+        for (int[] dir : DIRS)
+            dfs(grid, i + dir[0], j + dir[1], i0, j0, rows, cols, list);
+    }
+}
+```
