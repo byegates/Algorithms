@@ -13,6 +13,11 @@ class SudokuTest {
     }
 
     @Test
+    void YUANHAO() {
+        assertTrue(core(YUANHAO));
+    }
+
+    @Test
     void Maker() {
         assertTrue(core(MAKER));
     }
