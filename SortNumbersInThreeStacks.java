@@ -29,6 +29,9 @@ public class SortNumbersInThreeStacks {
         // the key is to sort s2 and s1, the sequence of 2nd and 3rd stack doesn't matter
         // sort(s2, s3, s1, mid1); will also work
         // sort(s1, s3, s2, mid2); will also work
+        // Below also works
+        // sort(s1, s2, s3, mid2); sort s1 first
+        // sort(s2, s1, s3, mid1); sort s2 next
         sort(s2, s1, s3, mid1); // sort top mid1 values in s2 in ascending order from top to bottom
         sort(s1, s2, s3, mid2);// sort top mid2 values in s1 in ascending order from top to bottom
 
