@@ -2,12 +2,10 @@ package OOD;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 enum Grade0 {Fail, Pass}
-enum Grade1 {A, B, C, D, E, F}
+enum Grade1 {F, E, D, C, B, A}
 
 public record Student(int id, String name, int math, Grade0 pe, Grade1 en) implements Comparable<Student> {
     static int[] ID = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -42,6 +40,8 @@ public record Student(int id, String name, int math, Grade0 pe, Grade1 en) imple
 
     public static void main(String[] args) {
         List<Student> list = sampleList();
+        System.out.println(Arrays.toString(StudentComparators.values()));
+        list.sort(StudentComparators.valueOf("EN").reversed());
         for (Student stu : list) System.out.println(stu);
     }
 }
