@@ -2,7 +2,6 @@ package OOD;
 
 import java.util.Comparator;
 import java.util.function.BiFunction;
-
 public enum StudentComparators implements Comparator<Student> {
     ID((s1, s2) -> Integer.compare(s1.id(), s2.id())),
     NAME((s1, s2) -> s1.name().compareTo(s2.name())),
@@ -13,8 +12,8 @@ public enum StudentComparators implements Comparator<Student> {
 
     private final BiFunction<Student, Student, Integer> func;
 
-    StudentComparators(BiFunction<Student, Student, Integer> fund) {
-        this.func = fund;
+    StudentComparators(BiFunction<Student, Student, Integer> func) {
+        this.func = func;
     }
 
     @Override
