@@ -234,3 +234,35 @@ class Solution {
     }
 }
 ```
+# [1905. Count Sub Islands] (https://leetcode.com/problems/count-sub-islands/)
+TC: O(m*n)
+
+SC: O(m*n)
+```java
+class Solution {
+    private static final int[][] DIRS = new int[][] {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    public int countSubIslands(int[][] grid1, int[][] grid2) {
+        int count = 0;
+        int rows = grid1.length, cols = grid1[0].length;
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                if (grid2[i][j] == 1) {
+                boolean[] isSubIsland = new boolean[]{true};
+                dfs(grid1, grid2, i, j, rows, cols, isSubIsland);
+                if (isSubIsland[0]) count++;
+                }
+        return count;
+    }
+
+    private void dfs(int[][] grid1, int[][] grid2, int i, int j, int rows, int cols, boolean[] isSubIsland) {
+        if (i < 0 || j < 0 || i >= rows || j >= cols || grid2[i][j] != 1) return;
+
+        if (grid1[i][j] == 0 && isSubIsland[0]) isSubIsland[0] = false;
+
+        grid2[i][j] = -1;
+
+        for (int[] dir : DIRS)
+            dfs(grid1, grid2, i + dir[0], j + dir[1], rows, cols, isSubIsland);
+    }
+}
+```
