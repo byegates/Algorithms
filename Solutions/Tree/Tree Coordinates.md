@@ -369,43 +369,42 @@ class Solution {
 TC: O(n + 2 * height) ==> O(n), SC: O(height)
 ```java
 class Solution {
-  public List<Integer> borderView(TreeNode root) {
-    List<Integer> res = new ArrayList<>();
-    if (root == null) return res;
-    res.add(root.key);
-    if (root.left != null) leftBorder(root.left, res);
-    if (root.left != null || root.right != null) leafs(root, res);
-    if (root.right != null) rightBorder(root.right, res);
-    return res;
-  }
-
-  private void leftBorder(TreeNode root, List<Integer> res) {
-    if (root.left != null) {
-      res.add(root.key);
-      leftBorder(root.left, res);
-    } else if (root.right != null) {
-      res.add(root.key);
-      leftBorder(root.right, res);
+    public List<Integer> borderView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        res.add(root.key);
+        if (root.left != null) leftBorder(root.left, res);
+        if (root.left != null || root.right != null) leafs(root, res);
+        if (root.right != null) rightBorder(root.right, res);
+        return res;
     }
-  }
 
-  private void rightBorder(TreeNode root, List<Integer> res) {
-    if (root.right != null) {
-      leftBorder(root.right, res);
-      res.add(root.key);
-    } else if (root.left != null) {
-      leftBorder(root.left, res);
-      res.add(root.key);
+    private void leftBorder(TreeNode root, List<Integer> res) {
+        if (root.left != null) {
+            res.add(root.key);
+            leftBorder(root.left, res);
+        } else if (root.right != null) {
+            res.add(root.key);
+            leftBorder(root.right, res);
+        }
     }
-  }
 
-  private void leafs(TreeNode root, List<Integer> res) {
-    if (root.left == null && root.right == null) {
-      res.add(root.key);
-      return;
+    private void rightBorder(TreeNode root, List<Integer> res) {
+        if (root.right != null) {
+            rightBorder(root.right, res);
+            res.add(root.key);
+        } else if (root.left != null) {
+            rightBorder(root.left, res);
+            res.add(root.key);
+        }
     }
-    if (root.left != null) leafs(root.left, res);
-    if (root.right != null) leafs(root.right, res);
-  }
+
+    private void leafs(TreeNode root, List<Integer> res) {
+        if (root.left == null && root.right == null)
+            res.add(root.key);
+
+        if (root.left != null) leafs(root.left, res);
+        if (root.right != null) leafs(root.right, res);
+    }
 }
 ```
