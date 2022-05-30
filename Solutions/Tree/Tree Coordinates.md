@@ -4,6 +4,7 @@
 3. [LaiCode 298. Vertical List Of Binary Tree](#298-Vertical-List-Of-Binary-Tree)
 4. [LaiCode 426. Binary Tree Vertical Order Traversal](#426-Binary-Tree-Vertical-Order-Traversal)
 5. [LaiCode 406. Diagonal Sum of a Binary Tree](#406-Diagonal-Sum-of-a-Binary-Tree)
+6. [LaiCode 316. Border View Of Binary Tree](#316-Border-View-Of-Binary-Tree)
 
 # Quick Note
 This series is pretty much about assign coordinates to each node in Binary Tree,
@@ -358,6 +359,53 @@ class Solution {
     else res.set(idx, root.key + res.get(idx));
     dfs(root.left , lvl + 1, col - 1, res);
     dfs(root.right, lvl + 1, col + 1, res);
+  }
+}
+```
+
+# 316-Border-View-Of-Binary-Tree
+[316. Border View Of Binary Tree](https://app.laicode.io/app/problem/316)
+
+TC: O(n + 2 * height) ==> O(n), SC: O(height)
+```java
+class Solution {
+  public List<Integer> borderView(TreeNode root) {
+    List<Integer> res = new ArrayList<>();
+    if (root == null) return res;
+    res.add(root.key);
+    if (root.left != null) leftBorder(root.left, res);
+    if (root.left != null || root.right != null) leafs(root, res);
+    if (root.right != null) rightBorder(root.right, res);
+    return res;
+  }
+
+  private void leftBorder(TreeNode root, List<Integer> res) {
+    if (root.left != null) {
+      res.add(root.key);
+      leftBorder(root.left, res);
+    } else if (root.right != null) {
+      res.add(root.key);
+      leftBorder(root.right, res);
+    }
+  }
+
+  private void rightBorder(TreeNode root, List<Integer> res) {
+    if (root.right != null) {
+      leftBorder(root.right, res);
+      res.add(root.key);
+    } else if (root.left != null) {
+      leftBorder(root.left, res);
+      res.add(root.key);
+    }
+  }
+
+  private void leafs(TreeNode root, List<Integer> res) {
+    if (root.left == null && root.right == null) {
+      res.add(root.key);
+      return;
+    }
+    if (root.left != null) leafs(root.left, res);
+    if (root.right != null) leafs(root.right, res);
   }
 }
 ```
