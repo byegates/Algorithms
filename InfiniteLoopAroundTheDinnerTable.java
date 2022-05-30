@@ -23,7 +23,7 @@ public class InfiniteLoopAroundTheDinnerTable {
     public boolean isInfinite(String[] names) {
         System.out.printf("%s : ", Arrays.toString(names));
         if (names == null || names.length == 0) return false;
-        return dfs(0, names);
+        return dfs(1, names);
     }
 
     private boolean dfs(int idx, String[] names) {
@@ -82,6 +82,7 @@ public class InfiniteLoopAroundTheDinnerTable {
 
     public static void main(String[] args) {
         InfiniteLoopAroundTheDinnerTable il = new InfiniteLoopAroundTheDinnerTable();
+        System.out.println(il.isInfinite(new String[]{"a", "bc", "c", "ddb", "cd", "da", "aad"}));
 //        System.out.println(il.isInfinite(l1));
 //        System.out.println(il.isInfinite(l2));
         System.out.println(il.isInfinite(new String[]{"A"})); // true
