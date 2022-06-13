@@ -67,7 +67,7 @@ class Solution {
 
 # [499. The Maze III](https://leetcode.com/problems/the-maze-iii/)
 
-## Solution 1
+## Solution 1 (14ms)
 ```java
 class Solution {
     private static final int[][] dirs = new int[][] {{1, 0}, {0, -1}, {0, 1}, {-1, 0}};
@@ -215,7 +215,7 @@ class Solution {
 }
 ```
 
-## Solution4
+## Solution4 (13ms)
 Still use priorityQueue, but use a Cell matrix to de-dup
 ```java
 class Solution {
