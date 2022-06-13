@@ -26,7 +26,10 @@ public class Heap {
         A = new Integer[cap];
         size = 0;
     }
-    private void heapify() {for (int i = size / 2 - 1; i >= 0; i--) percolateDown(i);}
+
+    private void heapify() {
+        for (int i = size / 2 - 1; i >= 0; i--) percolateDown(i);
+    }
 
     private void percolateUp(int idx) {
         while (idx > 0) {
@@ -39,16 +42,20 @@ public class Heap {
     }
     private void percolateDown(int idx) {
         while (true) {
-            int min = 2 * idx + 1; // left child index, assume it's smaller
-            if (min >= size) break;
-            int r = min + 1; //r: right child idx
-            if (r < size && C.compare(A[r], A[min]) < 0) min = r;
-            if (C.compare(A[idx], A[min]) > 0) swap(idx, min);
+            int candidate = 2 * idx + 1; // left child index, assume it's the candidate (smaller one for min heap, larger one for max heap)
+            if (candidate >= size) break;
+            int r = candidate + 1; //r: right child steps
+            if (r < size && C.compare(A[r], A[candidate]) < 0) candidate = r;
+            if (C.compare(A[idx], A[candidate]) > 0) swap(idx, candidate);
             else break;
-            idx = min;
+            idx = candidate;
         }
     }
-    public Integer peek() {return isEmpty() ? null : A[0];}
+
+    public Integer peek() {
+        return isEmpty() ? null : A[0];
+    }
+
     public Integer poll() {
         if (isEmpty()) return null;
         swap(0, --size);
