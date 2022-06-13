@@ -1,4 +1,8 @@
-# [490. The Maze](https://leetcode.com/problems/the-maze/)
+# Table of Contents
+1. [490. The Maze](#490-The-Maze)
+2. [505. The Maze II](#505-The-Maze-II)
+3. [499. The Maze III](#499-The-Maze-III)
+# [490-The-Maze](https://leetcode.com/problems/the-maze/)
 
 ## DFS
 ```java
@@ -28,7 +32,7 @@ class Solution {
 }
 ```
 
-# [505. The Maze II](https://leetcode.com/problems/the-maze-ii/)
+# [505-The-Maze-II](https://leetcode.com/problems/the-maze-ii/)
 
 ## BFS
 ```java
@@ -65,7 +69,7 @@ class Solution {
 }
 ```
 
-# [499. The Maze III](https://leetcode.com/problems/the-maze-iii/)
+# [499-The-Maze-III](https://leetcode.com/problems/the-maze-iii/)
 
 ## Solution 1 (14ms)
 ```java
