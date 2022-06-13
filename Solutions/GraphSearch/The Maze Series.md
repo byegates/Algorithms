@@ -258,7 +258,7 @@ class Solution {
                 }
 
                 Cell next = new Cell(i2, j2, cur.steps + count, cur.path + dirc[k]);
-                if (i2 == iz && j2 == jz || cells[i2][j2] == null || next.compareTo(cells[i2][j2]) < 0) {
+                if (cells[i2][j2] == null || next.compareTo(cells[i2][j2]) < 0) {
                     cells[i2][j2] = next;
                     q.offer(next);
                 }
@@ -271,6 +271,5 @@ class Solution {
     public boolean valid(int i, int j, int m, int n) {
         return i >= 0 && j >= 0 && i < m && j < n;
     }
-
 }
 ```
