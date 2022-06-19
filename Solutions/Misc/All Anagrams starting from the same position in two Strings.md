@@ -27,3 +27,60 @@ In your solution, focus on correctness. The performance of your solution will no
 ![Samples](https://github.com/byegates/Algorithms/blob/main/Solutions/Images/All%20Anagrams1.png)
 
 ![](../Images/All Anagrams1.png)
+
+## Brute Force
+There are n^2 substrings, for each, performance O(n) anagram check
+
+TC: O(n^3)
+
+SC: O(n), substrings
+
+n3, for each n^2 substrings, perform a O(n) check of Anagram
+```java
+class Solution {
+    public int numberOfFragments(String A, String B) {
+
+        if (A == null || B == null || A.length() == 0 || B.length() == 0)
+            return -1;
+
+        System.out.printf("\n%s vs %s :\n\n", A, B);
+
+        int n = A.length();
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                String a = A.substring(i, j + 1);
+                String b = B.substring(i, j + 1);
+                if (isAnagram(a, b)) {
+                    res++;
+                    System.out.printf("%s vs %s \n", colorCodeStr(A, i, j), colorCodeStr(B, i, j));
+                }
+            }
+        }
+        return res;
+    }
+
+    private boolean isAnagram(String a, String b) {
+        if (a.length() != b.length()) return false;
+
+        int[] count = new int[52];
+        for (int i = 0; i < a.length(); i++) {
+            char c1 = a.charAt(i), c2 = b.charAt(i);
+            if (c1 >= 'A' && c1 <= 'Z') count[c1 - 'A' + 26]++;
+            if (c2 >= 'A' && c2 <= 'Z') count[c2 - 'A' + 26]--;
+            if (c1 >= 'a' && c1 <= 'z') count[c1 - 'a']++;
+            if (c2 >= 'a' && c2 <= 'z') count[c2 - 'a']--;
+        }
+        for (int cnt : count)
+            if (cnt != 0) return false;
+
+        return true;
+    }
+
+    private String colorCodeStr(String a, int i, int j) {
+        //System.out.println("a : " + " " + i + " " + j);
+        return a.substring(0, i) + RED + a.substring(i, j + 1) + RESET + a.substring(j + 1);
+    }
+}
+```
+
