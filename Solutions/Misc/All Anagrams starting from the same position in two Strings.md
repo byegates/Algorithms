@@ -24,5 +24,6 @@ Given A = "ZZXY0z" and B = "OOYXZZ", the function should return 2.
 Assume that: N is an integer within the range[1..100]. strings A and B consist only of letters (a-z and/or A-Z).
 In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment. They mentioned it for both the questions.
 
-![](https://github.com/byegates/Algorithms/blob/main/Solutions/Images/All%20Anagrams1.png)
+![Samples](https://github.com/byegates/Algorithms/blob/main/Solutions/Images/All%20Anagrams1.png)
 
+![](../Images/All Anagrams1.png)
