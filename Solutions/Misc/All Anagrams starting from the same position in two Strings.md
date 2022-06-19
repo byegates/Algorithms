@@ -45,8 +45,7 @@ class Solution {
 
         System.out.printf("\n%s vs %s :\n\n", A, B);
 
-        int n = A.length();
-        int res = 0;
+        int res = 0, count = 0, n = A.length();
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
                 String a = A.substring(i, j + 1);
@@ -63,13 +62,10 @@ class Solution {
     private boolean isAnagram(String a, String b) {
         if (a.length() != b.length()) return false;
 
-        int[] count = new int[52];
+        int[] count = new int[58];
         for (int i = 0; i < a.length(); i++) {
-            char c1 = a.charAt(i), c2 = b.charAt(i);
-            if (c1 >= 'A' && c1 <= 'Z') count[c1 - 'A' + 26]++;
-            if (c2 >= 'A' && c2 <= 'Z') count[c2 - 'A' + 26]--;
-            if (c1 >= 'a' && c1 <= 'z') count[c1 - 'a']++;
-            if (c2 >= 'a' && c2 <= 'z') count[c2 - 'a']--;
+            count[a.charAt(i) - 'A']++;
+            count[b.charAt(i) - 'A']--;
         }
         for (int cnt : count)
             if (cnt != 0) return false;
@@ -84,3 +80,46 @@ class Solution {
 }
 ```
 
+## O(n^2), use one map for all everything
+TC: O(n^2)
+
+SC: O(58)? 😂
+
+```java
+class Solution {
+    public int numberOfFragments(String A, String B) {
+
+        if (A == null || B == null || A.length() == 0 || B.length() == 0)
+            return -1;
+
+        System.out.printf("\n%s vs %s :\n\n", A, B);
+
+        int res = 0, n = A.length();
+        for (int i = 0; i < n; i++) {
+            int[] map = new int[58];
+            int count = 0;
+            for (int j = i; j < n; j++) {
+                count = update(A.charAt(j), count, +1, map);
+                count = update(B.charAt(j), count, -1, map);
+                if (count == 0) {
+                    res++;
+                    System.out.printf("%s vs %s \n", colorCodeStr(A, i, j), colorCodeStr(B, i, j));
+                }
+            }
+        }
+        return res;
+    }
+
+    private int update(char c, int count, int add, int[] map) {
+        if (map[c - 'A'] == 0) count++;
+        if (map[c - 'A'] + add == 0) count--;
+        map[c - 'A'] += add;
+        return count;
+    }
+
+    private String colorCodeStr(String a, int i, int j) {
+        //System.out.println("a : " + " " + i + " " + j);
+        return a.substring(0, i) + RED + a.substring(i, j + 1) + RESET + a.substring(j + 1);
+    }
+}
+```
