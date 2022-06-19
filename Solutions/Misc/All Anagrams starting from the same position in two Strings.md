@@ -112,8 +112,8 @@ class Solution {
 
     private int update(char c, int count, int add, int[] map) {
         if (map[c - 'A'] == 0) count++;
-        if (map[c - 'A'] + add == 0) count--;
         map[c - 'A'] += add;
+        if (map[c - 'A'] == 0) count--;
         return count;
     }
 
