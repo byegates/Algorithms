@@ -1,5 +1,5 @@
 # [252. Meeting Rooms](https://leetcode.com/problems/meeting-rooms/)
-TC: O(n)
+TC: O(nlogn)
 
 SC: O(1)
 
