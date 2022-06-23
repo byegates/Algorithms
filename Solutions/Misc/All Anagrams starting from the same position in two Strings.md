@@ -80,7 +80,7 @@ class Solution {
 }
 ```
 
-## O(n^2), use one map for all everything
+## O(n^2), use one map for everything
 TC: O(n^2)
 
 SC: O(58)? 😂
@@ -99,8 +99,8 @@ class Solution {
             int[] map = new int[58];
             int count = 0;
             for (int j = i; j < n; j++) {
-                count = update(A.charAt(j), count, +1, map);
-                count = update(B.charAt(j), count, -1, map);
+                count = update(A.charAt(j) - 'A', count, +1, map);
+                count = update(B.charAt(j) - 'A', count, -1, map);
                 if (count == 0) {
                     res++;
                     System.out.printf("%s vs %s \n", colorCodeStr(A, i, j), colorCodeStr(B, i, j));
@@ -110,10 +110,10 @@ class Solution {
         return res;
     }
 
-    private int update(char c, int count, int add, int[] map) {
-        if (map[c - 'A'] == 0) count++;
-        map[c - 'A'] += add;
-        if (map[c - 'A'] == 0) count--;
+    private int update(int idx, int count, int add, int[] map) {
+        if (map[idx] == 0) count++;
+        map[idx] += add;
+        if (map[idx] == 0) count--;
         return count;
     }
 
