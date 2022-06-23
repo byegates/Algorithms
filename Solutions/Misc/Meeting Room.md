@@ -18,7 +18,7 @@ class Solution {
 ```
 
 # [253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
-TC: O(n)
+TC: O(nlogn)
 
 SC: O(n)
 ```java
@@ -47,9 +47,9 @@ class Solution {
 ```
 
 ## [1229. Meeting Scheduler](https://leetcode.com/problems/meeting-scheduler/)
-TC:
+TC: O(n)
 
-SC:
+SC: O(n)
 
 ```java
 class Solution {
