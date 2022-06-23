@@ -18,7 +18,9 @@ class Solution {
 ```
 
 # [253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
+TC: O(n)
 
+SC: O(n)
 ```java
 class Solution {
     public int minMeetingRooms(int[][] intervals) {
