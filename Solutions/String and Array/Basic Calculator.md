@@ -180,3 +180,56 @@ class Solution {
     }
 }
 ```
+## Solution 2b, same idea as solution 2, use array instead of stack (2ms, 93.87%)
+TC/SC: O(n)
+```java
+class Solution {
+    public int calculate(String s) {
+        int size = (s.length() + 1) / 2; // length + 1 to accommodate single input like "1"
+         int[] nums = new  int[size];
+        char[]  ops = new char[size];
+        
+     int top1 = -1, top2 = -1; // top index of each "stack"
+       for (int i = 0; i < s.length(); ) {
+            char c = s.charAt(i++);
+            if (c >= '0' && c <= '9') {
+                int num = c - '0';
+                while (i < s.length() && (c = s.charAt(i)) >= '0' && c <= '9') {
+                    num = num * 10 + c - '0';
+                    i++;
+                }
+                nums[++top1] = num;
+            } else if (c == '(') ops[++top2] = '(';
+            else if (c == ')') {
+                while (ops[top2] != '(')
+                    nums[top1 - 1] = calc(ops[top2--], nums[top1 - 1], nums[top1--]);
+                top2--;
+            } else {
+                while (top2 >= 0 && order(c) <= order(ops[top2]))
+                    nums[top1 - 1] = calc(ops[top2--], nums[top1 - 1], nums[top1--]);
+                ops[++top2] = c;
+            }
+        }
+                
+        while (top2 >= 0)
+            nums[top1 - 1] = calc(ops[top2--], nums[top1 - 1], nums[top1--]);
+        
+        return nums[top1];
+    }
+    
+    private int calc(char sign, int a, int b) {
+        switch (sign) {
+            case '+' : return a + b;
+            case '-' : return a - b;
+            case '*' : return a * b;
+            default  : return a / b; // assume b is not 0
+        }
+    }
+    
+    private int order(char c) {
+        if (c == '(') return 0;
+        if (c == '+' || c == '-') return 1;
+        return 2;
+    }
+}
+```
