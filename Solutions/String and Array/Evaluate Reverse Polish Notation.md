@@ -1,0 +1,55 @@
+# [150. Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)
+[LaiCode 8. Evaluate Reverse Polish Notation](https://app.laicode.io/app/problem/8)
+TC: O(n)
+
+SC: O(n)
+
+## 
+
+```java
+class Solution {
+    public int evalRPN(String[] a) {
+        Deque<Integer> stack = new ArrayDeque<>();
+
+        for (String s : a) {
+            switch (s) {
+                case "+" -> stack.offerFirst( stack.pollFirst() + stack.pollFirst());
+                case "-" -> stack.offerFirst(-stack.pollFirst() + stack.pollFirst());
+                case "*" -> stack.offerFirst( stack.pollFirst() * stack.pollFirst());
+                case "/" -> {
+                    int val = stack.pollFirst();
+                    stack.offerFirst(stack.pollFirst() / val);
+                }
+                default -> stack.offerFirst(Integer.parseInt(s));
+            }
+        }
+
+        return stack.peekFirst();
+    }
+}
+```
+
+```java
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> stack = new ArrayDeque<>(); // for numbers
+
+        for (String s : tokens) {
+            if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
+                int x2 = stack.pollFirst();
+                int x1 = stack.pollFirst();
+
+                switch (s) {
+                    case "+" -> stack.offerFirst(x1 + x2);
+                    case "-" -> stack.offerFirst(x1 - x2);
+                    case "*" -> stack.offerFirst(x1 * x2);
+                    case "/" -> stack.offerFirst(x1 / x2);
+                }
+
+            } else stack.offerFirst(Integer.parseInt(s));
+        }
+
+        return stack.peekFirst();
+    }
+}
+```
