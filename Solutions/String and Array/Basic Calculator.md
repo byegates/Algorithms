@@ -96,6 +96,8 @@ TC: O(n), exact one round of scan, no Queue or stack.
 
 SC: O(number of brackets)
 
+## Solution 1, recursion, without stack or queue (0ms, beats 100%)
+[0ms submission](https://leetcode.com/submissions/detail/724750952/)
 ```java
 class Solution {
     int idx; // for linear scan the input string between recursion calls
@@ -127,4 +129,54 @@ class Solution {
     }
 }
 ```
-[0ms submission](https://leetcode.com/submissions/detail/724750952/)
+## Solution 2, two stacks, infix -> postfix (4ms -> 83.61%)
+```java
+class Solution {
+    public int calculate(String s) {
+        Deque<Character> signs = new ArrayDeque<>();
+        Deque<Integer>    nums = new ArrayDeque<>();
+
+        for (int i = 0; i < s.length(); ) {
+            char c = s.charAt(i++);
+            if (c >= '0' && c <= '9') {
+                int num = c - '0';
+                while (i < s.length() && (c = s.charAt(i)) >= '0' && c <= '9') {
+                    num = num * 10 + c - '0';
+                    i++;
+                }
+                nums.offerFirst(num);
+                num = 0;
+            } else if (c == '(') signs.offerFirst(c);
+            else if (c == ')') {
+                while (signs.peekFirst() != '(')
+                    nums.offerFirst(calc(signs.pollFirst(), nums.pollFirst(), nums.pollFirst()));
+                signs.pollFirst();
+            } else {
+                while (!signs.isEmpty() && order(c) <= order(signs.peekFirst()))
+                    nums.offerFirst(calc(signs.pollFirst(), nums.pollFirst(), nums.pollFirst()));
+                signs.offerFirst(c);
+            }
+        }
+
+        while (!signs.isEmpty())
+            nums.offerFirst(calc(signs.pollFirst(), nums.pollFirst(), nums.pollFirst()));
+
+        return nums.peekFirst();
+    }
+
+    private int calc(char sign, int b, int a) {
+        switch (sign) {
+            case '+' : return a + b;
+            case '-' : return a - b;
+            case '*' : return a * b;
+            default  : return a / b; // assume b is not 0
+        }
+    }
+
+    private int order(char c) {
+        if (c == '(') return 0;
+        if (c == '+' || c == '-') return 1;
+        return 2;
+    }
+}
+```
