@@ -97,8 +97,12 @@ public class TreeNode implements Iterable<TreeNode> {
         return pathSumToTarget(this, target);
     }
 
+//    public String toString() {
+//        return TreePrinter.toString(this);
+//    }
+
     public String toString() {
-        return TreePrinter.toString(this);
+        return String.format("%s", this.key);
     }
 
     public static String toString(TreeNode root) {
