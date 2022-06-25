@@ -198,4 +198,8 @@ public class Utils {
                 sum += x;
         return sum;
     }
+
+    public static String toArray(String s) {
+        return s.replaceAll("\"", "'").replaceAll("\\[", "{").replaceAll("]", "}");
+    }
 }
