@@ -505,7 +505,7 @@ class Solution { // TC: O(n*height): O(nlog(n)) ~ O(n^2), SC: O(n)
     if (inL > inR) return null;
 
     int rootIdx = inL;
-    for (int i = rootIdx + 1; i <= inR; i++) // find the root(min) steps of inorder numbers in lvl order
+    for (int i = rootIdx + 1; i <= inR; i++) // find the root(min) idx of inorder numbers in lvl order
       if (map.get(in[i]) < map.get(in[rootIdx]))
         rootIdx = i;
 
