@@ -1,3 +1,7 @@
+import util.Utils;
+
+import java.util.Arrays;
+
 public class Compress {
     /*
     611. Compress String II
@@ -41,6 +45,7 @@ public class Compress {
         return new String(dest, 0, newLen);
     }
 
+    // used by below solution for LeetCode too
     private static int writeCount(char[] a, int write, int count) {
         int len = 0;
         for (int i = count; i > 0; i /= 10) len++; // calculate the len for us to write count
@@ -49,11 +54,28 @@ public class Compress {
         return write + len;
     }
 
+    // LeetCode 443. String Compression
+    public static int compress(char[] a) {
+        int write = 0;
+        for (int read = 0; read < a.length; ) {
+            int start = read;
+            while (read < a.length && a[read] == a[start]) read++;
+            a[write++] = a[start];
+            if (read - start > 1)
+                write = writeCount(a, write, read - start);
+        }
+        return write;
+    }
+
     public static void main(String[] args) {
         System.out.println(compress("abbcccdeee", true).equals("a1b2c3d1e3"));
         System.out.println(compress("hhhhhhhhhhhhhhhhhhhhhxxxxxxxxxxxxxxaaaaaaaaaddddffffooooooooooooll", true).equals("h21x14a9d4f4o12l2"));
         System.out.println(compress("abbcccdeee", false).equals("ab2c3de3"));
         System.out.println(compress("aaaaaaaaaaaanneeeeeeefffffffwwwwwwwwwwwwwwfffhhhhhhhhhhhhhhhheeeeeeeeeeeeeeedddddddddddddddddddddddddddddgggggggggggggggggggggllllllllllllllllllvvvvvvvvvvvjggggggggggggggggggggccccccccccccccccjjjjttttttttttttttttttttttttttttttmdddkkkkkkkkkkkkkkkkkooooooooooooooooooooaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhyyyyyyyyyyyyyyyyyyyyyyyyyyyyoooooooooooooohhhhhelnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjuuuuuuuuuuuuffffffffffffffffffffffffaaaaaaaaaaaaaaaaaaaappppppppppppppppppppppppppppppfffffffffffffffffffffffffffffggeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeevvvvvvvvvvvvvvveeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllllaaaaaaiiiiiiiiiiiiillllgggggggggggggggggggggggggggg", false).equals("a12n2e7f7w14f3h16e15d29g21l18v11jg20c16j4t30md3k17o20a42h20y28o14h5eln40b30j30u12f24a20p30f29g2e34v15e23l20a6i13l4g28"));
+        String[] sa = new String[] {"a","a","b","b","c","c","c"};
+        char[] a = new char[sa.length];
+        for (int i = 0; i < sa.length; i++) a[i] = sa[i].charAt(0);
+        System.out.println(Arrays.toString(Arrays.copyOf(a, compress(a))));
     }
 
 } // TC: O(n), SC: O(1) unless new array
