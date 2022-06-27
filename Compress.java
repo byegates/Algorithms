@@ -67,6 +67,20 @@ public class Compress {
         return write;
     }
 
+    // Solution 2 using StringBuilder
+    public String compressSB(String s) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int read = 0; read < s.length(); ) {
+            int start = read;
+            while (read < s.length() && s.charAt(read) == s.charAt(start)) read++;
+
+            sb.append(s.charAt(start)).append(read - start);
+        }
+
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
         System.out.println(compress("abbcccdeee", true).equals("a1b2c3d1e3"));
         System.out.println(compress("hhhhhhhhhhhhhhhhhhhhhxxxxxxxxxxxxxxaaaaaaaaaddddffffooooooooooooll", true).equals("h21x14a9d4f4o12l2"));
