@@ -318,18 +318,16 @@ O(k+1 + n), height of recursion tree: k + 1, visited array: n
 Below will pass on LaiCode, can't pass on LeetCode (Time Limit Exceeded).
 ```java
 class Solution {
-
-    record Dst(int dst, int cost) {}
+    record City(int id, int cost) {}
     private int res;
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         res = Integer.MAX_VALUE; // must init in method
-        // construct the graph first
-        List<Dst>[] graph = new List[n];
-
+        // Create the graph
+        List<City>[] graph = new List[n];
         for (var flight : flights) {
             int from = flight[0], to = flight[1], cost = flight[2];
             if (graph[from] == null) graph[from] = new ArrayList<>();
-            graph[from].add(new Dst(to, cost));
+            graph[from].add(new City(to, cost));
         }
 
         // prepare for dfs
@@ -339,7 +337,7 @@ class Solution {
         return res == Integer.MAX_VALUE ? -1 : res;
     }
 
-    private void dfs(int cost, int src, int dst, int k, List<Dst>[] graph, boolean[] visited) {
+    private void dfs(int cost, int src, int dst, int k, List<City>[] graph, boolean[] visited) {
         if (src == dst) {
             res = cost;
             return;
@@ -347,13 +345,53 @@ class Solution {
 
         if (k == 0 || graph[src] == null) return;
 
-        for (Dst nei : graph[src]) {
-            int newCost = cost + nei.cost;
-            if (visited[nei.dst] || newCost > res) continue;
-            visited[nei.dst] = true;
-            dfs(newCost, nei.dst, dst, k - 1, graph, visited);
-            visited[nei.dst] = false;
+        for (City city : graph[src]) {
+            int newCost = cost + city.cost;
+            if (visited[city.id] || newCost > res) continue;
+            visited[city.id] = true;
+            dfs(newCost, city.id, dst, k - 1, graph, visited);
+            visited[city.id] = false;
         }
+    }
+}
+```
+## Solution 1b, DFS with Memo (9ms, 52.74%)
+```java
+class Solution {
+    record City(int id, int cost) {}
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        // Create the graph
+        List<City>[] graph = new List[n];
+        for (var flight : flights) {
+            int from = flight[0], to = flight[1], cost = flight[2];
+            if (graph[from] == null) graph[from] = new ArrayList<>();
+            graph[from].add(new City(to, cost));
+        }
+
+        // prepare for dfs
+        Integer[][] visited = new Integer[n][k+2];
+        Integer res = dfs(src, dst, k + 1, graph, visited);
+
+        return res == null ? -1 : res;
+    }
+
+    private Integer dfs(int src, int dst, int k, List<City>[] graph, Integer[][] visited) {
+        if (src == dst) return 0;
+        
+        if (k == 0 || graph[src] == null) return null;
+        
+        if (visited[src][k] != null) return visited[src][k];
+
+        Integer res = null;
+        for (City city : graph[src]) {
+            Integer tmp = dfs(city.id, dst, k - 1, graph, visited);
+            if (tmp != null && tmp != -1) {
+                int newCost = tmp + city.cost;
+                res = res == null ?  newCost: Math.min(res, newCost);
+            }
+        }
+        
+        return visited[src][k] = res == null ? -1 : res;
     }
 }
 ```
@@ -427,6 +465,7 @@ public class Solution {
 
     static class Pair {
         int dst, cost;
+
         Pair(int dst, int cost) {
             this.dst = dst;
             this.cost = cost;
@@ -451,7 +490,7 @@ public class Solution {
                     int newCost = cur.cost + nei.cost;
                     if (newCost > res) continue;
                     q.offer(new Pair(nei.dst, newCost));
-                    if (nei.dst == dst) res = Math.min(res, newCost);
+                    if (nei.dst == dst) res = newCost;
                 }
             }
         }
@@ -468,7 +507,7 @@ public class Solution {
         }
         return graph;
     }
-    
+
 }
 ```
 # Solution 3： Dijkstra's Algorithm (4ms, 97.18%)
