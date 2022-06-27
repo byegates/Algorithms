@@ -35,7 +35,7 @@ public class Decompress {
             if (!fixLen && count == 0) count = 1; // to accommodate two different type of encoding: ab2 vs a1b2
             newLen += count; // calculate overall len of new String
             if (read - write >= count) // enough space to decompress in-place, so we do it
-                for (; count > 0; count--) a[write++] = a[curCharIdx];
+                while (count-- > 0) a[write++] = a[curCharIdx];
             else // Not enough space to decompress in-place right away, just copy everything for now
                 while (curCharIdx < read) a[write++] = a[curCharIdx++];
         }
