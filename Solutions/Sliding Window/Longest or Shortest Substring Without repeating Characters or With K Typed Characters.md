@@ -1,4 +1,7 @@
 # [340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+Exactly the same: [LaiCode 473. Longest Substring with At Most K Distinct Characters](https://app.laicode.io/app/problem/473)
+
+k=2: [LaiCode 490. Longest Substring with At Most Two Distinct Characters](https://app.laicode.io/app/problem/490)
 ### 思路
 快指针(j)一个一个吃新字符, 记录一个unique字符count(第一次吃进一个新字符的时候+1).
 当吃多了(count > k, 其实就是 count == k + 1), 逐一吐掉队尾(慢指针对应的)的字符, 直到unique字符数变成k。
@@ -24,9 +27,9 @@ class Solution {
 }
 ```
 ## [LaiCode 285. Longest Substring With K Typed Characters](https://app.laicode.io/app/problem/285)
-TC: O(n), SC: O(256)
+跟前面3题还是一样的，是指要返回substring，而不只是长度。
 
-output is slightly different
+TC: O(n), SC: O(256)
 ```java
 class Solution {
   public String longest(String s, int k) {
