@@ -47,7 +47,7 @@ public class Decompress {
         for (int write = len; read >= 0; ) {
             char c = src[read--];
             int count = 0;
-            for (int power = 0 ; c >= '0' && c <= '9'; c = src[read--]) // get count, formula as below
+            for (int power = 0 ; Character.isDigit(c); c = src[read--]) // get count, formula as below
                 count += (c - '0') * Math.pow(10, power++); // 123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
             dst[--write] = c; // write one char no matter what
             while (count-- > 1) dst[--write] = c; // write additional chars if count is greater than 1
