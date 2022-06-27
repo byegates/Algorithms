@@ -23,6 +23,8 @@ class CompressTest {
     String decompRes6 = "bbbbbbbbbbbbbbbbbbbbbccdddeeee";
     String decomp7 = "e4d3c2b21a0";
     String decompRes7 = "eeeedddccbbbbbbbbbbbbbbbbbbbbb";
+    String decomp8 = "ap2lec3n";
+    String decompRes8 = "applecccn";
     
     @Test
     void tc1() {assertEquals(tc1, Decompress.decompress(Compress.compress(tc1, true)));}
@@ -48,4 +50,6 @@ class CompressTest {
     void decomp6() {assertEquals(decompRes6, Decompress.decompress(decomp6));}
     @Test
     void decomp7() {assertEquals(decompRes7, Decompress.decompress(decomp7));}
+    @Test
+    void decomp8() {assertEquals(decompRes8, Decompress.decompress(decomp8, false));}
 }

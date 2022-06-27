@@ -19,54 +19,45 @@
 
 public class Decompress {
     public static String decompress(String s) {
-        return decompress(s.toCharArray());
+        return decompress(s.toCharArray(), true);
     }
 
-    public static String decompress(char[] A) { // // TC: O(n), SC: O(1)
-        int newLen = 0, write = 0;
-        for (int curCharIdx = 0, read = 0;read < A.length;) {
-            if (!Character.isDigit(A[read])) {
-                curCharIdx = read++;
-                if (read == A.length || !Character.isDigit(A[read])) {
-                    A[write++] = A[curCharIdx];
-                    newLen++;
-                }
-            } else {
-                int count = 0;
-                while (read < A.length && Character.isDigit(A[read]))
-                    count = count * 10 + (A[read++] - '0');
-                newLen += count;
-                if (count == 0) continue;
+    public static String decompress(String s, boolean fixLen) {
+        return decompress(s.toCharArray(), fixLen);
+    }
 
-                if (read - write >= count) // we have enough room to decompress now, so do it
-                    for (; count > 0; count--) A[write++] = A[curCharIdx];
-                else // no enough room to decompress now, just copy everything
-                    while (curCharIdx < read) A[write++] = A[curCharIdx++];
-            }
+    public static String decompress(char[] a, boolean fixLen) {
+        int write = 0, newLen = 0;
+        for (int read = 0; read < a.length; ) {
+            int curCharIdx = read++, count = 0;
+            for (; read < a.length && a[read] >= '0' && a[read] <= '9'; read++)
+                count = a[read] - '0' + count * 10;
+            if (!fixLen && count == 0) count = 1;
+            newLen += count;
+            if (read - write >= count)
+                for (; count > 0; count--) a[write++] = a[curCharIdx];
+            else
+                while (curCharIdx < read) a[write++] = a[curCharIdx++];
         }
-
-        if (newLen <= write) return new String(A, 0, write);
-        return round2(A, write - 1, newLen, newLen > A.length ? new char[newLen] : A);
+        if (newLen == write) return new String(a, 0, write);
+        return round2(a, write - 1, newLen, newLen > a.length ? new char[newLen] : a);
     }
 
-    private static String round2(char[] src, int read, int newLen, char[] dest) {
-        for (int write = newLen - 1; read >= 0;) {
-            if (!Character.isDigit(src[read])) dest[write--] = src[read--];
-            else { // reverse read all digits (count)
-                int count = 0;
-                for (int power = 0; read >= 0 && Character.isDigit(src[read]);) // a123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
-                    count += (src[read--] - '0') * (int) (Math.pow(10, power++));
-                for (;count > 0; count--) dest[write--] = src[read]; // after above read of count, read is exactly at the right location
-                read--; // after written cur char, go read the next
-            }
+    private static String round2(char[] src, int read, int len, char[] dst) {
+        for (int write = len; read >= 0; ) {
+            char c = src[read--];
+            int count = 0;
+            for (int power = 0 ; c >= '0' && c <= '9'; c = src[read--])
+                count += (c - '0') * Math.pow(10, power++); // 123: 3 * 10^0 + 2 * 10^1 + 1 * 10^2
+            while (count-- > 1) dst[--write] = c;
+            dst[--write] = c;
         }
-        return new String(dest, 0, newLen);
+        return new String(dst, 0, len);
     }
-
     public static void main(String[] args) {
         System.out.println(decompress("a1c0b2c4"));
         System.out.println(decompress("a13b21c0d2e11f13"));
         System.out.println(decompress("e4d3c2b21a0"));
-        System.out.println(decompress("ap2lec3n"));
+        System.out.println(decompress("ap2lec3n", false));
     }
 }
