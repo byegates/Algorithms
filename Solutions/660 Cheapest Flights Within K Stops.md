@@ -106,7 +106,7 @@ It's also O(k * flights.length)
 ## Space Complexity
 O(k*n) for the new dp matrix we created
 
-## DP Code
+## DP Code (5ms, 90.08%)
 ```java
 import java.util.Arrays;
 
