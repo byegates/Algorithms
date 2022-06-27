@@ -294,8 +294,7 @@ i: 2, current flight segment: [3, 4, 15]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | 7   | 8   | 23  | 19  |
 
-# Prep for DFS and BFS ()
-Visual representation of graph
+# Visual representation of graph
 
 ![Visual representation of graph](https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png "Cities as Graph Nodes and cost as weight")
 
@@ -311,62 +310,51 @@ O((n-1)!/(n-2-k)!), for each node, we can have max n-1 flights from it,
 which create n - 1 node at first level of recursion tree;
 at next level, each node can have n - 1 flights taking off (without going back as we de-dup),
 so its factorial complexity, but we only go down k+1 level
+or its just V+E?
 
 ## Space Complexity
-O(k+1), height of recursion tree
+O(k+1 + n), height of recursion tree: k + 1, visited array: n
 ## DFS Code
 Below will pass on LaiCode, can't pass on LeetCode (Time Limit Exceeded).
 ```java
-public class Solution {
+class Solution {
 
-    static class Pair {
-        int dst, cost;
-        Pair(int dst, int cost) {
-            this.dst = dst;
-            this.cost = cost;
-        }
-    }
-
+    record Dst(int dst, int cost) {}
+    private int res;
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        List<Pair>[] graph = createGraph(n, flights);
+        res = Integer.MAX_VALUE; // must init in method
+        // construct the graph first
+        List<Dst>[] graph = new List[n];
+
+        for (var flight : flights) {
+            int from = flight[0], to = flight[1], cost = flight[2];
+            if (graph[from] == null) graph[from] = new ArrayList<>();
+            graph[from].add(new Dst(to, cost));
+        }
+
+        // prepare for dfs
         boolean[] visited = new boolean[n];
-        int[] res = new int[]{Integer.MAX_VALUE};
-        dfs(src, dst, k + 1, 0, visited, res, graph);
-        return res[0] == Integer.MAX_VALUE ? -1 : res[0];
+        dfs(0, src, dst, k + 1, graph, visited);
+
+        return res == Integer.MAX_VALUE ? -1 : res;
     }
 
-    private void dfs(int src, int dst, int k, int cost, boolean[] visited, int[] res, List<Pair>[] graph) {
+    private void dfs(int cost, int src, int dst, int k, List<Dst>[] graph, boolean[] visited) {
         if (src == dst) {
-            res[0] = cost;
+            res = cost;
             return;
         }
-        if (k == 0) return;
 
-        List<Pair> neighbors = graph[src];
-        if (neighbors == null) return;
+        if (k == 0 || graph[src] == null) return;
 
-        for (Pair pair : neighbors) {
-            if (visited[pair.dst]) continue; // standard pruning?
-            int curCost = cost + pair.cost;
-            // pruning, very important to improve time performance
-            if (curCost > res[0]) continue;
-            visited[pair.dst] = true; // pruning
-            dfs(pair.dst, dst, k - 1, curCost, visited, res, graph);
-            visited[pair.dst] = false; //吃了🤮
+        for (Dst nei : graph[src]) {
+            int newCost = cost + nei.cost;
+            if (visited[nei.dst] || newCost > res) continue;
+            visited[nei.dst] = true;
+            dfs(newCost, nei.dst, dst, k - 1, graph, visited);
+            visited[nei.dst] = false;
         }
     }
-
-    private List<Pair>[] createGraph(int n, int[][] flights) {
-        List<Pair>[] graph = new List[n];
-        for (int[] flight : flights) {
-            if (graph[flight[0]] == null)
-                graph[flight[0]] = new ArrayList<>();
-            graph[flight[0]].add(new Pair(flight[1], flight[2]));
-        }
-        return graph;
-    }
-
-
 }
 ```
 # Solution 2: BFS with pruning
@@ -483,66 +471,88 @@ public class Solution {
     
 }
 ```
-# Solution 3： Dijkstra's Algorithm
-Would this really work?
+# Solution 3： Dijkstra's Algorithm (4ms, 97.18%)
 
-## Time Complexity
-## Space Complexity
-## BFS Code
-
+## TC/SC:
 ```java
-public class Solution {
-
-    static class Pair implements Comparable<Pair>{
-        int dst, cost, segments;
-        Pair(int dst, int cost, int segments) {
-            this.dst = dst;
-            this.cost = cost;
-            this.segments = segments;
-        }
-
-        @Override
-        public int compareTo(Pair o) {
-            return Integer.compare(cost, o.cost);
-        }
-    }
-
+class Solution {
+    record City(int id, int cost) {}
+    record Node(int city, int cost, int stops) {}
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        List<Pair>[] graph = createGraph(n, flights);
-        PriorityQueue<Pair> q = new PriorityQueue<>();
-        int res = Integer.MAX_VALUE;
-
-        q.offer(new Pair(src, 0, k + 1));
-
-        while (!q.isEmpty()) {
-            Pair cur = q.poll();
-
-            if (cur.dst == dst) return cur.cost;
-            if (cur.segments == 0) continue;
-            List<Pair> neighbors = graph[cur.dst];
-            if (neighbors == null) continue;
-
-            for (Pair nei : neighbors)
-                q.offer(new Pair(nei.dst, cur.cost + nei.cost, cur.segments - 1));
-
+        // construct the graph first
+        List<City>[] graph = new List[n];
+        
+        for (var flight : flights) {
+            int from = flight[0], to = flight[1], cost = flight[2];
+            if (graph[from] == null) graph[from] = new ArrayList<>();
+            graph[from].add(new City(to, cost));
         }
-
+        
+        PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> (a.cost == b.cost ? a.stops - b.stops : a.cost - b.cost));
+        q.offer(new Node(src, 0, 0));
+        int[] visited = new int[n];
+        Arrays.fill(visited, k + 2);
+        
+        while (!q.isEmpty()) {
+            Node cur = q.poll();
+            if (cur.stops >= visited[cur.city]) continue;
+            if (cur.city == dst) return cur.cost;
+            visited[cur.city] = cur.stops;
+            
+            if (graph[cur.city] == null) continue;
+            for (City city : graph[cur.city])
+                q.offer(new Node(city.id, cur.cost + city.cost, cur.stops + 1));
+        }
+        
         return -1;
     }
-
-    private List<Pair>[] createGraph(int n, int[][] flights) {
-        List<Pair>[] graph = new List[n];
-        for (int[] flight : flights) {
-            if (graph[flight[0]] == null)
-                graph[flight[0]] = new ArrayList<>();
-            graph[flight[0]].add(new Pair(flight[1], flight[2], 0)); // segments mean nothing here, just for the sake of convenience, we use the same Pair class both in priority queue and here
-        }
-        return graph;
-    }
-    
 }
 ```
-
+## LeetCode, why?
+```java
+class Solution {
+    record City(int id, int cost) {}
+    record Node(int city, int cost, int stops) {}
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        // construct the graph first
+        List<City>[] graph = new List[n];
+        
+        for (var flight : flights) {
+            int from = flight[0], to = flight[1], cost = flight[2];
+            if (graph[from] == null) graph[from] = new ArrayList<>();
+            graph[from].add(new City(to, cost));
+        }
+        
+        PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> (a.cost == b.cost ? a.stops - b.stops : a.cost - b.cost));
+        q.offer(new Node(src, 0, 0));
+        int[] costs = new int[n];
+        int[] stops = new int[n];
+        Arrays.fill(costs, Integer.MAX_VALUE);
+        Arrays.fill(stops, k + 2);
+        costs[src] = stops[src] = 0;
+        
+        while (!q.isEmpty()) {
+            Node cur = q.poll();
+            if (cur.city == dst) return cur.cost;
+            if (cur.stops== k + 1) continue;
+            
+            if (graph[cur.city] == null) continue;
+            for (City city : graph[cur.city]) {
+                Node next = new Node(city.id, cur.cost + city.cost, cur.stops + 1);
+                if (next.cost < costs[next.city]) {
+                    q.offer(next);
+                    costs[next.city] = next.cost;
+                    stops[next.city] = next.stops;
+                } else if (next.stops < stops[next.city]) {
+                    q.offer(next);
+                }
+            }
+        }
+        
+        return -1;
+    }
+}
+```
 # Additional Note
 ## Code to print dp matrix in Markdown table format
 ```java
