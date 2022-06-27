@@ -3,9 +3,9 @@ Exactly the same: [LaiCode 473. Longest Substring with At Most K Distinct Charac
 
 Specific case where k=2: [LaiCode 490. Longest Substring with At Most Two Distinct Characters](https://app.laicode.io/app/problem/490)
 ### 思路
-快指针(j)一次一个吃新字符, 记录一个unique字符count(第一次吃进一个新字符的时候+1).
-当吃多了(count > k, 其实就是 count == k + 1), 逐一吐掉队尾(慢指针对应的)的字符, 直到unique字符数变成k。
-(这个时候unique字符数一定 <= k)更新substring长度。
+1. 快指针(j)一次一个吃新字符, 记录一个unique字符count(第一次吃进一个新字符的时候+1). 
+2. 当吃多了(count > k, 其实就是 count == k + 1), 逐一吐掉队尾(慢指针对应的)的字符, 直到unique字符数变成k。
+3. (这个时候unique字符数一定 <= k)更新substring长度。
 
 TC: O(n), SC: O(256) (2ms, 99.97%)
 ```java
@@ -52,8 +52,8 @@ class Solution {
 
 # [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
 [LaiCode 253. Longest Substring Without Repeating Characters](https://app.laicode.io/app/problem/253)
-如果新字符是没见过的，吃进去，更新长度，快指针继续往前。
-如果新字符是见过的，逐一吐掉慢指针对应的字符，直到新字符变成唯一的。
+1. 如果新字符是没见过的，吃进去，更新长度，快指针继续往前。 
+2. 如果新字符是见过的，逐一吐掉慢指针对应的字符，直到新字符变成唯一的。
 ## Solution 1 map
 TC: O(n), SC: O(n)
 ```java
