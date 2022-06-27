@@ -1,7 +1,5 @@
 # Cheapest Flights Within K Stops
-[LeetCode 787](https://leetcode.com/problems/cheapest-flights-within-k-stops/)
-
-[LaiCode 660](https://app.laicode.io/app/problem/660)
+[LeetCode 787](https://leetcode.com/problems/cheapest-flights-within-k-stops/) [LaiCode 660](https://app.laicode.io/app/problem/660)
 ## Description
 Suppose there are m flights connecting n cities. Flight is represented by an int array int[] where the first element is departure city, the second element is destination city and the third element is the price.
 
@@ -27,9 +25,16 @@ Input: n = 5, flights = [[4,1,1],[1,2,3],[0,3,2],[0,4,10],[3,1,1],[1,4,3]], src 
 
 output: -1
 
-# Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm))
-4ms on LeetCode
+# Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)) (4ms, 97.18%)
 
+The Bellman–Ford algorithm is an algorithm that computes shortest paths from a single source vertex to all of the other vertices in a weighted digraph.[1] It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers. The algorithm was first proposed by Alfonso Shimbel (1955), but is instead named after Richard Bellman and Lester Ford Jr., who published it in 1958 and 1956, respectively.
+
+[Bellman-Ford in 5 minutes — Step by step example](https://www.youtube.com/watch?v=obWXjtg0L64)
+
+[咖喱味，但讲的还不错(包含drawback): 4.4 Bellman Ford Algorithm - Single Source Shortest Path - Dynamic Programming](https://www.youtube.com/watch?v=FtN3BYH2Zes)
+
+不能处理有环而且环总weight是负数的情况.
+![](Images/negative_weight.png)
 ## dp definition
 We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
@@ -106,7 +111,7 @@ It's also O(k * flights.length)
 ## Space Complexity
 O(k*n) for the new dp matrix we created
 
-## DP Code (5ms, 90.08%)
+## DP Code
 ```java
 import java.util.Arrays;
 
