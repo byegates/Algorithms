@@ -64,8 +64,8 @@ public class Decompress {
             char c = s.charAt(read++);
 
             int count = 0;
-            for (; read < n && Character.isDigit(s.charAt(read)); read++)
-                count = s.charAt(read) - '0' + count * 10;
+            while (read < n && Character.isDigit(s.charAt(read)))
+                count = s.charAt(read++) - '0' + count * 10;
 
             while (count-- > 0) sb.append(c);
         }
