@@ -32,11 +32,11 @@ public class Decompress {
             int curCharIdx = read++, count = 0;
             for (; read < a.length && a[read] >= '0' && a[read] <= '9'; read++)
                 count = a[read] - '0' + count * 10;
-            if (!fixLen && count == 0) count = 1;
+            if (!fixLen && count == 0) count = 1; // to accommodate two different type of encoding: ab2 vs a1b2
             newLen += count;
-            if (read - write >= count)
+            if (read - write >= count) // enough space to decompress in-place, so we do it
                 for (; count > 0; count--) a[write++] = a[curCharIdx];
-            else
+            else // Not enough space to decompress in-place right away, just copy everything for now
                 while (curCharIdx < read) a[write++] = a[curCharIdx++];
         }
         if (newLen == write) return new String(a, 0, write);
