@@ -54,6 +54,25 @@ public class Decompress {
         }
         return new String(dst, 0, len);
     }
+
+    // Solution 2 using StringBuilder, need more space compare to above in-place solution, but much easier
+    public String decompressSB(String s) {
+        StringBuilder sb = new StringBuilder();
+        int n = s.length();
+
+        for (int read = 0; read < n; ) {
+            char c = s.charAt(read++);
+
+            int count = 0;
+            for (; read < n && Character.isDigit(s.charAt(read)); read++)
+                count = s.charAt(read) - '0' + count * 10;
+
+            while (count-- > 0) sb.append(c);
+        }
+
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
         System.out.println(decompress("a1c0b2c4"));
         System.out.println(decompress("a13b21c0d2e11f13"));
