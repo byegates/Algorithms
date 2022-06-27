@@ -30,8 +30,8 @@ public class Decompress {
         int write = 0, newLen = 0;
         for (int read = 0; read < a.length; ) {
             int curCharIdx = read++, count = 0; // curCharIdx to remember the first char of each group
-            for (; read < a.length && a[read] >= '0' && a[read] <= '9'; read++) // get count of each char (if exist)
-                count = a[read] - '0' + count * 10;
+            while (read < a.length && Character.isDigit(a[read])) // get count of each char (if exist)
+                count = a[read++] - '0' + count * 10;
             if (!fixLen && count == 0) count = 1; // to accommodate two different type of encoding: ab2 vs a1b2
             newLen += count; // calculate overall len of new String
             if (read - write >= count) // enough space to decompress in-place, so we do it
