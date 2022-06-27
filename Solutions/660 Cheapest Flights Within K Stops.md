@@ -13,18 +13,6 @@ Input: n = 3, flights = [[0,1,100],[0,2,1000], [1,2,200]], src = 0, dst = 2, k =
 
 Output: 1000
 
-Example 2:
-
-Input: n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src = 0, dst = 3, k = 1
-
-Output: 700
-
-Example 3:
-
-Input: n = 5, flights = [[4,1,1],[1,2,3],[0,3,2],[0,4,10],[3,1,1],[1,4,3]], src = 2, dst = 1, k = 1
-
-output: -1
-
 # Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)) (4ms, 97.18%)
 
 The Bellman–Ford algorithm is an algorithm that computes shortest paths from a single source vertex to all of the other vertices in a weighted digraph.[1] It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers. The algorithm was first proposed by Alfonso Shimbel (1955), but is instead named after Richard Bellman and Lester Ford Jr., who published it in 1958 and 1956, respectively.
@@ -38,7 +26,7 @@ The Bellman–Ford algorithm is an algorithm that computes shortest paths from a
 ## dp definition
 We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
-### Example 2 from above
+### Example 2 on LeetCode
 Num of  Cities(n): 4
 
 From    City(src): 0
@@ -133,7 +121,7 @@ class Solution {
     }
 }
 ```
-### A negative example (Example 3 from above)
+### A negative example (Example 3 from LeetCode)
 Num of  Cities(n): 5
 
 From    City(src): 2
