@@ -3,32 +3,32 @@
 
 [LaiCode 525. Number of Islands](https://app.laicode.io/app/problem/525)
 
+TC: O(4*m*n) ==> O(m*n), SC: O(m*n), height of recursion tree (2ms, 100%)
+
 访问过的island点把value直接改成'2'同时就起到了去重的作用，可以不用一个新的boolean矩阵，当然，这样就改变了原输入数组的值了。
 ```java
-class Solution { // TC: O(4*m*n) ==> O(m*n), SC: O(m*n), height of recursion tree
-  private static final int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, };
-  public int numIslands(char[][] grid) {
-    int rows, cols;
-    if (grid == null || (rows = grid.length) == 0 || (cols = grid[0].length) == 0) return 0;
+class Solution {
+    public int numIslands(char[][] grid) {
+        int rows, cols;
+        if (grid == null || (rows = grid.length) == 0 || (cols = grid[0].length) == 0) return 0;
 
-    int count = 0;
-    for (int i = 0; i < rows; i++)
-      for (int j = 0; j < cols; j++)
-        if (grid[i][j] == '1') {
-          count++;
-          dfs(grid, i, j, rows, cols);
-        }
+        int count = 0;
+        for (int i = 0; i < rows; i++) for (int j = 0; j < cols; j++)
+            if (grid[i][j] == '1') {
+                count++;
+                dfs(grid, i, j, rows, cols);
+            }
 
-    return count;
-  }
+        return count;
+    }
 
-  private void dfs(char[][] grid, int i, int j, int rows, int cols) {
-    if (i < 0 || j < 0 || i >= rows || j >= cols || grid[i][j] != '1') return;
-
-    grid[i][j] = '2';
-    for (int[] dir : dirs)
-      dfs(grid, i + dir[0], j + dir[1], rows, cols);
-  }
+    private void dfs(char[][] grid, int i, int j, int rows, int cols) {
+        grid[i][j] = '2';
+        if (i + 1 < rows && grid[i + 1][j] == '1') dfs(grid, i + 1, j, rows, cols);
+        if (i - 1 >= 0   && grid[i - 1][j] == '1') dfs(grid, i - 1, j, rows, cols);
+        if (j + 1 < cols && grid[i][j + 1] == '1') dfs(grid, i, j + 1, rows, cols);
+        if (j - 1 >= 0   && grid[i][j - 1] == '1') dfs(grid, i, j - 1, rows, cols);
+    }
 }
 ```
 
