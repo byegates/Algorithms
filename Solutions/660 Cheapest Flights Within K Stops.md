@@ -51,6 +51,7 @@ All flights:
 [2, 0, 100]
 [1, 3, 600]
 [2, 3, 200]
+
 ![Visual representation of graph](https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png "Cities as Graph Nodes and cost as weight")
 ### Initialization and base case (set dp[0][src] = 0)
 
@@ -197,12 +198,10 @@ What we need to return is dp[k+1][dst] which is dp[2][1] which is -1
 
 ## Additional Example
 
+<pre>
 Num of  Cities(n): 6
-
 From    City(src): 0
-
 To      City(dst): 3
-
 Max # of Stops(k): 1
 
 All flights:
@@ -218,7 +217,7 @@ All flights:
 [2, 5, 25]
 [3, 4, 15]
 [3, 5, 23]
-[4, 5, 21]
+[4, 5, 21]</pre>
 
 ### Initialization and base case (set dp[0][src] = 0)
 
