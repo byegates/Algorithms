@@ -312,6 +312,8 @@ i: 2, current flight segment: [3, 4, 15]
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | 7   | 8   | 23  | 19  |
 
+### Missing Test Case
+![](Images/Flights_Bug.png)
 # Solution 1: DFS
 ## idea
 We can represent the graph as a map or an array of list(as map key are int array anyway)
