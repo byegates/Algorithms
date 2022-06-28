@@ -47,7 +47,7 @@ class Solution {
 ```
 
 ## [1229. Meeting Scheduler](https://leetcode.com/problems/meeting-scheduler/)
-TC: O(n)
+TC: O(nlogn)
 
 SC: O(n)
 
