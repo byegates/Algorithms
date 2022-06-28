@@ -377,23 +377,23 @@ class Solution {
       for (var f : flights) graph[f[0]].add(new City(f[1], f[2]));
 
       // prepare for dfs
-      Integer[][] dp = new Integer[n][k+2];
+      Integer[][] dp = new Integer[k+2][n];
       return dfs(src, dst, k + 1, graph, dp);
    }
 
-   private int dfs(int src, int dst, int k, List<City>[] graph, Integer[][] dp) {
-      if (src == dst) return 0;
+   private int dfs(int cur, int dst, int k, List<City>[] graph, Integer[][] dp) {
+      if (cur == dst) return 0;
       if (k == 0) return -1;
-      if (dp[src][k] != null) return dp[src][k];
+      if (dp[k][cur] != null) return dp[k][cur];
 
-      int res = -1, cur, newCost;
-      for (City city : graph[src])
-         if ((cur = dfs(city.id, dst, k - 1, graph, dp)) != -1) {
-            newCost = cur + city.cost;
+      int res = -1, cost, newCost;
+      for (City city : graph[cur])
+         if ((cost = dfs(city.id, dst, k - 1, graph, dp)) != -1) {
+            newCost = cost + city.cost;
             if (res == -1 || newCost < res) res = newCost;
          }
 
-      return dp[src][k] = res;
+      return dp[k][cur] = res;
    }
 }
 ```
