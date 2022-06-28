@@ -33,14 +33,6 @@ The Bellman–Ford algorithm is an algorithm that computes the shortest paths fr
 ## Bellman Ford vs dijkstra
 O(V*E) vs O((E+V)Log(V)?): O(V^3) vs O(V^2*log(V))
 
-## Bellman Ford DEMO for detecting negative cycle
-[Bellman Ford Algorithm | Shortest path & Negative cycles | Graph Theory](https://www.youtube.com/watch?v=lyw4FaxrwHg)
-![](Images/BellmanFord_demo1.png)
-![](Images/BellmanFord_demo2.png)
-![](Images/BellmanFord_demo3.png)
-![](Images/BellmanFord_demo4.png)
-![](Images/BellmanFord_demo5.png)
-
 ## dp definition
 We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
@@ -538,3 +530,12 @@ class Solution {
     }
 }
 ```
+
+## Bellman Ford DEMO for detecting negative cycle
+[Bellman Ford Algorithm | Shortest path & Negative cycles | Graph Theory](https://www.youtube.com/watch?v=lyw4FaxrwHg)
+![](Images/BellmanFord_demo1.png)
+![](Images/BellmanFord_demo2.png)
+![](Images/BellmanFord_demo3.png)
+![](Images/BellmanFord_demo4.png)
+![](Images/BellmanFord_demo5.png)
+
