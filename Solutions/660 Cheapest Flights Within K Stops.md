@@ -350,15 +350,47 @@ class Solution {
       return res == Integer.MAX_VALUE ? -1 : res;
    }
 
-   private void dfs(int cost, int src, int dst, int k, List<City>[] graph, boolean[] visited) {
-      if (src == dst && cost < res) res = cost;
+   private void dfs(int cost, int cur, int dst, int k, List<City>[] graph, boolean[] visited) {
+      if (cur == dst && cost < res) res = cost;
       if (cost >= res || k == 0) return;
 
-      for (City city : graph[src]) {
+      for (City city : graph[cur]) {
          if (visited[city.id]) continue;
          visited[city.id] = true;
          dfs(cost + city.cost, city.id, dst, k - 1, graph, visited);
          visited[city.id] = false;
+      }
+   }
+}
+```
+### v2 (86ms, 8.65%)
+```java
+class Solution {
+   record City(int id, int cost) {}
+   private int res;
+   public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+      res = Integer.MAX_VALUE; // must init in method
+      // create Graph
+      List<City>[] graph = new List[n];
+      for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
+      for (var f : flights) graph[f[0]].add(new City(f[1], f[2]));
+
+      // prepare for dfs
+      Integer[][] dp = new Integer[k+2][n];
+      dfs(0, src, dst, k + 1, graph, dp);
+
+      return res == Integer.MAX_VALUE ? -1 : res;
+   }
+
+   private void dfs(int cost, int cur, int dst, int k, List<City>[] graph, Integer[][] dp) {
+      if (cur == dst && cost < res) res = cost;
+      if (cost >= res || k == 0) return;
+
+      for (City city : graph[cur]) {
+         int newCost = cost + city.cost;
+         if (dp[k][city.id] != null && newCost >= dp[k][city.id]) continue;
+         dp[k][city.id] = newCost;
+         dfs(newCost, city.id, dst, k - 1, graph, dp);
       }
    }
 }
@@ -411,8 +443,8 @@ class Solution {
         for (var f : flights) graph[f[0]].add(new City(f[1], f[2]));
         
         // for de-dup
-        Integer[][] distances = new Integer[n][k + 2];
-        distances[src][0] = 0;
+        Integer[][] dp = new Integer[k + 2][n];
+        dp[0][src] = 0;
         
         // BFS
        Queue<Integer> q = new ArrayDeque<>();
@@ -425,9 +457,9 @@ class Solution {
                 
                 for (City city : graph[cur]) {
                     if (steps == k && city.id != dst) continue;
-                    int newCost = distances[cur][steps] + city.cost;
-                    if (distances[city.id][steps + 1] == null || newCost < distances[city.id][steps + 1]) {
-                        distances[city.id][steps + 1] = newCost;
+                    int newCost = dp[steps][cur] + city.cost;
+                    if (dp[steps + 1][city.id] == null || newCost < dp[steps + 1][city.id]) {
+                        dp[steps + 1][city.id] = newCost;
                         q.offer(city.id);
                         
                         if (city.id == dst && newCost < res) res = newCost;
