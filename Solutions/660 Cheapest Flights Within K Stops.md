@@ -137,10 +137,10 @@ class Solution {
         int[][] dp = new int[2][n];
         for (var a : dp) Arrays.fill(a, -1);
         int row = 0;
-        dp[0][src] = 0;
+        dp[0][src] = dp[1][src] = 0; // always for next row to use
         
         for (int i = 1; i < k + 2; i++) {
-            dp[row = 1 - row][src] = 0; // for next row to use
+           row = 1 - row;
             for (var f : flights)
                 if (dp[1 - row][f[0]] != -1) {
                     int curCost = dp[1 - row][f[0]] + f[2];
@@ -151,6 +151,22 @@ class Solution {
         
         return dp[row][dst];
     }
+}
+
+// Just for fun
+class Solution {
+   public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+      int[][] dp = new int[2][n];
+      for (var a : dp) Arrays.fill(a, -1);
+      dp[0][src] = dp[1][src] = 0;
+
+      for (int i = 1, row = 1; i < k + 2; i++, row ^= 1) for (var f : flights)
+         if (dp[1-row][f[0]] != -1)
+            if (dp[1-row][f[0]] + f[2] < dp[row][f[1]] || dp[row][f[1]] == -1)
+               dp[row][f[1]] = dp[1-row][f[0]] + f[2];
+
+      return dp[(k + 1) % 2][dst];
+   }
 }
 ```
 ### A negative example (Example 3 from LeetCode)
