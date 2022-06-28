@@ -185,7 +185,7 @@ All flights:
 [0, 4, 10]
 [3, 1, 1]
 [1, 4, 3]
-
+![](Images/Flights_NoResult.png)
 ### Initialization and base case (set dp[0][src] = 0)
 
 |     | 0   | 1   | 2   | 3   | 4   |
