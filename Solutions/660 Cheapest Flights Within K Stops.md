@@ -10,20 +10,21 @@ You can assume that there is no duplicated flights.
 Example 1:
 
 Input: n = 3, flights = [[0,1,100],[0,2,1000], [1,2,200]], src = 0, dst = 2, k = 0
-
 Output: 1000
 
 # Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)) (4ms, 97.18%)
 
 The Bellman–Ford algorithm is an algorithm that computes the shortest paths from a single source vertex to all the other vertices in a weighted digraph.[1] It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers. The algorithm was first proposed by Alfonso Shimbel (1955), but is instead named after Richard Bellman and Lester Ford Jr., who published it in 1958 and 1956, respectively.
-
+![](Images/negative_edge.png)
 1. Given V (总节点(数)) and E (总边(数))
 2. 给定出发点，可得出到所有点的最短距离
    1. 初始化到所有点的距离为+∞ (or -1, or whatever do not conflict with other vertices)
-   2. 对所有点, 便利所有边, 更新所有可以更新的最小值
+   2. 遍历所有边, 更新所有可以更新的最小值，顺序不重要
    3. 重复V-1次
 
 [Bellman-Ford in 5 minutes](https://www.youtube.com/watch?v=obWXjtg0L64)
+
+[长视频警告: MIT: Lecture 17: Bellman-Ford](https://www.youtube.com/watch?v=ozsuci5pIso)
 
 [咖喱味，但讲的还不错(包含drawback): 4.4 Bellman Ford Algorithm - Single Source Shortest Path - DP](https://www.youtube.com/watch?v=FtN3BYH2Zes)
 
@@ -31,6 +32,15 @@ The Bellman–Ford algorithm is an algorithm that computes the shortest paths fr
 ![](Images/negative_weight.png)
 ## Bellman Ford vs dijkstra
 O(V*E) vs O((E+V)Log(V)?): O(V^3) vs O(V^2*log(V))
+
+## Bellman Ford DEMO for detecting negative cycle
+[Bellman Ford Algorithm | Shortest path & Negative cycles | Graph Theory](https://www.youtube.com/watch?v=lyw4FaxrwHg)
+![](Images/BellmanFord_demo1.png)
+![](Images/BellmanFord_demo2.png)
+![](Images/BellmanFord_demo3.png)
+![](Images/BellmanFord_demo4.png)
+![](Images/BellmanFord_demo5.png)
+
 ## dp definition
 We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
