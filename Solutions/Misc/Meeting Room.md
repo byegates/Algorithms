@@ -76,3 +76,25 @@ class Solution {
     }
 }
 ```
+
+# [LaiCode 599. Meeting Schedule](https://app.laicode.io/app/problem/599)
+TC: O(nlogn)
+```java
+class Solution {
+    public int maximumMeetings(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] a, int[] b) {
+                return a[1] - b[1];
+            }
+        });
+        int res = 1, end = intervals[0][1];
+        for (int[] a : intervals) {
+            if (a[0] <= end) continue;
+            res++;
+            end = a[1];
+        }
+        return res;
+    }
+}
+```
