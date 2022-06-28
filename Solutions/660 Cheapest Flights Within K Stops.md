@@ -37,12 +37,10 @@ O(V*E) vs O((E+V)Log(V)?): O(V^3) vs O(V^2*log(V))
 We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
 ### Example 2 on LeetCode
+<pre>
 Num of  Cities(n): 4
-
 From    City(src): 0
-
 To      City(dst): 3
-
 Max # of Stops(k): 1
 
 All flights:
@@ -51,6 +49,7 @@ All flights:
 [2, 0, 100]
 [1, 3, 600]
 [2, 3, 200]
+</pre>
 
 ![Visual representation of graph](https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png "Cities as Graph Nodes and cost as weight")
 ### Initialization and base case (set dp[0][src] = 0)
@@ -71,7 +70,7 @@ i: 1, current flight segment: [0, 1, 100]
 |-----|-----|-----|-----|-----|
 | 0   | 0   | -1  | -1  | -1  |
 | 1   | 0   | 100 | -1  | -1  |
-| 2   | -1  | -1  | -1  | -1  |
+| 2   | 0   | -1  | -1  | -1  |
 
 ### i = 2 segment(s) (1 stop(s))
 flights that don't update below table are ignored
@@ -171,12 +170,10 @@ class Solution {
 }
 ```
 ### A negative example (Example 3 from LeetCode)
+<pre>
 Num of  Cities(n): 5
-
 From    City(src): 2
-
 To      City(dst): 1
-
 Max # of Stops(k): 1
 
 All flights:
@@ -186,6 +183,7 @@ All flights:
 [0, 4, 10]
 [3, 1, 1]
 [1, 4, 3]
+</pre>
 ![](Images/Flights_NoResult.png)
 
 |     | 0   | 1   | 2   | 3   | 4   |
