@@ -51,7 +51,7 @@ All flights:
 [2, 0, 100]
 [1, 3, 600]
 [2, 3, 200]
-
+![Visual representation of graph](https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png "Cities as Graph Nodes and cost as weight")
 ### Initialization and base case (set dp[0][src] = 0)
 
 |     | 0   | 1   | 2   | 3   |
@@ -186,26 +186,6 @@ All flights:
 [3, 1, 1]
 [1, 4, 3]
 ![](Images/Flights_NoResult.png)
-### Initialization and base case (set dp[0][src] = 0)
-
-|     | 0   | 1   | 2   | 3   | 4   |
-|-----|-----|-----|-----|-----|-----|
-| 0   | -1  | -1  | 0   | -1  | -1  |
-| 1   | -1  | -1  | -1  | -1  | -1  |
-| 2   | -1  | -1  | -1  | -1  | -1  |
-
-
-### i = 1 segment(s) (0 stop(s))
-flights that don't update below table are ignored
-
-|     | 0   | 1   | 2   | 3   | 4   |
-|-----|-----|-----|-----|-----|-----|
-| 0   | -1  | -1  | 0   | -1  | -1  |
-| 1   | -1  | -1  | 0   | -1  | -1  |
-| 2   | -1  | -1  | -1  | -1  | -1  |
-
-### i = 2 segment(s) (1 stop(s))
-flights that don't update below table are ignored
 
 |     | 0   | 1   | 2   | 3   | 4   |
 |-----|-----|-----|-----|-----|-----|
@@ -334,10 +314,6 @@ i: 2, current flight segment: [3, 4, 15]
 | 0   | 0   | -1  | -1  | -1  | -1  | -1  |
 | 1   | 0   | 6   | -1  | 8   | 27  | 19  |
 | 2   | 0   | 6   | 7   | 8   | 23  | 19  |
-
-# Visual representation of graph
-
-![Visual representation of graph](https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png "Cities as Graph Nodes and cost as weight")
 
 # Solution 1: DFS
 ## idea
