@@ -15,14 +15,22 @@ Output: 1000
 
 # Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)) (4ms, 97.18%)
 
-The Bellman–Ford algorithm is an algorithm that computes shortest paths from a single source vertex to all of the other vertices in a weighted digraph.[1] It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers. The algorithm was first proposed by Alfonso Shimbel (1955), but is instead named after Richard Bellman and Lester Ford Jr., who published it in 1958 and 1956, respectively.
+The Bellman–Ford algorithm is an algorithm that computes the shortest paths from a single source vertex to all the other vertices in a weighted digraph.[1] It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers. The algorithm was first proposed by Alfonso Shimbel (1955), but is instead named after Richard Bellman and Lester Ford Jr., who published it in 1958 and 1956, respectively.
 
-[Bellman-Ford in 5 minutes — Step by step example](https://www.youtube.com/watch?v=obWXjtg0L64)
+1. Given V (总节点(数)) and E (总边(数))
+2. 给定出发点，可得出到所有点的最短距离
+   1. 初始化到所有点的距离为+∞ (or -1, or whatever do not conflict with other vertices)
+   2. 对所有点, 便利所有边, 更新所有可以更新的最小值
+   3. 重复V-1次
 
-[咖喱味，但讲的还不错(包含drawback): 4.4 Bellman Ford Algorithm - Single Source Shortest Path - Dynamic Programming](https://www.youtube.com/watch?v=FtN3BYH2Zes)
+[Bellman-Ford in 5 minutes](https://www.youtube.com/watch?v=obWXjtg0L64)
+
+[咖喱味，但讲的还不错(包含drawback): 4.4 Bellman Ford Algorithm - Single Source Shortest Path - DP](https://www.youtube.com/watch?v=FtN3BYH2Zes)
 
 不能处理有环而且环总weight是负数的情况.
 ![](Images/negative_weight.png)
+## Bellman Ford vs dijkstra
+O(V*E) vs O((E+V)Log(V)?): O(V^3) vs O(V^2*log(V))
 ## dp definition
 We define dp[i][j] as the min cost to take max i flight segments (i - 1 stops) to get to city j, for k stops, we take k + 1 flight segments;
 
