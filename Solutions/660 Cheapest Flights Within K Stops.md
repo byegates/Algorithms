@@ -494,12 +494,12 @@ class Solution {
         
         while (!q.isEmpty()) {
             Node cur = q.poll();
-            if (cur.stops >= stops[cur.city]) continue;
             if (cur.city == dst) return cur.cost;
             stops[cur.city] = cur.stops;
             
             for (City city : graph[cur.city])
-                q.offer(new Node(city.id, cur.cost + city.cost, cur.stops + 1));
+                if (cur.stops + 1 < stops[city.id])
+                    q.offer(new Node(city.id, cur.cost + city.cost, cur.stops + 1));
         }
         
         return -1;
