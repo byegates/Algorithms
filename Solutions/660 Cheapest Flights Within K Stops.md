@@ -57,8 +57,8 @@ All flights:
 |     | 0   | 1   | 2   | 3   |
 |-----|-----|-----|-----|-----|
 | 0   | 0   | -1  | -1  | -1  |
-| 1   | -1  | -1  | -1  | -1  |
-| 2   | -1  | -1  | -1  | -1  |
+| 1   | 0   | -1  | -1  | -1  |
+| 2   | 0   | -1  | -1  | -1  |
 
 
 ### i = 1 segment(s) (0 stop(s))
@@ -552,6 +552,29 @@ class Solution {
 }
 ```
 # Additional Note
+## Bellman Ford DEMO for detecting negative cycle
+[Bellman Ford Algorithm | Shortest path & Negative cycles | Graph Theory](https://www.youtube.com/watch?v=lyw4FaxrwHg)
+![](Images/BellmanFord_demo1.png)
+![](Images/BellmanFord_demo2.png)
+![](Images/BellmanFord_demo3.png)
+![](Images/BellmanFord_demo4.png)
+![](Images/BellmanFord_demo5.png)
+
+## Test cases in code format
+```java
+class Solution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.findCheapestPrice(6, new int[][]{{0, 1, 6}, {0, 3, 8}, {0, 4, 27}, {0, 5, 19}, {1, 2, 1}, {1, 3, 2}, {1, 4, 30}, {1, 5, 28}, {2, 3, 7}, {2, 5, 25}, {3, 4, 15}, {3, 5, 23}, {4, 5, 21}}, 0, 3, 25));// 8
+        System.out.println(sol.findCheapestPrice(6, new int[][]{{0, 1, 6}, {0, 3, 8}, {0, 4, 27}, {0, 5, 19}, {1, 2, 1}, {1, 3, 2}, {1, 4, 30}, {1, 5, 28}, {2, 3, 7}, {2, 5, 25}, {3, 4, 15}, {3, 5, 23}, {4, 5, 21}}, 0, 3, 1));// 8
+        System.out.println(sol.findCheapestPrice(4, new int[][]{{0, 1, 1}, {0, 2, 5}, {1, 2, 1}, {2, 3, 1}}, 0, 3, 1)); // 6
+        System.out.println(sol.findCheapestPrice(3, new int[][]{{0, 1, 400}, {1, 2, 250}, {0, 2, 750}}, 0, 2, 1)); // 650
+        System.out.println(sol.findCheapestPrice(5, new int[][]{{4,1,1},{1,2,3},{0,3,2},{0,4,10},{3,1,1},{1,4,3}}, 2, 1, 1)); // -1
+        System.out.println(sol.findCheapestPrice(4, new int[][]{{0,1,100},{1,2,100},{2,0,100},{1,3,600},{2,3,200}}, 0, 3, 1)); // -1
+    }
+}
+```
+
 ## Code to print dp matrix in Markdown table format
 ```java
 class Solution {
@@ -587,26 +610,3 @@ class Solution {
     }
 }
 ```
-## Test cases in code format
-```java
-class Solution {
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-        System.out.println(sol.findCheapestPrice(6, new int[][]{{0, 1, 6}, {0, 3, 8}, {0, 4, 27}, {0, 5, 19}, {1, 2, 1}, {1, 3, 2}, {1, 4, 30}, {1, 5, 28}, {2, 3, 7}, {2, 5, 25}, {3, 4, 15}, {3, 5, 23}, {4, 5, 21}}, 0, 3, 25));// 8
-        System.out.println(sol.findCheapestPrice(6, new int[][]{{0, 1, 6}, {0, 3, 8}, {0, 4, 27}, {0, 5, 19}, {1, 2, 1}, {1, 3, 2}, {1, 4, 30}, {1, 5, 28}, {2, 3, 7}, {2, 5, 25}, {3, 4, 15}, {3, 5, 23}, {4, 5, 21}}, 0, 3, 1));// 8
-        System.out.println(sol.findCheapestPrice(4, new int[][]{{0, 1, 1}, {0, 2, 5}, {1, 2, 1}, {2, 3, 1}}, 0, 3, 1)); // 6
-        System.out.println(sol.findCheapestPrice(3, new int[][]{{0, 1, 400}, {1, 2, 250}, {0, 2, 750}}, 0, 2, 1)); // 650
-        System.out.println(sol.findCheapestPrice(5, new int[][]{{4,1,1},{1,2,3},{0,3,2},{0,4,10},{3,1,1},{1,4,3}}, 2, 1, 1)); // -1
-        System.out.println(sol.findCheapestPrice(4, new int[][]{{0,1,100},{1,2,100},{2,0,100},{1,3,600},{2,3,200}}, 0, 3, 1)); // -1
-    }
-}
-```
-
-## Bellman Ford DEMO for detecting negative cycle
-[Bellman Ford Algorithm | Shortest path & Negative cycles | Graph Theory](https://www.youtube.com/watch?v=lyw4FaxrwHg)
-![](Images/BellmanFord_demo1.png)
-![](Images/BellmanFord_demo2.png)
-![](Images/BellmanFord_demo3.png)
-![](Images/BellmanFord_demo4.png)
-![](Images/BellmanFord_demo5.png)
-
