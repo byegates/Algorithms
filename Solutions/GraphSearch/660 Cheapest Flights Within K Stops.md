@@ -15,7 +15,7 @@ Output: 1000
 # Solution 0: DP ([Bellman Ford](https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)) (4ms, 97.18%)
 
 The Bellman–Ford algorithm is an algorithm that computes the shortest paths from a single source vertex to all the other vertices in a weighted digraph.[1] It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers. The algorithm was first proposed by Alfonso Shimbel (1955), but is instead named after Richard Bellman and Lester Ford Jr., who published it in 1958 and 1956, respectively.
-![](Images/negative_edge.png)
+![](../Images/negative_edge.png)
 1. Given V (总节点(数)) and E (总边(数))
 2. 给定出发点，可得出到所有点的最短距离
    1. 初始化到所有点的距离为+∞ (or -1, or whatever do not conflict with other vertices)
@@ -29,7 +29,7 @@ The Bellman–Ford algorithm is an algorithm that computes the shortest paths fr
 [咖喱味，但讲的还不错(包含drawback): 4.4 Bellman Ford Algorithm - Single Source Shortest Path - DP](https://www.youtube.com/watch?v=FtN3BYH2Zes)
 
 不能处理有环而且环总weight是负数的情况.
-![](Images/negative_weight.png)
+![](../Images/negative_weight.png)
 ## Bellman Ford vs dijkstra
 O(V*E) vs O((E+V)Log(V)?): O(V^3) vs O(V^2*log(V))
 
@@ -184,7 +184,7 @@ All flights:
 [3, 1, 1]
 [1, 4, 3]
 </pre>
-![](Images/Flights_NoResult.png)
+![](../Images/Flights_NoResult.png)
 
 |     | 0   | 1   | 2   | 3   | 4   |
 |-----|-----|-----|-----|-----|-----|
@@ -217,7 +217,7 @@ All flights:
 [3, 5, 23]
 [4, 5, 21]</pre>
 
-![](Images/Flights_13Edges_Example.png)
+![](../Images/Flights_13Edges_Example.png)
 ### Initialization and base case (set dp[0][src] = 0)
 
 |     | 0   | 1   | 2   | 3   | 4   | 5   |
@@ -313,7 +313,7 @@ i: 2, current flight segment: [3, 4, 15]
 | 2   | 0   | 6   | 7   | 8   | 23  | 19  |
 
 ### Missing Test Case
-![](Images/Flights_Bug.png)
+![](../Images/Flights_Bug.png)
 # Solution 1: DFS
 ## idea
 We can represent the graph as a map or an array of list(as map key are int array anyway)
@@ -557,11 +557,11 @@ class Solution {
 # Additional Note
 ## Bellman Ford DEMO for detecting negative cycle
 [Bellman Ford Algorithm | Shortest path & Negative cycles | Graph Theory](https://www.youtube.com/watch?v=lyw4FaxrwHg)
-![](Images/BellmanFord_demo1.png)
-![](Images/BellmanFord_demo2.png)
-![](Images/BellmanFord_demo3.png)
-![](Images/BellmanFord_demo4.png)
-![](Images/BellmanFord_demo5.png)
+![](../Images/BellmanFord_demo1.png)
+![](../Images/BellmanFord_demo2.png)
+![](../Images/BellmanFord_demo3.png)
+![](../Images/BellmanFord_demo4.png)
+![](../Images/BellmanFord_demo5.png)
 
 ## Test cases in code format
 ```java
