@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static resources.ConsoleColors.RED;
-import static resources.ConsoleColors.RESET;
+import static resources.ConsoleColors.*;
+import static resources.ConsoleColors.CYAN;
 
 public class Utils {
     private final static Random rand = new Random();
@@ -189,6 +189,23 @@ public class Utils {
         return mx2;
     }
 
+    public static void printMXCompare(int[][] board, int[][] b2) {
+
+        System.out.print("\n");
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] != b2[r][c]) System.out.printf(RED_BOLD_BRIGHT + "%3s  " + RESET, board[r][c]);
+                else if (board[r][c] == 1) System.out.printf(CYAN + "%3s  " + RESET, board[r][c]);
+                else System.out.printf("%3s  ", board[r][c]);
+
+//                if ((c + 1) % 3 == 0 && c != 8) System.out.print(CYAN + "|  " + RESET);
+            }
+            System.out.println();
+
+//            if ((r + 1) % 3 == 0 && r != 8) System.out.print(CYAN + "-------------------------------\n" + RESET);
+        }
+        System.out.println();
+    }
 
     public static String toString(int[] a, int width) {
         return toString(new int[][]{a}, width);
