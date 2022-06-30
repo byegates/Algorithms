@@ -508,7 +508,7 @@ class Solution {
 ```
 ## Solution 3b, 融合了LeetCode官方答案的改进
 用一个Node[]来记录到达每个点最短距离(node object还会记录用这个最短cost到达这个点对应的stops)来去重, 
-Cost是我们主要关注的点，只有cost更小的时候我们才更新能到达某个点的最小cost。
+Cost是我们主要关注的点，只有cost更小(或者从来没访问过)的时候我们才更新能到达某个点的最小cost。
 (因为Dijkstra始终指poll最小cost), 其实每个点的cost一般只会被update一次，因为最小cost总会最先被访问到，然后poll出来。
 
 这个方法比前面的方法会少放一些nodes到Queue里。（cost更高，stops没有更少的）
