@@ -1,6 +1,7 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -152,6 +153,13 @@ public class Utils {
     }
 
     public static String toStringMD(int[][] mx, int width) {
+        Integer[][] mx0 = new Integer[mx.length][mx[0].length];
+        for (int i = 0; i < mx.length; i++) for (int j = 0; j < mx[0].length; j++)
+            mx0[i][j] = mx[i][j];
+        return toStringMD(mx0, width);
+    }
+
+    public static String toStringMD(Integer[][] mx, int width) {
         int rows = mx.length, cols = mx[0].length;
         StringBuilder sb = new StringBuilder();
         // add header
@@ -165,7 +173,7 @@ public class Utils {
 
         // add context
         for (int i = 0; i < rows; i++) {
-            int[] row = mx[i];
+            var row = mx[i];
             sb.append(String.format("| %-" + width + "s|", i));
             for (int j = 0; j < cols; j++) {
                 sb.append(String.format(" %-" + width + "s", row[j])).append("|");
@@ -174,6 +182,13 @@ public class Utils {
         }
         return sb.toString();
     }
+
+    public static int[][] mxDeepCopy(int[][] mx) {
+        int[][] mx2 = new int[mx.length][mx[0].length];
+        for (int i = 0; i < mx.length; i++) mx2[i] = Arrays.copyOf(mx[i], mx[0].length);
+        return mx2;
+    }
+
 
     public static String toString(int[] a, int width) {
         return toString(new int[][]{a}, width);
