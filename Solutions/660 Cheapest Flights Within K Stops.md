@@ -506,49 +506,52 @@ class Solution {
     }
 }
 ```
-## LeetCode, why?
+## Solution 3b, 融合了LeetCode官方答案的改进
+用一个Node[]来记录到达每个点最短距离(node object还会记录用这个最短cost到达这个点对应的stops)来去重, 
+Cost是我们主要关注的点，只有cost更小的时候我们才更新能到达某个点的最小cost。
+(因为Dijkstra始终指poll最小cost), 其实每个点的cost一般只会被update一次，因为最小cost总会最先被访问到，然后poll出来。
+
+这个方法比前面的方法会少放一些nodes到Queue里。（cost更高，stops没有更少的）
+
+只有一个例外, 如果我们再次到达某个点（城市）的时候，虽然cost更高，但是stops更少，我们需要把这个点再次放进queue里，
+因为虽然在这个点cost没有更低，但是stops更少可能让我们能到达比之前cost更少的点更远的nodes，让我们更有可能到达终点。
+
+注意，这里我们只需要把这个点放到PriorityQueue里，但是不需要更新当前城市的最小cost和最少stops，
+因为这个点放进去没有让当前城市更优，放他的目的是让下一个城市可能更优，或者从不能到达变成可能，如果有可能更新的话，更新的也是未来的node(城市)。
+
 ```java
 class Solution {
-    record City(int id, int cost) {}
-    record Node(int city, int cost, int stops) {}
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        // construct the graph first
-        List<City>[] graph = new List[n];
-        
-        for (var flight : flights) {
-            int from = flight[0], to = flight[1], cost = flight[2];
-            if (graph[from] == null) graph[from] = new ArrayList<>();
-            graph[from].add(new City(to, cost));
-        }
-        
-        PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> (a.cost == b.cost ? a.stops - b.stops : a.cost - b.cost));
-        q.offer(new Node(src, 0, 0));
-        int[] costs = new int[n];
-        int[] stops = new int[n];
-        Arrays.fill(costs, Integer.MAX_VALUE);
-        Arrays.fill(stops, k + 2);
-        costs[src] = stops[src] = 0;
-        
-        while (!q.isEmpty()) {
-            Node cur = q.poll();
-            if (cur.city == dst) return cur.cost;
-            if (cur.stops== k + 1) continue;
-            
-            if (graph[cur.city] == null) continue;
-            for (City city : graph[cur.city]) {
-                Node next = new Node(city.id, cur.cost + city.cost, cur.stops + 1);
-                if (next.cost < costs[next.city]) {
-                    q.offer(next);
-                    costs[next.city] = next.cost;
-                    stops[next.city] = next.stops;
-                } else if (next.stops < stops[next.city]) {
-                    q.offer(next);
-                }
-            }
-        }
-        
-        return -1;
-    }
+   record City(int id, int cost) {}
+   record Node(int city, int cost, int stops) {}
+   public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+      // Create the Graph
+      List<City>[] graph = new List[n];
+      for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
+      for (var f : flights) graph[f[0]].add(new City(f[1], f[2]));
+
+      PriorityQueue<Node> q = new PriorityQueue<>((a, b) -> (a.cost == b.cost ? a.stops - b.stops : a.cost - b.cost));
+      Node cur = new Node(src, 0, 0);
+      q.offer(cur);
+      Node[] cities = new Node[n];
+      cities[src] = cur;
+
+      while (!q.isEmpty()) {
+         cur = q.poll();
+         if (cur.city == dst) return cur.cost;
+         if (cur.stops== k + 1) continue;
+
+         for (City city : graph[cur.city]) {
+            Node next = new Node(city.id, cur.cost + city.cost, cur.stops + 1);
+            if (cities[next.city] == null || next.cost < cities[next.city].cost) {
+               q.offer(next);
+               cities[next.city] = next;
+            } else if (next.stops < cities[next.city].stops)
+               q.offer(next);
+         }
+      }
+
+      return -1;
+   }
 }
 ```
 # Additional Note
