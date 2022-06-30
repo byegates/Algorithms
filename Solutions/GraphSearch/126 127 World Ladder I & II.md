@@ -118,7 +118,7 @@ class Solution {
 # [126. Word Ladder II](https://leetcode.com/problems/word-ladder-ii/)
 [662. Word Ladder II](https://app.laicode.io/app/problem/662)
 ```java
-public class WordLadder2 {
+class Solution {
     public List<List<String>> findLadders(String begin, String end, List<String> words) {
         List<List<String>> res = new ArrayList<>();
         if (!words.contains(end)) return res;
@@ -192,7 +192,7 @@ public class WordLadder2 {
     }
 
     public static void main(String[] args) {
-        WordLadder2 wl2 = new WordLadder2();
+        Solution wl2 = new Solution();
         System.out.println(wl2.findLadders("git", "hot", Arrays.asList("hit","hog","hot","got"))); // [[git, got, hot], [git, hit, hot]]
         System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hot","dot","dog","lot","log","cog"))); // [[hit, hot, dot, dog, cog], [hit, hot, lot, log, cog]]
         System.out.println(wl2.findLadders("hot", "dog", Arrays.asList("hot","dog"))); // []
@@ -201,8 +201,9 @@ public class WordLadder2 {
 ```
 
 ## Solution 2
+TLE???
 ```java
-public class WordLadderII {
+class Solution {
 
     private Map<String, Integer> listToIdxMap(List<String> list) {
         Map<String, Integer> map = new HashMap<>();
@@ -302,7 +303,7 @@ public class WordLadderII {
     }
 
     public static void main(String[] args) {
-        WordLadderII wl2 = new WordLadderII();
+        Solution wl2 = new Solution();
         System.out.println(wl2.findLadders("git", "hot", Arrays.asList("hit","hog","hot","got"))); // [[git, got, hot], [git, hit, hot]]
         System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hot","dot","dog","lot","log","cog"))); // [[hit, hot, dot, dog, cog], [hit, hot, lot, log, cog]]
         System.out.println(wl2.findLadders("hot", "dog", Arrays.asList("hot","dog"))); // []
@@ -312,7 +313,7 @@ public class WordLadderII {
 
 ## Solution 3 Using a graphNode
 ```java
-public class WordLadderIIc {
+class Solution {
 
     static class GraphNode {
         private static List<String> words; // copy of all words
@@ -423,7 +424,7 @@ public class WordLadderIIc {
     }
 
     public static void main(String[] args) {
-        WordLadderIIc wl2 = new WordLadderIIc();
+        Solution wl2 = new Solution();
         System.out.println(wl2.findLadders("git", "hot", Arrays.asList("git", "hit", "hog", "hot", "got"))); // [[git, got, hot], [git, hit, hot]]
         System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hit", "hot", "dot", "dog", "lot", "log", "cog"))); // [[hit, hot, dot, dog, cog], [hit, hot, lot, log, cog]]
         System.out.println(wl2.findLadders("hot", "dog", Arrays.asList("hot", "dog"))); // []
@@ -432,7 +433,7 @@ public class WordLadderIIc {
 ```
 ## Solution 4?
 ```java
-public class Wordladder2b {
+class Solution {
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> words) {
 
         //make sure both begin and end words in the dictionary
@@ -517,7 +518,7 @@ public class Wordladder2b {
     }
 
     public static void main(String[] args) {
-        Wordladder2b wl2 = new Wordladder2b();
+        Solution wl2 = new Solution();
         System.out.println(wl2.findLadders("git", "hot", Arrays.asList("git", "hit","hog","hot","got"))); // [[git, got, hot], [git, hit, hot]]
         System.out.println(wl2.findLadders("hit", "cog", Arrays.asList("hit", "hot","dot","dog","lot","log","cog"))); // [[hit, hot, dot, dog, cog], [hit, hot, lot, log, cog]]
         System.out.println(wl2.findLadders("hot", "dog", Arrays.asList("hot","dog"))); // []
