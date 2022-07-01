@@ -1,6 +1,6 @@
 # [207. Course Schedule](https://leetcode.com/problems/course-schedule/)
 
-## Topologic Sort
+## Topological Sort
 TC: O(V + E)
 
 SC: O(V + E)
