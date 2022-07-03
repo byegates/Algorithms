@@ -73,19 +73,22 @@ class Solution {
 ```
 
 # [LaiCode 382. Shortest Substring With K Typed Characters](https://app.laicode.io/app/problem/382)
-
+还是一个sliding window 问题, 吃的时候记住每个char的count(如果用array还要记一下一共吃了多少个char)要注意的是:
+1. 吐的时候不仅char超过k了要吐，最后一个char的count只要超过一个也要吐，因为我们最短substring:
+   1. k = 4: cdddddefb
+             i      j
 TC: O(n), SC: O(n(256))
 ```java
 class Solution {
     public String shortest(String s, int k) {
-        int[] map = new int[256];
+        int[] map = new int[26];
         int res = Integer.MAX_VALUE, start = 0, count = 0, len;
 
         for (int i = 0, j = 0; j < s.length() && k > 0; j++) {
-            if (++map[s.charAt(j)] == 1) count++;
+            if (++map[s.charAt(j) - 'a'] == 1) count++;
 
-            while (map[s.charAt(i)] > 1 || count > k)
-                if (--map[s.charAt(i++)] == 0) count--;
+            while (map[s.charAt(i) - 'a'] > 1 || count > k)
+                if (--map[s.charAt(i++) - 'a'] == 0) count--;
 
             if (count >= k && (len = j - i + 1) < res) {
                 res = len;
@@ -93,6 +96,31 @@ class Solution {
             }
         }
         return res == Integer.MAX_VALUE ? "" : s.substring(start, start + res);
+    }
+}
+```
+### Map Solution
+```java
+class Solution {
+    public String shortest(String s, int k) {
+        Map<Character, Integer> map = new HashMap<>();
+
+        int min = Integer.MAX_VALUE, start = 0, len;
+        for (int i = 0, j = 0; j < s.length() && k > 0; j++) {
+            char c = s.charAt(j);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+            for (int cnt; ( cnt = map.get(s.charAt(i)) ) > 1 || map.size() > k; )
+                if (cnt > 1) map.put(s.charAt(i++), --cnt);
+                else map.remove(s.charAt(i++));
+
+            if (map.size() == k && (len = j - i + 1) < min) {
+                min = len;
+                start = i;
+            }
+        }
+
+        return min == Integer.MAX_VALUE ? "" : s.substring(start, start + min);
     }
 }
 ```
