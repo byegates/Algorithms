@@ -15,7 +15,7 @@ public class HMap <K, V> implements Map<K, V> {
     126. Word Ladder II: https://leetcode.com/submissions/detail/737327314/
      */
     private int size;
-    Entry<K, V>[] arr;
+    private Entry<K, V>[] arr;
 
     // Defaults
     private final float loadFactor;
@@ -92,7 +92,7 @@ public class HMap <K, V> implements Map<K, V> {
             cur = cur.next;
         }
 
-        // insert when key do not exist
+        // insert as head when key do not exist, attach original head as next
         arr[idx] = new Entry<>(key, val, arr[idx]);
 
         // increase size and check for rehash
@@ -110,6 +110,7 @@ public class HMap <K, V> implements Map<K, V> {
             if (equalsKey(cur.key, key)) { // remove when key match found
                 if (pre == null) arr[idx] = cur.next;
                 else pre.next = cur.next;
+                size--;
                 return cur.val;
             }
             pre = cur;
