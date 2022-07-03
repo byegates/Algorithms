@@ -13,16 +13,38 @@ class Solution {
   public int lengthOfLongestSubstringKDistinct(String s, int k) {
     int[] map = new int[256];
 
-    int res = 0, count = 0, len;
-    for (int i = 0, j = 0; j < s.length(); j++) {
-      if (map[s.charAt(j)]++ == 0) count++;
+    int res = 0, count = 0;
+    for (int start = 0, end = 0; end < s.length(); end++) {
+      if (map[s.charAt(end)]++ == 0) count++;
       while (count > k) // reset i to the right place
-          if (--map[s.charAt(i++)] == 0) count--;
-      if ((len = j - i + 1) > res) res = len; // update global result
+          if (--map[s.charAt(start++)] == 0) count--;
+        res = Math.max(res, end - start + 1);
     }
 
     return res;
   }
+}
+```
+#### map Solution (7ms, 91.11%)
+```java
+class Solution {
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        Map<Character, Integer> map = new HashMap<>();
+        
+        int res = 0;
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            char c = s.charAt(end);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+            while (map.size() > k) {
+                int cnt = map.get(c = s.charAt(start++));
+                if (cnt > 1) map.put(c, --cnt);
+                else map.remove(c);
+            }
+            res = Math.max(res, end - start + 1);
+        }
+        
+        return res;
+    }
 }
 ```
 ## [LaiCode 285. Longest Substring With K Typed Characters](https://app.laicode.io/app/problem/285)
