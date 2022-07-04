@@ -1,6 +1,6 @@
 # [207. Course Schedule](https://leetcode.com/problems/course-schedule/)
 
-## Topological Sort
+## Topological Sort (5ms, 85.29%)
 TC: O(V + E)
 
 SC: O(V + E)
@@ -41,7 +41,7 @@ class Solution {
 }
 ```
 
-## PostOrder DFS
+## PostOrder DFS (2ms, 100%)
 对于每一个节点，如果自身和所有的子节点检查了就不用再看了，没检查过的话，做如下检查:
 从这个点开始访问，如果再次访问到任何已经访问过的点，就说明有环，说明完蛋了, 都没有还就能墨迹完所有课程
 ```java
@@ -54,34 +54,32 @@ class Solution {
             if (graph[p] == null) graph[p] = new ArrayList<>();
             graph[p].add(c);
         }
-        
-        // preparing
-        boolean[] checked = new boolean[n]; // this node and all of its descends are checked
-        boolean[] visited = new boolean[n]; // single node de-dup/cycle check
-        
+
+        // visit = 2: this node and all of its descends are visited, 1: this node was visited
+        int[] visit = new int[n];
+
         // PostOrder traverse
         for (int cur = 0; cur < n; ++cur)
-            if (dfs(cur, visited, checked, graph))
+            if (dfs(cur, visit, graph))
                 return false;
-        
+
         return true;
     }
-    
+
     // dfs (PostOrder) to check whether starting at certain node there's a cycle
-    private boolean dfs(int cur, boolean[] visited, boolean[] checked, List<Integer>[] graph) {
-        if (checked[cur]) return false;
-        if (visited[cur]) return true;
-        
+    private boolean dfs(int cur, int[] visit, List<Integer>[] graph) {
+        if (visit[cur] == 2) return false;
+        if (visit[cur] == 1) return true;
+
         if (graph[cur] == null) return false;
-        
-        visited[cur] = true;
+
+        visit[cur] = 1;
         boolean res = false;
         for (int next : graph[cur])
-            if (res = dfs(next, visited, checked, graph))
+            if (res = dfs(next, visit, graph))
                 break;
-        visited[cur] = false;
-        
-        checked[cur] = true;
+
+        visit[cur] = 2;
         return res;
     }
 }
