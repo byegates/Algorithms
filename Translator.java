@@ -57,13 +57,15 @@ public class Translator {
         String[] words = new String[] {"Hello", "Bonjour", "Hola", "你好", "안녕하십니까", "こんにちは", "Hallo"};
 
         System.out.println("Translate Hola into Different Languages:");
-        for (String q : langs) System.out.printf("%s: %s\n", q, tl.get("ES", "Hola", q));
+        String wordToTranslate = "Hola";
+        for (String q : langs) System.out.printf("%s -> %s: %s\n", wordToTranslate, q, tl.get("ES", wordToTranslate, q));
         System.out.println();
         System.out.printf("dict  after Round1 queries: %s\n", tl.getDict());
         System.out.printf("roots after Round1 queries: %s\n", tl.getRoots());
         System.out.println();
         System.out.println("Translate different Language words into French:");
-        for (String s : words) System.out.printf("%s(FR) <-- %s\n", tl.get("ES", s, "FR"), s);
+        String toLang = "FR";
+        for (String s : words) System.out.printf("%s: %s <- %s\n", toLang, tl.get("ES", s, toLang), s);
         System.out.println();
         System.out.printf("dict  after Round2 queries: %s\n", tl.getDict());
         System.out.printf("roots after Round2 queries: %s\n", tl.getRoots());
@@ -74,25 +76,25 @@ public class Translator {
 /*
 All prints:
 Translate Hola into Different Languages:
-EN: Hello
-FR: Bonjour
-ES: Hola
-CN: 你好
-KR: 안녕하십니까
-JP: こんにちは
-GR: Hallo
+Hola -> EN: Hello
+Hola -> FR: Bonjour
+Hola -> ES: Hola
+Hola -> CN: 你好
+Hola -> KR: 안녕하십니까
+Hola -> JP: こんにちは
+Hola -> GR: Hallo
 
 dict  after Round1 queries: {Hallo={JP=こんにちは, KR=안녕하십니까, EN=Hello, GR=Hallo, CN=你好, FR=Bonjour, ES=Hola}}
 roots after Round1 queries: {Hallo=Hallo, こんにちは=你好, Hello=Hallo, 你好=Hallo, Bonjour=Hallo, 안녕하십니까=你好, Hola=Hallo}
 
 Translate different Language words into French:
-Bonjour(FR) <-- Hello
-Bonjour(FR) <-- Bonjour
-Bonjour(FR) <-- Hola
-Bonjour(FR) <-- 你好
-Bonjour(FR) <-- 안녕하십니까
-Bonjour(FR) <-- こんにちは
-Bonjour(FR) <-- Hallo
+FR: Bonjour <- Hello
+FR: Bonjour <- Bonjour
+FR: Bonjour <- Hola
+FR: Bonjour <- 你好
+FR: Bonjour <- 안녕하십니까
+FR: Bonjour <- こんにちは
+FR: Bonjour <- Hallo
 
 dict  after Round2 queries: {Hallo={JP=こんにちは, KR=안녕하십니까, EN=Hello, GR=Hallo, CN=你好, FR=Bonjour, ES=Hola}}
 roots after Round2 queries: {Hallo=Hallo, こんにちは=Hallo, Hello=Hallo, 你好=Hallo, Bonjour=Hallo, 안녕하십니까=Hallo, Hola=Hallo}
