@@ -50,13 +50,14 @@ public class Translator {
         Translator tl = new Translator();
         tl.add("EN", "Hello", "ES", "Hola");
         tl.add("FR", "Bonjour", "ES", "Hola");
+        tl.add("EN", "Hello", "IT", "Ciao");
         tl.add("CN", "你好", "KR", "안녕하세요");
         tl.add("KR", "안녕하세요", "JP", "こんにちは");
         tl.add("GR", "Hallo", "JP", "こんにちは");
         tl.add("GR", "Hallo", "EN", "Bonjour");
 
-        String[] langs = new String[] {"EN", "FR", "ES", "CN", "KR", "JP", "GR"};
-        String[] words = new String[] {"Hello", "Bonjour", "Hola", "你好", "안녕하세요", "こんにちは", "Hallo"};
+        String[] langs = new String[] {"EN", "FR", "ES", "CN", "KR", "JP", "GR", "IT"};
+        String[] words = new String[] {"Hello", "Bonjour", "Hola", "你好", "안녕하세요", "こんにちは", "Hallo", "Ciao"};
 
         System.out.println("Translate Hola into Different Languages:");
         String wordToTranslate = "Hola";
@@ -85,9 +86,10 @@ Hola -> CN: 你好
 Hola -> KR: 안녕하세요
 Hola -> JP: こんにちは
 Hola -> GR: Hallo
+Hola -> IT: Ciao
 
-dict  after Round1 queries: {Hallo={JP=こんにちは, KR=안녕하세요, EN=Hello, GR=Hallo, CN=你好, FR=Bonjour, ES=Hola}}
-roots after Round1 queries: {Hallo=Hallo, こんにちは=你好, Hello=Hallo, 你好=Hallo, 안녕하세요=你好, Bonjour=Hallo, Hola=Hallo}
+dict  after Round1 queries: {Hallo={JP=こんにちは, KR=안녕하세요, EN=Hello, GR=Hallo, CN=你好, IT=Ciao, FR=Bonjour, ES=Hola}}
+roots after Round1 queries: {Hallo=Hallo, こんにちは=你好, Hello=Hallo, Ciao=Bonjour, 你好=Hallo, 안녕하세요=你好, Bonjour=Hallo, Hola=Hallo}
 
 Translate different Language words into French:
 FR: Bonjour <- Hello
@@ -97,8 +99,9 @@ FR: Bonjour <- 你好
 FR: Bonjour <- 안녕하세요
 FR: Bonjour <- こんにちは
 FR: Bonjour <- Hallo
+FR: Bonjour <- Ciao
 
-dict  after Round2 queries: {Hallo={JP=こんにちは, KR=안녕하세요, EN=Hello, GR=Hallo, CN=你好, FR=Bonjour, ES=Hola}}
-roots after Round2 queries: {Hallo=Hallo, こんにちは=Hallo, Hello=Hallo, 你好=Hallo, 안녕하세요=Hallo, Bonjour=Hallo, Hola=Hallo}
+dict  after Round2 queries: {Hallo={JP=こんにちは, KR=안녕하세요, EN=Hello, GR=Hallo, CN=你好, IT=Ciao, FR=Bonjour, ES=Hola}}
+roots after Round2 queries: {Hallo=Hallo, こんにちは=Hallo, Hello=Hallo, Ciao=Hallo, 你好=Hallo, 안녕하세요=Hallo, Bonjour=Hallo, Hola=Hallo}
 
  */
