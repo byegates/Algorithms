@@ -7,16 +7,16 @@ public class Debugger {
         //Creating a tree from Integer Array
         Integer[] A = new Integer[]{7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
         TreeNode root = TreeNode.fromLevelOrder(A);
-        System.out.println(root);
+//        System.out.println(root);
         // delete a tree node
         root = root.deleteNode(7);
         //System.out.println(root.levelOrder());
-        System.out.println(root);
+//        System.out.println(root);
 
         // Creating Binary Tree from String Array
         String[] strArr = new String[]{"17", "13", "21", "9", "14", "18", "46", "5", "#", "#", "#", "#", "#", "32", "47", "#", "#", "22", "42", "#", "49", "#", "29"};
         TreeNode root2 = TreeNode.fromLevelOrderSpecial(strArr);
-        System.out.println(root2);
+//        System.out.println(root2);
 
         // Creating graph and some prints
         int[][] matrix = new int[][]{{1, 2}, {1, 3}, {2, 4}, {3, 4},};
@@ -25,6 +25,7 @@ public class Debugger {
         graph.add(n5);
         System.out.printf("The given graph is Bipartite : %s\n", GraphNode.isBipartite(graph));
         GraphNode.printListGraph(graph); // Print all Graph Nodes in List and their neighbors
+        System.out.println();
 
         // Heap Sort, need maxHeap
         Integer[] A2 = new Integer[]{7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
@@ -43,12 +44,12 @@ public class Debugger {
         // play with heap, offer and print out tree structure
         Integer[] hpA = new Integer[]{7, 3, 1, 5, 0, 2, 4, 6};
         Heap hp = new Heap(4);
-        System.out.println("Poll from a new heap        : " + hp.poll() + " (cur cap: " + hp.cap() + ")");
+        System.out.println("Poll from a new heap        : " + hp.poll() + " (cur capacity: " + hp.cap() + ")");
         System.out.println();
         for (int i : hpA) {
             hp.offer(i);
             System.out.println(TreeNode.fromLevelOrder(hp.array()));
-            System.out.printf("Current size : %d (cur cap: %d)\n", hp.size(), hp.cap());
+            System.out.printf("Current size : %d (cur capacity: %d)\n", hp.size(), hp.cap());
             System.out.println("Heap after offer : " + hp);
             System.out.println();
         }
@@ -56,7 +57,7 @@ public class Debugger {
         while (!hp.isEmpty()) {
             System.out.println("Poll : " + hp.poll());
             System.out.println(TreeNode.fromLevelOrder(hp.array()));
-            System.out.printf("Current size : %d (cur cap: %d)\n", hp.size(), hp.cap());
+            System.out.printf("Current size : %d (cur capacity: %d)\n", hp.size(), hp.cap());
             System.out.println(hp);
             System.out.println();
         }
