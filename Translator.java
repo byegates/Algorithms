@@ -2,8 +2,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Translator {
-    private Map<String, String> roots = new HashMap<>();
-    private Map<String, Map<String, String>> dict = new HashMap<>();
+    private final Map<String, String> roots = new HashMap<>();
+    private final Map<String, Map<String, String>> dict = new HashMap<>();
     public void add(String lang1, String word1, String lang2, String word2) { // 1 is input, 2 is output
         init(lang1, word1); init(lang2, word2);
         String root1 = find(word1), root2 = find(word2);
