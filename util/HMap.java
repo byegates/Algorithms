@@ -120,8 +120,9 @@ public class HMap <K, V> implements Map<K, V> {
     }
 
     @Override
-    public void putAll( Map m) {
-
+    public void putAll(Map<? extends K, ? extends V> m) {
+        for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) // need to implement entrySet for this to work
+            put(entry.getKey(), entry.getValue());
     }
 
     @Override
