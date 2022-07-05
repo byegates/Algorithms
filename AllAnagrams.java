@@ -21,7 +21,8 @@ public class AllAnagrams {
         int toMatch = map.size();
         for (int j = 0; j < l.length(); j++) {
             toMatch = updateMap(-1, l.charAt(j), toMatch, map);
-            if (j >= s.length()) toMatch = updateMap(1, l.charAt(j - s.length()), toMatch, map);
+            if (j >= s.length())
+                toMatch = updateMap(1, l.charAt(j - s.length()), toMatch, map);
             if (toMatch == 0) res.add(j - s.length() + 1); // j - s.length() is what we just got rid of, so next index is the start of the keeper substring
         }
 
@@ -31,9 +32,9 @@ public class AllAnagrams {
     private static int updateMap(int val, char ch, int toMatch, Map<Character, Integer> map) {
         Integer count = map.get(ch);
         if (count == null) return toMatch;
-        if (count == 0) toMatch++; // count: 0 -> none 0(1/-1), toMatch must increase
+        if (count == 0) toMatch++; // count changed from 0 to not 0(1/-1), we lost the match of one char, so toMatch++
         map.put(ch, count += val);
-        if (count == 0) toMatch--; // count: none 0(1/-1) -> 0, toMatch must decrease
+        if (count == 0) toMatch--; // count changed from not 0(1/-1) to 0, we matched one more char, so toMatch--
         return toMatch;
     } // TC: O(m + n), SC: O(m), m is the length of s and n is the length of l
 
