@@ -31,9 +31,9 @@ public class AllAnagrams {
     private static int updateMap(int val, char ch, int toMatch, Map<Character, Integer> map) {
         Integer count = map.get(ch);
         if (count == null) return toMatch;
-        if (count == 0) toMatch++;
-        if (val == -1 && count == 1 || val == 1 && count == -1) toMatch--;
-        map.put(ch, count + val);
+        if (count == 0) toMatch++; // count: 0 -> none 0(1/-1), toMatch must increase
+        map.put(ch, count += val);
+        if (count == 0) toMatch--; // count: none 0(1/-1) -> 0, toMatch must decrease
         return toMatch;
     } // TC: O(m + n), SC: O(m), m is the length of s and n is the length of l
 
