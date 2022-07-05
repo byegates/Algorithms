@@ -1,3 +1,5 @@
+import util.HMap;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -18,21 +20,19 @@ public class Translator {
     public void add(Word w1, Word w2) { // Use Word (record class) as input for easier testing
         init(w1); init(w2); // initialize each word for union find
         Word root1 = find(w1), root2 = find(w2);
-        if (!root1.equals(root2)) {
-            roots.put(root2, root1); // union two words, use root1 as new root, this could be optimized
-            dict.get(root1).putAll(dict.get(root2)); // merge invert mapping dictionary
-            dict.remove(root2); // root2 dictionary is no longer needed, as it's been merged into root1
-        }
+        if (root1.equals(root2)) return; // both words have been added
+        // union, default root1 as new root, this may be optimized
+        roots.put(root2, root1);
+        dict.get(root1).putAll(dict.get(root2)); // merge invert mapping dictionary
+        dict.remove(root2); // root2 dictionary is no longer needed, as it's been merged into root1
     }
 
     private void init(Word word) { // first time adding any word, root will be itself, add a single entry in dictionary
-        Word s = roots.get(word);
-        if (s == null) {
-            roots.put(word, word);
-            Map<String, String> entries = new HashMap<>();
-            entries.put(word.l, word.w);
-            dict.put(word, entries);
-        }
+        if (roots.get(word) != null) return;
+        roots.put(word, word);
+        Map<String, String> entries = new HashMap<>();
+        entries.put(word.l, word.w);
+        dict.put(word, entries);
     }
 
     private Word find(Word word) {
