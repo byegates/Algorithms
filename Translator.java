@@ -12,12 +12,10 @@ public class Translator {
     private final Map<Word, Word> roots = new HashMap<>();
     private final Map<Word, Map<String, String>> dict = new HashMap<>();
     public void add(String l1, String w1, String l2, String w2) { // 1 is input, 2 is output, l for language, w for word
-        if (l1 == null || l1.equals("") || w1 == null || w1.equals("") || l2 == null || l2.equals("") || w2 == null || w2.equals("")) return;
         add(new Word(l1, w1), new Word(l2, w2));
     }
 
     public void add(Word w1, Word w2) { // Use Word (record class) as input for easier testing
-        if (w1 == null || w1.w.equals("") || w2 == null || w2.w.equals("") || w1.l.equals("") || w2.l.equals("")) return;
         init(w1); init(w2); // initialize each word for union find
         Word root1 = find(w1), root2 = find(w2);
         if (!root1.equals(root2)) {
@@ -62,7 +60,7 @@ public class Translator {
         return dict;
     }
 
-    enum Ciao {
+    enum Ciao { // to simplify testing
         EN(new Word("EN", "Hello")),
         FR(new Word("FR", "Bonjour")),
         IT(new Word("IT", "Ciao")),
@@ -91,8 +89,8 @@ public class Translator {
         tl.add(Ciao.GR.w, Ciao.FR.w);
 
         System.out.println("Translate Hola into Different Languages:");
-        String wordToTranslate = "Hola";
-        for (Ciao w : Ciao.values()) System.out.printf("%s -> %s: %s\n", wordToTranslate, w.name(), tl.get(Ciao.ES.w, w.name()));
+        String toTranslate = "Hola";
+        for (Ciao w : Ciao.values()) System.out.printf("%s -> %s: %s\n", toTranslate, w.name(), tl.get(Ciao.ES.w, w.name()));
         System.out.println();
         System.out.printf("dict  after Round1 queries: %s\n", tl.getDict());
         System.out.printf("roots after Round1 queries: %s\n", tl.getRoots());
