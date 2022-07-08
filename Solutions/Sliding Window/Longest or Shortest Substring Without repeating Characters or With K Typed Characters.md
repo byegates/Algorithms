@@ -1,5 +1,5 @@
 # Table of Contents
-1. [1695. Unique subarray sum](#[1695-Maximum-Erasure-Value](https://leetcode.com/problems/maximum-erasure-value/))
+1. [1695. Unique subarray sum](#1695-Maximum-Erasure-Value)
    1. [亚麻OA Max Average Stock Price?](#sliding-window-size-k-with-k-unique-chars)
 2. [340. Longest Substring with At Most K Distinct Chars](#[340-Longest-Substring-with-At-Most-K-Distinct-Characters])
    1. LaiCode 473 & 490
