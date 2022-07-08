@@ -1,11 +1,12 @@
 # Table of Contents
 1. [1695. Unique subarray sum](#1695-Maximum-Erasure-Value)
    1. [亚麻OA Max Average Stock Price?](#亚麻OA-sliding-window-size-k-with-k-unique-chars)
-2. [340. Longest Substring with At Most K Distinct Chars](#340-Longest-Substring-with-At-Most-K-Distinct-Characters)
+2. [209. Minimum Size Subarray Sum](#209-Minimum-Size-Subarray-Sum)
+3. [340. Longest Substring with At Most K Distinct Chars](#340-Longest-Substring-with-At-Most-K-Distinct-Characters)
    1. Same as LaiCode 473 & 490
    2. [LaiCode 285. Longest Substring With K Typed Characters](#LaiCode-285-Longest-Substring-With-K-Typed-Characters)
-3. [LaiCode 382. Shortest Substring With K Typed Characters](#LaiCode-382-Shortest-Substring-With-K-Typed-Characters)
-4. [3. Longest Substring Without Repeating Characters](#3-Longest-Substring-Without-Repeating-Characters) (LaiCode 253)
+4. [LaiCode 382. Shortest Substring With K Typed Characters](#LaiCode-382-Shortest-Substring-With-K-Typed-Characters)
+5. [3. Longest Substring Without Repeating Characters](#3-Longest-Substring-Without-Repeating-Characters) (LaiCode 253)
 
 # [1695-Maximum-Erasure-Value](https://leetcode.com/problems/maximum-erasure-value/)
 TC: O(n), SC:O(n)
@@ -98,6 +99,24 @@ class Solution {
             }
         }
         return res;
+    }
+}
+```
+# [209-Minimum-Size-Subarray-Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+[LaiCode 429. Minimum Size Subarray Sum](https://app.laicode.io/app/problem/429)
+1. fast指针(j)先走, 直到满足条件(sum >= target)
+2. slow指针(i)在满足条件的条件下, 走到最远
+```java
+class Solution {
+    public int minSubArrayLen(int t, int[] a) { // TC: O(n), SC: O(1)
+        int sum = 0, res = Integer.MAX_VALUE, len;
+        for (int i = 0, j = 0; j < a.length;)
+            if ((sum += a[j++]) >= t)  {
+                while (sum - a[i] >= t) sum -= a[i++]; // move i as further as possible
+                if ((len = j - i) < res) res = len;
+            }
+
+        return res == Integer.MAX_VALUE ? 0 : res;
     }
 }
 ```
