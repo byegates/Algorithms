@@ -38,7 +38,7 @@ class Solution {
     }
 }
 ```
-## Solution 2
+### Solution 2
 ```java
 class Solution {
     public int maximumUniqueSubarray(int[] a) {
@@ -81,7 +81,7 @@ class Solution {
     }
 }
 ```
-## Solution 2, is it really correct?
+### Solution 2, is it really correct?
 ```java
 class Solution {
     public int max(int[] a, int k){
