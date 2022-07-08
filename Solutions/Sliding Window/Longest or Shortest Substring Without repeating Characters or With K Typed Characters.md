@@ -1,4 +1,106 @@
-# [340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+# Table of Contents
+1. [1695. Unique subarray sum](#[1695-Maximum-Erasure-Value])
+   1. [亚麻OA Max Average Stock Price?](#sliding-window-size-k-with-k-unique-chars)
+2. [340. Longest Substring with At Most K Distinct Chars](#[340-Longest-Substring-with-At-Most-K-Distinct-Characters])
+   1. LaiCode 473 & 490
+   2. [LaiCode 382. Shortest Substring With K Typed Characters](#[LaiCode-382-Shortest-Substring-With-K-Typed-Characters])
+3. 
+
+# [1695-Maximum-Erasure-Value](https://leetcode.com/problems/maximum-erasure-value/)
+TC: O(n), SC:O(n)
+<pre>
+4,2,4,5,6
+  j
+i
+
+4,2,4,5,6
+    j
+  i
+
+4,2,4,5,6
+        j
+  i
+
+res: 17
+</pre>
+```java
+class Solution {
+    public int maximumUniqueSubarray(int[] a) {
+        int cur = 0, res = -1, slow = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int x : a) {
+            for (; !set.add(x); set.remove(a[slow++]))
+                cur -= a[slow];
+            cur += x;
+            if (cur > res) res = cur;
+        }
+        return res;
+    }
+}
+```
+## Solution 2
+```java
+class Solution {
+    public int maximumUniqueSubarray(int[] a) {
+        int res = -1, cur = 0;
+        Set<Integer> set = new HashSet<>(); //记录Selected range里包含的所有数字，查重
+        for (int slow = 0, fast = 0; slow < a.length && fast < a.length; )
+            if (!set.add(a[fast])) {
+                set.remove(a[slow]);
+                cur -= a[slow++];
+            } else {
+                cur += a[fast++];
+                if (cur > res) res = cur;
+            }
+
+        return res;
+    }
+}
+```
+
+# 亚麻OA-sliding-window-size-k-with-k-unique-chars
+TC: O(n), SC: O(k)
+```java
+class Solution {
+    public int max(int[] a, int k){
+        int res = -1, cur = 0, slow = 0; //res: max sum, cur: cur sum, slow: start of sliding window (inclusive)
+        Set<Integer> set = new HashSet<>(); //记录Selected range里包含的所有数字，查重
+        //x is the value of right bound of sliding window
+        for (int x : a) {
+            for (; !set.add(x); set.remove(a[slow++]))
+                cur -= a[slow];
+            cur += x;
+            if (set.size() > k) {
+                set.remove(a[slow]);
+                cur -= a[slow++];
+            }
+            //前移快指针操作
+            if (set.size() == k && cur > res) res = cur;
+        }
+        return res;
+    }
+}
+```
+## Solution 2, is it really correct?
+```java
+class Solution {
+    public int max(int[] a, int k){
+        int res = -1, cur = 0; //res: max sum, cur: cur sum
+        Set<Integer> set = new HashSet<>(); //记录Selected range里包含的所有数字，查重
+        for (int slow = 0, fast = 0; slow < a.length && fast < a.length; ) {
+            if (set.size() >= k || !set.add(a[fast])) {
+                set.remove(a[slow]);
+                cur -= a[slow++];
+            } else {
+                cur += a[fast++];
+                if (cur > res) res = cur;
+            }
+        }
+        return res;
+    }
+}
+```
+# [340-Longest-Substring-with-At-Most-K-Distinct-Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
 Exactly the same: [LaiCode 473. Longest Substring with At Most K Distinct Characters](https://app.laicode.io/app/problem/473)
 
 Special case where k=2: [LaiCode 490. Longest Substring with At Most Two Distinct Characters](https://app.laicode.io/app/problem/490)
@@ -72,7 +174,7 @@ class Solution {
 }
 ```
 
-# [LaiCode 382. Shortest Substring With K Typed Characters](https://app.laicode.io/app/problem/382)
+# [LaiCode-382-Shortest-Substring-With-K-Typed-Characters](https://app.laicode.io/app/problem/382)
 还是一个sliding window 问题, 吃的时候记住每个char的count(如果用array还要记一下一共吃了多少个char)要注意的是:
 1. 吐的时候不仅char超过k了要吐，最后一个char的count只要超过一个也要吐，因为我们最短substring:
    1. k = 4: cdddddefb
