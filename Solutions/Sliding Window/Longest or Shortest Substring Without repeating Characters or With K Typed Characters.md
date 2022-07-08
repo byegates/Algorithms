@@ -2,9 +2,10 @@
 1. [1695. Unique subarray sum](#1695-Maximum-Erasure-Value)
    1. [亚麻OA Max Average Stock Price?](#亚麻OA-sliding-window-size-k-with-k-unique-chars)
 2. [340. Longest Substring with At Most K Distinct Chars](#340-Longest-Substring-with-At-Most-K-Distinct-Characters)
-   1. LaiCode 473 & 490
-   2. [LaiCode 382. Shortest Substring With K Typed Characters](#LaiCode-382-Shortest-Substring-With-K-Typed-Characters)
-3. 
+   1. Same as LaiCode 473 & 490
+   2. [LaiCode 285. Longest Substring With K Typed Characters](#LaiCode-285-Longest-Substring-With-K-Typed-Characters)
+3. [LaiCode 382. Shortest Substring With K Typed Characters](#LaiCode-382-Shortest-Substring-With-K-Typed-Characters)
+4. 
 
 # [1695-Maximum-Erasure-Value](https://leetcode.com/problems/maximum-erasure-value/)
 TC: O(n), SC:O(n)
@@ -149,7 +150,7 @@ class Solution {
     }
 }
 ```
-## [LaiCode 285. Longest Substring With K Typed Characters](https://app.laicode.io/app/problem/285)
+## [LaiCode-285-Longest-Substring-With-K-Typed-Characters](https://app.laicode.io/app/problem/285)
 跟前面一样的，只是要返回substring，而不只是长度。
 
 TC: O(n), SC: O(256)
