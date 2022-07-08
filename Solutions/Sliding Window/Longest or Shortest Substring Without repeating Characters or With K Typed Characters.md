@@ -5,7 +5,7 @@
    1. Same as LaiCode 473 & 490
    2. [LaiCode 285. Longest Substring With K Typed Characters](#LaiCode-285-Longest-Substring-With-K-Typed-Characters)
 3. [LaiCode 382. Shortest Substring With K Typed Characters](#LaiCode-382-Shortest-Substring-With-K-Typed-Characters)
-4. [3. Longest Substring Without Repeating Characters](#3-Longest-Substring-Without-Repeating-Characters)
+4. [3. Longest Substring Without Repeating Characters](#3-Longest-Substring-Without-Repeating-Characters) (LaiCode 253)
 
 # [1695-Maximum-Erasure-Value](https://leetcode.com/problems/maximum-erasure-value/)
 TC: O(n), SC:O(n)
