@@ -5,7 +5,7 @@
    1. Same as LaiCode 473 & 490
    2. [LaiCode 285. Longest Substring With K Typed Characters](#LaiCode-285-Longest-Substring-With-K-Typed-Characters)
 3. [LaiCode 382. Shortest Substring With K Typed Characters](#LaiCode-382-Shortest-Substring-With-K-Typed-Characters)
-4. 
+4. [3. Longest Substring Without Repeating Characters](#3-Longest-Substring-Without-Repeating-Characters)
 
 # [1695-Maximum-Erasure-Value](https://leetcode.com/problems/maximum-erasure-value/)
 TC: O(n), SC:O(n)
@@ -228,7 +228,7 @@ class Solution {
 }
 ```
 
-# [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+# [3-Longest-Substring-Without-Repeating-Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
 [LaiCode 253. Longest Substring Without Repeating Characters](https://app.laicode.io/app/problem/253)
 ## Solution 1: use an index map(array)
 ### 1a array (4 ms, 96.18%, almost everytime)
