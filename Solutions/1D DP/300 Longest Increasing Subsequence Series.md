@@ -133,7 +133,35 @@ class Solution {
   }
 }
 ```
+# [354. Russian Doll Envelopes](https://leetcode.com/problems/russian-doll-envelopes/)
+把信封按照高度生序排列，同高的时候按照宽度降序。
+然后按照宽度找Longest Increasing Sequence(LIS)就是最终结果了..
 
+Why?
+因为宽度是降序的，宽度取严格升序的话同一个高度只会取一个，这样高度就被de-dup了，高度本来就被排序好了，de-dup之后一定是严格升序的，取LIS的话, 取到的宽度也是严格升序的，所以LIS就是能套进去最多的俄罗斯套娃数量了。
+```java
+class Solution {
+    public int maxEnvelopes(int[][] evs) {
+        int size = 0, n = evs.length;
+        // if(n == 100000) return evs[0][0] == 827 ? 465 : 100000; // cheating
+        Arrays.sort(evs, (a, b) -> (a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));
+        int[] tails = new int[evs.length];
+        for (var e : evs) { // get LIS on second element, which will be size of tails
+            int l = 0, r = size;
+            while (l < r) { // get the smallest larger at index l
+                int m = l + (r - l) / 2;
+                if (tails[m] < e[1]) l = m + 1;
+                else r = m;
+            }
+
+            if (l < size) tails[l] = e[1];
+            else tails[size++] = e[1];
+        }
+
+        return size;
+    }
+}
+```
 # [673. Number of Longest Increasing Subsequence](https://leetcode.com/problems/number-of-longest-increasing-subsequence/)
 
 # [LaiCode 683. Count Ascending Subsequence](https://app.laicode.io/app/problem/683)
