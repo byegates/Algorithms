@@ -100,6 +100,8 @@ class Solution {
 }
 ```
 ## TC: O(nlogn), SC: O(n)
+重点: 每次去Binary Search的时候去replace(或者append)的时候，tails里面前一个value就是自己的pre，其index就是自己的pre index。
+这样我们不仅要记录每个tails的value还要记录他们的index(所以新增了一个indices array)
 ```java
 class Solution {
   public int[] longest(int[] a) {
