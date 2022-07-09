@@ -20,10 +20,16 @@ class Solution {
 ```
 
 ## TC: O(nlogn), SC: O(n)
+<pre>
+tails list index vs value 物理意义:
+index + 1 代表subsequence的长度, 其value代表对应长度的sub sequence的最小ending value
+更新逻辑:
+在tail里面找smallest larger(>)所对应的index, replace that value (append if not exist)
+</pre>
 #### List
 ```java
 class Solution {
-  public int longest(int[] a) {
+  public int lengthOfLIS(int[] a) {
     List<Integer> tails = new ArrayList<>();
     for (int x : a) {
       int l = 0, r = tails.size();
@@ -43,7 +49,7 @@ class Solution {
 #### Array
 ```java
 class Solution {
-    public int longest(int[] a) {
+    public int lengthOfLIS(int[] a) {
         int[] tails = new int[a.length];
         int size = 0;
         for (int x : a) {
