@@ -97,7 +97,7 @@ class Solution {
                 cur -= a[slow++];
             } else {
                 cur += a[fast++];
-                if (cur > res) res = cur;
+                if (set.size() == k && cur > res) res = cur;
             }
         }
         return res;
