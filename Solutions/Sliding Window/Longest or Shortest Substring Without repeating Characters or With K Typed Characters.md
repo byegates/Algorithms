@@ -234,9 +234,9 @@ class Solution {
             char c = s.charAt(j);
             map.put(c, map.getOrDefault(c, 0) + 1);
 
-            for (int cnt; ( cnt = map.get(s.charAt(i)) ) > 1 || map.size() > k; )
-                if (cnt > 1) map.put(s.charAt(i++), --cnt);
-                else map.remove(s.charAt(i++));
+            for (int cnt; ( cnt = map.get(s.charAt(i)) ) > 1 || map.size() > k; i++)
+                if (cnt > 1) map.put(s.charAt(i), --cnt);
+                else map.remove(s.charAt(i));
 
             if (map.size() == k && (len = j - i + 1) < min) {
                 min = len;
