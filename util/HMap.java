@@ -10,9 +10,9 @@ public class HMap <K, V> implements Map<K, V> {
     Version 1.00
     First implementation of Map Interface, as a HashMap
     tested:
-    LeetCode 706. Design HashMap : https://leetcode.com/submissions/detail/737324896/
-    438. Find All Anagrams in a String: https://leetcode.com/submissions/detail/737325550/
-    126. Word Ladder II: https://leetcode.com/submissions/detail/737327314/
+    LeetCode 706. Design HashMap : https://pastebin.com/2ej94uCU
+    438. Find All Anagrams in a String: https://pastebin.com/2a6vAK02
+    126. Word Ladder II: https://pastebin.com/D3jYddi6
      */
     private int size;
     private Entry<K, V>[] arr;
