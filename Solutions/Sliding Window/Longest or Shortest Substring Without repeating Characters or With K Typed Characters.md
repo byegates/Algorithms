@@ -197,6 +197,50 @@ class Solution {
 ```
 
 # [LaiCode-382-Shortest-Substring-With-K-Typed-Characters](https://app.laicode.io/app/problem/382)
+## A maybe easier to understand version
+when sliding window have k chars, shrink slow to make sure the last char is unique, then we update the result, remove the last, and keep going.
+
+TC/SC: O(n), one pass
+```java
+class Solution {
+    public String shortest(String s, int k) {
+        if (k <= 0) return "";
+        Map<Character, Integer> map = new HashMap<>();
+
+        int min = Integer.MAX_VALUE, start = 0, len;
+        for (int slow = 0, fast = 0; fast < s.length(); fast++) {
+            char c = s.charAt(fast);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+            if (map.size() == k) {
+              int cnt = map.get(s.charAt(slow));
+               // when this while ends, slow stops at a char that's unique
+               // and map size is guaranteed to be still k
+               // as we only reduced the count of dup chars
+               // we never remove any char from count 1 to 0
+              while (cnt > 1) {
+                  map.put(s.charAt(slow++), --cnt);
+                  cnt = map.get(s.charAt(slow));
+              }
+
+              // now we can update result as it's the first time we get to size k
+              // and slow char is unique now
+              if ((len = fast - slow + 1) < min) {
+                  min = len;
+                  start = slow;
+              }
+
+              // after result is updated, we remove the unique char
+              // now the map size k - 1
+              map.remove(s.charAt(slow++));
+            }
+
+        }
+
+        return min == Integer.MAX_VALUE ? "" : s.substring(start, start + min);
+    }
+}
+```
 还是一个sliding window 问题, 吃的时候记住每个char的count(如果用array还要记一下一共吃了多少个char)要注意的是:
 1. 吐的时候不仅char超过k了要吐，最后一个char的count只要超过一个也要吐，因为我们最短substring:
    1. k = 4: cdddddefb
