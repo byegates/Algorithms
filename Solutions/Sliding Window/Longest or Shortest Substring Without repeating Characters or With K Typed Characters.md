@@ -248,7 +248,35 @@ class Solution {
     }
 }
 ```
+#### above code is too short, a more normal version
+```java
+class Solution {
+    public String shortest(String s, int k) {
+        if (k <= 0) return "";
+        Map<Character, Integer> map = new HashMap<>();
 
+        int min = Integer.MAX_VALUE, start = 0, len;
+        for (int slow = 0, fast = 0; fast < s.length(); fast++) {
+            char c = s.charAt(fast);
+            map.put(c, map.getOrDefault(c, 0) + 1);
+
+            int cnt = map.get(s.charAt(slow));
+            while (cnt > 1 || map.size() > k) {
+                if (cnt > 1) map.put(s.charAt(slow), --cnt);
+                else map.remove(s.charAt(slow));
+                cnt = map.get(s.charAt(++slow));
+            }
+
+            if (map.size() == k && (len = fast - slow + 1) < min) {
+                min = len;
+                start = slow;
+            }
+        }
+
+        return min == Integer.MAX_VALUE ? "" : s.substring(start, start + min);
+    }
+}
+```
 # [3-Longest-Substring-Without-Repeating-Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
 [LaiCode 253. Longest Substring Without Repeating Characters](https://app.laicode.io/app/problem/253)
 ## Solution 1: use an index map(array)
