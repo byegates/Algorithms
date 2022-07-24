@@ -28,6 +28,8 @@
 //          ["2","8","7","4","1","9","6","3","5"],
 //          ["3","4","5","2","8","6","1","7","9"]]
 
+import util.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -46,12 +48,11 @@ public class Sudoku {
     public static void main(String[] args) {
         // solve a sudoku and print the comparison
         char[][] board = YUANHAO;
-        char[][] b2 = new char[board.length][];
-        for (int i = 0; i < board.length; i++) b2[i] = board[i].clone();
+        char[][] b2 = Utils.mxDeepCopy(board);
 
         Sudoku sudoku = new Sudoku();
 
-        sudoku.solveSudoku(b2);
+        sudoku.solveSudoku2(b2);
         sudoku.printSudoku(b2, board);
         sudoku.printSudokuAsArray(b2, board);
 
@@ -88,18 +89,23 @@ public class Sudoku {
         if (i == cells.size()) return true;
         depth++;
         Cell c = cells.get(i);
-        for (int val = 0; val < 9; ++val) {
-            if ( ((rows[c.r] >> val) & (cols[c.c] >> val) & (sqrs[c.s] >> val) & 1) == 0)
-                continue; // skip if that value is existed!
-            board[c.r][c.c] = (char) ('1' + val);
-            rows[c.r] ^= 1 << val;
-            cols[c.c] ^= 1 << val;
-            sqrs[c.s] ^= 1 << val;
+
+        int nums = rows[c.r] & cols[c.c] & sqrs[c.s];
+        while (nums != 0) {
+            int num = 31 - Integer.numberOfLeadingZeros(nums);
+            int mask = 1 << num;
+            board[c.r][c.c] = (char) ('1' + num);
+            rows[c.r] ^= mask;
+            cols[c.c] ^= mask;
+            sqrs[c.s] ^= mask;
             if (solve(board, i + 1)) return true;
-            rows[c.r] |= 1 << val; // 吃了🤮
-            cols[c.c] |= 1 << val; // 吃了🤮
-            sqrs[c.s] |= 1 << val; // 吃了🤮
+            rows[c.r] |= mask; // 吃了🤮
+            cols[c.c] |= mask; // 吃了🤮
+            sqrs[c.s] |= mask; // 吃了🤮
+
+            nums ^= mask;
         }
+
         return false;
     }
 
@@ -227,18 +233,22 @@ public class Sudoku {
         swapCell(i, best);
         Cell c = cells.get(i);
 
-        for (int val = 0; val < 9; ++val) {
-            if ( ((rows[c.r] >> val) & (cols[c.c] >> val) & (sqrs[c.s] >> val) & 1) == 0 )
-                continue; // skip if that value is existed!
-            board[c.r][c.c] = (char) ('1' + val);
-            rows[c.r] ^= 1 << val;
-            cols[c.c] ^= 1 << val;
-            sqrs[c.s] ^= 1 << val;
+        int nums = rows[c.r] & cols[c.c] & sqrs[c.s];
+        while (nums != 0) {
+            int num = 31 - Integer.numberOfLeadingZeros(nums);
+            int mask = 1 << num;
+            board[c.r][c.c] = (char) ('1' + num);
+            rows[c.r] ^= mask;
+            cols[c.c] ^= mask;
+            sqrs[c.s] ^= mask;
             if (solve2(board, i + 1)) return true;
-            rows[c.r] |= 1 << val; // 吃了🤮
-            cols[c.c] |= 1 << val; // 吃了🤮
-            sqrs[c.s] |= 1 << val; // 吃了🤮
+            rows[c.r] |= mask; // 吃了🤮
+            cols[c.c] |= mask; // 吃了🤮
+            sqrs[c.s] |= mask; // 吃了🤮
+
+            nums ^= mask;
         }
+
         return false;
     }
 
