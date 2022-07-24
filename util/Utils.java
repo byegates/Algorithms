@@ -152,6 +152,36 @@ public class Utils {
         return sb.toString();
     }
 
+    public static String toString(boolean[][] mx, int width) {
+        int rows = mx.length;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            var row = mx[i];
+            sb.append('[');
+            for (int j = 0; j < mx[0].length; j++) {
+                sb.append(String.format("%" + width + "s", row[j]));
+                if (j != mx[0].length - 1) sb.append(", ");
+            }
+            sb.append(i == rows - 1 ? "]" : "]\n");
+        }
+        return sb.toString();
+    }
+
+    public static String toString(char[][] mx, int width) {
+        int rows = mx.length;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            var row = mx[i];
+            sb.append('[');
+            for (int j = 0; j < mx[0].length; j++) {
+                sb.append(String.format("%" + width + "s", row[j]));
+                if (j != mx[0].length - 1) sb.append(", ");
+            }
+            sb.append(i == rows - 1 ? "]" : "]\n");
+        }
+        return sb.toString();
+    }
+
     public static String toStringMD(int[][] mx, int width) {
         Integer[][] mx0 = new Integer[mx.length][mx[0].length];
         for (int i = 0; i < mx.length; i++) for (int j = 0; j < mx[0].length; j++)
@@ -207,6 +237,37 @@ public class Utils {
         System.out.println();
     }
 
+    public static String[][] charToStr(char[][] mx) {
+        int m = mx.length, n = mx[0].length;
+        String[][] res = new String[m][n];
+        for (int i = 0; i < m; i++) for (int j = 0; j < n; j++)
+            res[i][j] = mx[i][j] + "";
+        return res;
+    }
+
+    public static String[][] charToStr(Character[][] mx) {
+        int m = mx.length, n = mx[0].length;
+        String[][] res = new String[m][n];
+        for (int i = 0; i < m; i++) for (int j = 0; j < n; j++)
+            res[i][j] = mx[i][j].toString();
+        return res;
+    }
+
+    public static <T> String toString(T[][] mx, int width) {
+        int rows = mx.length;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            var row = mx[i];
+            sb.append('[');
+            for (int j = 0; j < mx[0].length; j++) {
+                sb.append(String.format("%" + width + "s", row[j]));
+                if (j != mx[0].length - 1) sb.append(", ");
+            }
+            sb.append(i == rows - 1 ? "]" : "]\n");
+        }
+        return sb.toString();
+    }
+
     public static String toString(int[] a, int width) {
         return toString(new int[][]{a}, width);
     }
@@ -219,15 +280,28 @@ public class Utils {
         return toString(mx, 1);
     }
 
+    public static String toString(char[][] mx) {
+        return toString(mx, 1);
+    }
+
+    public static String toString(boolean[][] mx) {
+        return toString(mx, 5);
+    }
+
+    public static <T> String toString(T[][] mx) {
+        int width = 1;
+        for (var a : mx) for (var v : a) if (v instanceof Boolean) {width = 5;break;}
+        return toString(mx, width);
+    }
+
     public static int sum(int[] a) {
         return sum(new int[][]{a});
     }
 
     public static int sum(int[][] mx) {
         int sum = 0;
-        for (int[] row : mx)
-            for (int x : row)
-                sum += x;
+        for (int[] row : mx) for (int x : row)
+            sum += x;
         return sum;
     }
 
