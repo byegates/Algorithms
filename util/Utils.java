@@ -237,20 +237,23 @@ public class Utils {
         System.out.println();
     }
 
-    public static String[][] charToStr(char[][] mx) {
-        int m = mx.length, n = mx[0].length;
-        String[][] res = new String[m][n];
-        for (int i = 0; i < m; i++) for (int j = 0; j < n; j++)
-            res[i][j] = mx[i][j] + "";
-        return res;
-    }
-
-    public static String[][] charToStr(Character[][] mx) {
-        int m = mx.length, n = mx[0].length;
-        String[][] res = new String[m][n];
-        for (int i = 0; i < m; i++) for (int j = 0; j < n; j++)
-            res[i][j] = mx[i][j].toString();
-        return res;
+    public static String SudokuBoard2Str(char[][] mx) {
+        int m = mx.length, n = mx[0].length, width = 1;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < m; i++) {
+            var row = mx[i];
+            sb.append('[');
+            for (int j = 0; j < n; j++) {
+                sb.append('"');
+                sb.append(String.format("%" + width + "s", row[j]));
+                sb.append('"');
+                if (j != mx[0].length - 1) sb.append(", ");
+            }
+            sb.append(i == m - 1 ? "]" : "],");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     public static <T> String toString(T[][] mx, int width) {
