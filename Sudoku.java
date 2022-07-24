@@ -29,7 +29,9 @@
 //          ["3","4","5","2","8","6","1","7","9"]]
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Arrays;
 
 import static resources.ConsoleColors.*;
 import static resources.SudokuBoards.*;
@@ -37,10 +39,10 @@ import static resources.SudokuBoards.*;
 public class Sudoku {
 
     int depth;
-    List<Cell> emptyCells = new ArrayList<>(); // search space, int[] for interview, class is better
-    int[]  rows = new int[9]; // for each row what numbers have been used
-    int[]  cols = new int[9]; // for each col what numbers have been used
-    int[] boxes = new int[9]; // for each box what numbers have been used
+    List<Cell> cells; // search space, int[] for interview, class is better
+    int[]  rows, cols, boxes; // for each row, col, box what numbers have been used
+
+    private final int ALL_ON = (1 << 9) - 1; // all 1s, meaning all numbers available
 
     public static void main(String[] args) {
         // solve a sudoku and print the comparison
@@ -63,43 +65,45 @@ public class Sudoku {
 
     public void solveSudoku(char[][] board) {
         depth = 0;
-        // initialization
-        for (int row = 0; row < 9; row++)
-            for (int col = 0; col < 9; col++) {
-                Cell c = new Cell(row, col, (row / 3) * 3 + (col / 3));
-                if (board[row][col] == '.') emptyCells.add(c);
-                else {
-                    int val = board[row][col] - '1';
-                     rows[row] |= 1 << val;
-                     cols[col] |= 1 << val;
-                    boxes[c.b] |= 1 << val;
-                }
+        cells = new ArrayList<>();
+         rows = new int[9];Arrays.fill(rows , ALL_ON);
+         cols = new int[9];Arrays.fill(cols , ALL_ON);
+        boxes = new int[9];Arrays.fill(boxes, ALL_ON);
+
+        for (int row = 0; row < 9; row++) for (int col = 0; col < 9; col++) {
+            Cell c = new Cell(row, col, (row / 3) * 3 + (col / 3), 0);
+            if (board[row][col] == '.') cells.add(c);
+            else {
+                int mask = 1 << (board[row][col] - '1');
+                 rows[row] ^= mask;
+                 cols[col] ^= mask;
+                boxes[c.b] ^= mask;
             }
+        }
 
         dfs(board, 0);
         System.out.printf("\n" + BLUE + "Depth of Search: " + RED_BOLD_BRIGHT + "%,d" + RESET + '\n', depth);
     }
 
     private boolean dfs(char[][] board, int i) {
-        if (i == emptyCells.size()) return true;
         depth++;
-        Cell c = emptyCells.get(i);
+        if (i == cells.size()) return true;
+        Cell c = cells.get(i);
         for (int val = 0; val < 9; ++val) {
             if (
-                (( rows[c.r] >> val) & 1) == 1 ||
-                (( cols[c.c] >> val) & 1) == 1 ||
-                ((boxes[c.b] >> val) & 1) == 1
+                    (( rows[c.r] >> val) & 1) == 0 ||
+                    (( cols[c.c] >> val) & 1) == 0 ||
+                    ((boxes[c.b] >> val) & 1) == 0
             )
                 continue; // skip if that value is existed!
             board[c.r][c.c] = (char) ('1' + val);
-            int oldRow = rows[c.r], oldCol = cols[c.c], oldBox = boxes[c.b]; // backup old values
-             rows[c.r] |= 1 << val;
-             cols[c.c] |= 1 << val;
-            boxes[c.b] |= 1 << val;
+             rows[c.r] ^= 1 << val;
+             cols[c.c] ^= 1 << val;
+            boxes[c.b] ^= 1 << val;
             if (dfs(board, i + 1)) return true;
-             rows[c.r] = oldRow;
-             cols[c.c] = oldCol;
-            boxes[c.b] = oldBox; // 吃了🤮
+             rows[c.r] |= 1 << val; // 吃了🤮
+             cols[c.c] |= 1 << val; // 吃了🤮
+            boxes[c.b] |= 1 << val; // 吃了🤮
         }
         return false;
     }
@@ -133,7 +137,7 @@ public class Sudoku {
 
     private void printRes(boolean isValid) {
         String s = (isValid) ? "" : "NOT ";
-        System.out.print(RED_BOLD_BRIGHT + "\n\n" + s + "VALID" + RESET);
+        System.out.println(RED_BOLD_BRIGHT + "\n\n" + s + "VALID" + RESET);
     }
 
     private void printValidSudoku(char[][] board) {
@@ -199,14 +203,34 @@ public class Sudoku {
 
     }
 
-    static class Cell {
-        int r, c, b; // the row, col and box number for each cell
+    public void solveSudoku2(char[][] board) {
+        depth = 0;
+        cells = new ArrayList<>();
+         rows = new int[9];Arrays.fill(rows , ALL_ON);
+         cols = new int[9];Arrays.fill(cols , ALL_ON);
+        boxes = new int[9];Arrays.fill(boxes, ALL_ON);
 
-        Cell(int r, int c, int b) {
-            this.r = r;
-            this.c = c;
-            this.b = b;
+        for (int r = 0; r < 9; r++) for (int c = 0; c < 9; c++)
+            if (board[r][c] != '.') {
+                int mask = 1 << (board[r][c] - '1');
+                int b = (r/3)*3 + (c/3);
+                 rows[r] ^= mask;
+                 cols[c] ^= mask;
+                boxes[b] ^= mask;
+            }
+
+        for (int r = 0; r < 9; r++) for (int c = 0; c < 9; c++) {
+            int b = (r/3)*3 + (c/3);
+            if (board[r][c] == '.')
+                cells.add(new Cell(r, c, b, Integer.bitCount(rows[r] & cols[c] & boxes[b])));
         }
+
+        cells.sort(Comparator.comparingInt(a -> a.choices));
+
+        dfs(board, 0);
+        System.out.printf("\n" + BLUE + "Depth of Search: " + RED_BOLD_BRIGHT + "%,d" + RESET + '\n', depth);
     }
+
+    record Cell(int r, int c, int b, int choices) {} // the row, col and box number for each cell
 
 }

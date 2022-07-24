@@ -12,9 +12,20 @@ class SudokuTest {
         return sudoku.isValidSudoku(board);
     }
 
+    private boolean core2(char[][] board) {
+        Sudoku sudoku = new Sudoku();
+        sudoku.solveSudoku2(board);
+        return sudoku.isValidSudoku(board);
+    }
+
     @Test
     void YUANHAO() {
         assertTrue(core(YUANHAO));
+    }
+
+    @Test
+    void YUANHAO2() {
+        assertTrue(core2(YUANHAO));
     }
 
     @Test
