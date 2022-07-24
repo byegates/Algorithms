@@ -227,9 +227,9 @@ public class Sudoku {
 
     private boolean solve2(char[][] board, int i) {
         if (i == cells.size()) return true;
+        depth++;
         int best = getBest(i);
         if (best == -1) return false;
-        depth++;
         swapCell(i, best);
         Cell c = cells.get(i);
 
