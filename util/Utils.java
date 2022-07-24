@@ -26,8 +26,19 @@ public class Utils {
     }
 
     public static String toString(int e, int radix) {
-        if ( e < 0) return Integer.toString(e, radix);
         StringBuilder sb = new StringBuilder();
+        if ( e < 0) {
+            while (e != 0) {
+                sb.append(e & 1);
+                e >>>= 1;
+            }
+            sb.reverse();
+            StringBuilder sb2 = new StringBuilder();
+            for (int i = 0; i < sb.length(); i++)
+                if (sb.charAt(i) == '1') sb2.append(RED).append('1').append(RESET);
+                else sb2.append('0');
+            return sb2.toString();
+        }
         sb.append("0".repeat(Integer.numberOfLeadingZeros(e)));
         String s = Integer.toString(e, radix);
         for (int i = 0; i < s.length(); i++)
@@ -215,7 +226,13 @@ public class Utils {
 
     public static int[][] mxDeepCopy(int[][] mx) {
         int[][] mx2 = new int[mx.length][mx[0].length];
-        for (int i = 0; i < mx.length; i++) mx2[i] = Arrays.copyOf(mx[i], mx[0].length);
+        for (int i = 0; i < mx.length; i++) mx2[i] = mx[i].clone();
+        return mx2;
+    }
+
+    public static char[][] mxDeepCopy(char[][] mx) {
+        char[][] mx2 = new char[mx.length][mx[0].length];
+        for (int i = 0; i < mx.length; i++) mx2[i] = mx[i].clone();
         return mx2;
     }
 
