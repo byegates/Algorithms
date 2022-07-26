@@ -147,15 +147,13 @@ public class Sudoku {
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board[r].length; c++) {
                 String coloredNumber = switch (board[r][c]) {
-                    case '1' -> RED              + board[r][c] + "  " + RESET;
-                    case '2' -> GREEN            + board[r][c] + "  " + RESET;
-                    case '3' -> YELLOW           + board[r][c] + "  " + RESET;
-                    case '4' -> BLUE             + board[r][c] + "  " + RESET;
-                    case '5' -> PURPLE           + board[r][c] + "  " + RESET;
-                    case '6' -> CYAN             + board[r][c] + "  " + RESET;
-                    case '7' -> BLACK            + board[r][c] + "  " + RESET;
-                    case '8' -> WHITE            + board[r][c] + "  " + RESET;
-                    case '9' -> CYAN_BOLD_BRIGHT + board[r][c] + "  " + RESET;
+                    case '1' -> RED         + board[r][c] + "  " + RESET;
+                    case '2', '8' -> GREEN  + board[r][c] + "  " + RESET;
+                    case '3' -> YELLOW      + board[r][c] + "  " + RESET;
+                    case '4' -> BLUE        + board[r][c] + "  " + RESET;
+                    case '5' -> PURPLE      + board[r][c] + "  " + RESET;
+                    case '6', '9' -> CYAN   + board[r][c] + "  " + RESET;
+                    case '7' -> PURPLE_BOLD + board[r][c] + "  " + RESET;
                     default -> ".  ";
                 };
                 System.out.print(coloredNumber);
