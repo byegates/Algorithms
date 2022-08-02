@@ -21,7 +21,7 @@ public class TreeNode implements Iterable<TreeNode> {
 
     public static TreeNode fromLevelOrder(Integer[] A) {
         if (A == null || A.length==0) return null;
-        Queue<TreeNode> q = new LinkedList<>();
+        Queue<TreeNode> q = new ArrayDeque<>();
         TreeNode root = new TreeNode(A[0]);
         q.offer(root);
         int idx = 1;
