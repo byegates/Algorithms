@@ -149,46 +149,46 @@ public class Utils {
     }
 
     public static String toString(int[][] mx, int width) {
-        int rows = mx.length;
+        int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < rows; i++) {
-            int[] row = mx[i];
+        for (int i = 0; i < m; i++) {
+            var row = mx[i];
             sb.append('[');
-            for (int j = 0; j < mx[0].length; j++) {
+            for (int j = 0; j < n; j++) {
                 sb.append(String.format("%" + width + "s", row[j]));
-                if (j != mx[0].length - 1) sb.append(", ");
+                if (j != n - 1) sb.append(", ");
             }
-            sb.append(i == rows - 1 ? "]" : "]\n");
+            sb.append(i == m - 1 ? "]" : "]\n");
         }
         return sb.toString();
     }
 
     public static String toString(boolean[][] mx, int width) {
-        int rows = mx.length;
+        int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < m; i++) {
             var row = mx[i];
             sb.append('[');
-            for (int j = 0; j < mx[0].length; j++) {
+            for (int j = 0; j < n; j++) {
                 sb.append(String.format("%" + width + "s", row[j]));
-                if (j != mx[0].length - 1) sb.append(", ");
+                if (j != n - 1) sb.append(", ");
             }
-            sb.append(i == rows - 1 ? "]" : "]\n");
+            sb.append(i == m - 1 ? "]" : "]\n");
         }
         return sb.toString();
     }
 
     public static String toString(char[][] mx, int width) {
-        int rows = mx.length;
+        int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < m; i++) {
             var row = mx[i];
             sb.append('[');
-            for (int j = 0; j < mx[0].length; j++) {
+            for (int j = 0; j < n; j++) {
                 sb.append(String.format("%" + width + "s", row[j]));
-                if (j != mx[0].length - 1) sb.append(", ");
+                if (j != n - 1) sb.append(", ");
             }
-            sb.append(i == rows - 1 ? "]" : "]\n");
+            sb.append(i == m - 1 ? "]" : "]\n");
         }
         return sb.toString();
     }
@@ -201,22 +201,22 @@ public class Utils {
     }
 
     public static String toStringMD(Integer[][] mx, int width) {
-        int rows = mx.length, cols = mx[0].length;
+        int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
         // add header
         sb.append("| ").append(" ".repeat(width));
-        for (int j = 0; j < cols; j++) sb.append(String.format("| %-" + width + "s", j));
+        for (int j = 0; j < n; j++) sb.append(String.format("| %-" + width + "s", j));
         sb.append("|\n");
 
         // add ----- line
-        for (int j = 0; j <= cols; j++) sb.append("|-").append("-".repeat(width));
+        for (int j = 0; j <= n; j++) sb.append("|-").append("-".repeat(width));
         sb.append("|\n");
 
         // add context
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < m; i++) {
             var row = mx[i];
             sb.append(String.format("| %-" + width + "s|", i));
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < n; j++) {
                 sb.append(String.format(" %-" + width + "s", row[j])).append("|");
             }
             sb.append("\n");
@@ -274,16 +274,16 @@ public class Utils {
     }
 
     public static <T> String toString(T[][] mx, int width) {
-        int rows = mx.length;
+        int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < m; i++) {
             var row = mx[i];
             sb.append('[');
-            for (int j = 0; j < mx[0].length; j++) {
+            for (int j = 0; j < n; j++) {
                 sb.append(String.format("%" + width + "s", row[j]));
-                if (j != mx[0].length - 1) sb.append(", ");
+                if (j != n - 1) sb.append(", ");
             }
-            sb.append(i == rows - 1 ? "]" : "]\n");
+            sb.append(i == m - 1 ? "]" : "]\n");
         }
         return sb.toString();
     }
