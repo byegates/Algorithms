@@ -160,7 +160,7 @@ public class Utils {
             }
             sb.append(i == m - 1 ? "]" : "]\n");
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public static String toString(boolean[][] mx, int width) {
@@ -175,7 +175,7 @@ public class Utils {
             }
             sb.append(i == m - 1 ? "]" : "]\n");
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public static String toString(char[][] mx, int width) {
@@ -190,7 +190,7 @@ public class Utils {
             }
             sb.append(i == m - 1 ? "]" : "]\n");
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public static String toStringMD(int[][] mx, int width) {
@@ -221,7 +221,7 @@ public class Utils {
             }
             sb.append("\n");
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public static int[][] mxDeepCopy(int[][] mx) {
@@ -285,7 +285,7 @@ public class Utils {
             }
             sb.append(i == m - 1 ? "]" : "]\n");
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public static String toString(int[] a, int width) {
