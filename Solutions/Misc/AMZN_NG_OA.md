@@ -50,7 +50,7 @@ class Solution {
 一个string中间任意位置分成两半的话，要求两遍的common unique char count > k,
 assume k > 1?
 </pre>
-
+如果n <= 26的话 solution 2a(2b) is better, otherwise 1 is better, in general, 1 is better
 #### Solution 1
 TC: 2 * 26 * n, SC: 26 * n
 ```java
