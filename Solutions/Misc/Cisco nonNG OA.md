@@ -91,14 +91,12 @@ for each number <= x:
 return total count
 </pre>
 ```java
-class Solution {
+class Solution { // most people wouldn't like this coding style, add {}
     public static int sumDigits(int x, int y) {
         int res = 0;
         for (int i = 1; i <= x; i++) {
             int sum = 0;
-            for (int z = i; z > 0; z /= 10) {
-                sum += z%10;
-            }
+            for (int z = i; z > 0; z /= 10) sum += z % 10;
             if (sum == y) res++;
         }
         return res;
