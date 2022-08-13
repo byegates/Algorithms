@@ -221,12 +221,12 @@ public class TreeNode implements Iterable<TreeNode> {
         return A;
     }
 
-    public static List<Integer> trimTrailingNull (List<Integer> A) {
-        int size = A.size();
+    public static <T> List<T> trimTrailingNull (List<T> list) {
+        int size = list.size();
         for (int i = size - 1; i >= 0; i--)
-            if (A.get(i) == null) A.remove(i);
+            if (list.get(i) == null) list.remove(i);
             else break;
-        return A;
+        return list;
     }
 
     static List<Integer> inOrder(TreeNode root) {
