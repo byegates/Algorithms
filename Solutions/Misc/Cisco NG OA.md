@@ -42,6 +42,32 @@ n = 8
 </pre>
 
 ### #2, bit count
+[191. Number of 1 Bits](https://leetcode.com/problems/number-of-1-bits/)
+### Solution 0a
+```java
+class Solution {
+    public int hammingWeight(int n) {
+        int cnt = 0;
+        while (n != 0) {
+            n &= n - 1; // set last bit to 0, why? try
+            cnt++;
+        }
+        return cnt;
+    }
+}
+```
+### Solution 0b
+```java
+class Solution {
+    public int hammingWeight(int n) {
+        int cnt = 0;
+        for (; n != 0;n &= n-1, cnt++) ;
+
+        return cnt;
+    }
+}
+```
+### Solution 1
 ```java
 class Solution {
     private int bitCount(int x) {
@@ -55,7 +81,7 @@ class Solution {
     }
 }
 ```
-### test all integers against Java official API
+#### test all integers against Java official API
 ```java
 class Solution {
     public static void main(String[] args) {
