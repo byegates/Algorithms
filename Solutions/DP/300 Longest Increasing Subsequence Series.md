@@ -59,8 +59,8 @@ class Solution {
                 if (tails[m] < x) l = m + 1;
                 else r = m;
             }
-            if (l < size) tails[l] = x;
-            else tails[size++] = x;
+            tails[l] = x; // replace tail value of an existing length, or add to the end, which increase length of LIS by 1
+            if (l == size) size++;
         }
         return size;
     }
@@ -116,15 +116,11 @@ class Solution {
             if (tails[m] < a[i]) l = m + 1;
             else r = m;
         }
-        if (l < size) { // replace an existing val, set indices of cur end value
-            pre[i] = l > 0 ? indices[l - 1] : -1;
-            tails[l] = a[i];
-            indices[l] = i;
-        } else { // add to the end, increasing LIS(The Longest Increasing Subsequence) by 1
-            pre[i] = size > 0 ? indices[size - 1] : -1;
-            tails[size] = a[i];
-            indices[size++] = i;
-        } // we update pre index for each element in both above case, -1 means this guy has no pre
+
+        pre[i] = l > 0 ? indices[l-1] : -1; // we update pre index for each element in both above case, -1 means no pre
+        indices[l] = i;
+        tails[l] = a[i]; // replace tail value of an existing length, or add to the end, which increase length of LIS by 1
+        if (l == size) size++;
     }
 
     int[] res = new int[size];
@@ -154,8 +150,8 @@ class Solution {
                 else r = m;
             }
 
-            if (l < size) tails[l] = e[1];
-            else tails[size++] = e[1];
+            tails[l] = e[1];
+            if (l == size) size++;
         }
 
         return size;
@@ -163,7 +159,43 @@ class Solution {
 }
 ```
 # [673. Number of Longest Increasing Subsequence](https://leetcode.com/problems/number-of-longest-increasing-subsequence/)
+## TC: O(n^2), SC: O(n), 20ms, 97.31%
+```java
+class Solution {
+    public int findNumberOfLIS(int[] a) {
+        int n = a.length;
+        if (n == 0) return 0;
+        int[] len = new int[n], cnt = new int[n];
+        Arrays.fill(len, 1);      // initialize
+        Arrays.fill(cnt, 1);
+        int max = len[0]; // global max: length of the longest subsequence
+        for (int i = 1; i < n; i++) for (int j = 0; j < i; j++) {
+            if (a[j] >= a[i]) continue; // can't form increasing subsequence
+            
+            if (len[i] == len[j] + 1) {
+                cnt[i] += cnt[j];
+                // array: [1, 2, 3, 3, 4]
+                //                  j
+                //                     i
+                // count: [1, 1, 1, 1, 1]
+            }
+            else if (len[i] < len[j] + 1) {
+                len[i] = len[j] + 1;
+                cnt[i] = cnt[j];
+                if (len[i] > max) max = len[i];
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < n; i++) if (len[i] == max) sum += cnt[i];
 
+        return sum;
+    }
+}
+//                System.out.println(Arrays.toString(a));
+//                System.out.println(Arrays.toString(len));
+//                System.out.printf("%s j\n%s i\n", "   ".repeat(j), "   ".repeat(i));
+//                System.out.println(Arrays.toString(cnt));
+```
 # [LaiCode 683. Count Ascending Subsequence](https://app.laicode.io/app/problem/683)
 
 # [577. Longest Tremble Subsequence](https://app.laicode.io/app/problem/577)
