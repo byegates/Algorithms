@@ -26,6 +26,7 @@ public class Utils {
     }
 
     public static String toString(int e, int radix) {
+        if (e == 0) return "0".repeat(32);
         StringBuilder sb = new StringBuilder();
         if ( e < 0) {
             while (e != 0) {
@@ -193,6 +194,21 @@ public class Utils {
         return sb.append("\n").toString();
     }
 
+    public static <T> String toString(T[][] mx, int width) {
+        int m = mx.length, n = mx[0].length;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < m; i++) {
+            var row = mx[i];
+            sb.append('[');
+            for (int j = 0; j < n; j++) {
+                sb.append(String.format("%" + width + "s", row[j]));
+                if (j != n - 1) sb.append(", ");
+            }
+            sb.append(i == m - 1 ? "]" : "]\n");
+        }
+        return sb.append("\n").toString();
+    }
+
     public static String toStringMD(int[][] mx, int width) {
         Integer[][] mx0 = new Integer[mx.length][mx[0].length];
         for (int i = 0; i < mx.length; i++) for (int j = 0; j < mx[0].length; j++)
@@ -271,21 +287,6 @@ public class Utils {
         }
         sb.append("]");
         return sb.toString();
-    }
-
-    public static <T> String toString(T[][] mx, int width) {
-        int m = mx.length, n = mx[0].length;
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < m; i++) {
-            var row = mx[i];
-            sb.append('[');
-            for (int j = 0; j < n; j++) {
-                sb.append(String.format("%" + width + "s", row[j]));
-                if (j != n - 1) sb.append(", ");
-            }
-            sb.append(i == m - 1 ? "]" : "]\n");
-        }
-        return sb.append("\n").toString();
     }
 
     public static String toString(int[] a, int width) {
