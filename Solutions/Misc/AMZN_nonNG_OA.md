@@ -1,5 +1,94 @@
 # Amazon, non-NG, OA
 
+## Saw multiple cases between Feb and Aug 2022
+[LeetCode Link, If not deleted](https://leetcode.com/discuss/interview-question/2083297/amazon-sde2-oa)
+<pre>
+Given an array of n elements find the count of imbalances in it. Imbalance is arr[i+1] - arr[i] > 1 in sorted subarray.
+
+Another description: Given input array size n, values of array are permutation of [1,n], find imbalance subarrays.
+This is also described as array of student ranks.
+
+Example : [4,1,3,2]
+for length : 1
+subarray 1: [4] => sort it => [4] imbalance : 0
+subarray 2: [1] => sort it => [1] imbalance : 0
+subarray 3: [3] => sort it => [3] imbalance : 0
+subarray 4: [2] => sort it => [2] imbalance : 0
+
+total count of imbalance for imbalance for length 1 is 0 + 0 + 0 + 0 = 0
+for length : 2
+subarray 1: [4,1] => sort it => [1,4] => imbalance : 1(because 4 - 1 > 1)
+subarray 2: [1,3] => sort it => [1,3] => imbalance : 1(because 3 - 1 > 1)
+subarray 3 :[3,2] => sort it => [2,3] => imbalance : 0(because 3 - 2 =1)
+
+total count of imbalances for length 2 is 1 + 1 + 0 = 2
+for length: 3
+subarray 1: [4,1,3] => sort it => [1,3,4] => imbalance : 1(because 3 - 1 > 1)
+subarray 2: [1,3,2] => sort it => [1,2,3] => imbalance : 0
+
+total count of imbalances for length 3 is 1 + 0 = 1
+for length: 4
+subarray 1: [4,1,3,2] => sort it => [1,2,3,4] => imbalance : 0
+
+total count of imbalances for length 4 is 0
+ans = 0 + 2 + 1 + 0 = 3
+
+Max Array Length : 3 * 10^3
+</pre>
+### idea
+if difference between max and min of any subarray >= len of subarray, it's an imbalanced subarray
+```java
+public class DebugSolution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.printf("Total imbalance: %d\n\n", sol.imbalance(new int[]{4,1,3,2}));
+        System.out.printf("Total imbalance: %d\n\n", sol.imbalance(new int[]{1,5,3,2,4}));
+    }
+
+}
+
+class Solution {
+    public int imbalance(int[] rank){
+//        System.out.printf("Input Array:\n%s\nImbalance subArrays(s) are:\n", Arrays.toString(rank));
+        int n = rank.length, res = 0, min, max;
+
+        for (int i = 0; i < n - 1; i++) {
+            max = min = rank[i];
+            for (int j = i + 1; j < n; j++) {
+                max = Math.max(max, rank[j]);
+                min = Math.min(min, rank[j]);
+                if (max - min >= j-i+1) {
+                    res++;
+//                    System.out.println(Arrays.toString(Arrays.copyOfRange(rank, i, j + 1)));
+                }
+            }
+        }
+
+        return res;
+    }
+}
+```
+### Execution result of example cases
+<pre>
+Input Array:
+[4, 1, 3, 2]
+Imbalance subArrays(s) are:
+[4, 1]
+[4, 1, 3]
+[1, 3]
+Total imbalance: 3
+
+Input Array:
+[1, 5, 3, 2, 4]
+Imbalance subArrays(s) are:
+[1, 5]
+[1, 5, 3]
+[1, 5, 3, 2]
+[5, 3]
+[5, 3, 2]
+[2, 4]
+Total imbalance: 6
+</pre>
 ## 6/29/22
 ### #1
 <pre>
