@@ -1,5 +1,35 @@
 # Amazon, non-NG, OA
 
+## 8/22/22
+### #1 Array merge and max
+<pre>
+for an array, if a[i] < a[i+1], merge them and discard a[i], recursively execute this logic until no more action you can take.
+return max value now
+</pre>
+
+```java
+class DebugSolution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.printf("Max: %d\n", sol.maxAfterMerge(new int[]{20, 8, 2, 7}));
+        System.out.printf("Max: %d\n", sol.maxAfterMerge(new int[]{20, 8, 2, 13}));
+    }
+
+}
+
+class Solution {
+    public int maxAfterMerge(int[] a) {
+        for (int i = a.length - 2; i >= 0; i--)
+            if (a[i+1] > a[i]) a[i] += a[i+1];
+        int res = a[0];
+        for (int x : a) if (x > res) res = x;
+        return res;
+    }
+}
+```
+### #2 Explained as Amazon storage or something, but effectively exact the same problem as LeetCode 2355
+[2355. Maximum Number of Books You Can Take](https://leetcode.com/problems/maximum-number-of-books-you-can-take/)
+
 ## Saw multiple cases between Feb and Aug 2022
 [LeetCode Link, If not deleted](https://leetcode.com/discuss/interview-question/2083297/amazon-sde2-oa)
 <pre>
