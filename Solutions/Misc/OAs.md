@@ -32,16 +32,27 @@ class Solution {
     public int minSplit(int[] p, int[] a) {
         System.out.printf("Parent : %s\n", Arrays.toString(p));
         System.out.printf("Input  : %s\n", Arrays.toString(a));
-        int n = a.length;
+        int n = a.length, res = Integer.MAX_VALUE;
         // get sum for each subtree
         for (int i = n-1; i >= 1; i--) a[p[i]] += a[i];
-
         System.out.printf("Sum'd  : %s\n", Arrays.toString(a));
 
         // find the min diff between subtree sum and rest of the tree;
-        int res = Integer.MAX_VALUE;
-        for (int i = 1; i < n; i++)
-            res = Math.min(res, Math.abs(a[0] - 2 * a[i])); // a[0] is the sum of whole tree
+        for (int i = 1; i < n; i++) res = Math.min(res, Math.abs(a[0] - 2*a[i])); // a[0] is the sum of whole tree
+
+        return res;
+    }
+}
+```
+### without prints
+```java
+class Solution {
+    public int minSplit(int[] p, int[] a) {
+        int n = a.length, res = Integer.MAX_VALUE;
+        // get sum for each subtree
+        for (int i = n-1; i >= 1; i--) a[p[i]] += a[i];
+        // find the min diff between subtree sum and rest of the tree;
+        for (int i = 1; i < n; i++) res = Math.min(res, Math.abs(a[0] - 2*a[i])); // a[0] is the sum of whole tree
 
         return res;
     }
