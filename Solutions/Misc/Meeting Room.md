@@ -100,7 +100,7 @@ class Solution {
     }
 }
 ```
-
+# Below is 99.99% the same as LeetCode [646. Maximum Length of Pair Chain](https://github.com/byegates/Algorithms/blob/main/Solutions/Misc/646.%20Maximum%20Length%20of%20Pair%20Chain.md)
 # [LaiCode 599. Meeting Schedule](https://app.laicode.io/app/problem/599)
 <pre>
 Given a list of meeting time intervals[[s0, e0],[s1, e1]......], return the maximum number of meetings a person could attend. A person could attend two meetings [si, ei] and [sj, ej] only when ei  < sj.
