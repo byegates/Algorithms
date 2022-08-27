@@ -154,6 +154,18 @@ public class Utils {
         return list;
     }
 
+    public static String toString(int[] a, int width) {
+        return toString(new int[][]{a}, width);
+    }
+
+    public static String toString(int[] a) {
+        return toString(new int[][]{a}, 1);
+    }
+
+    public static String toString(int[][] mx) {
+        return toString(mx, 1);
+    }
+
     public static String toString(int[][] mx, int width) {
         int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
@@ -325,18 +337,6 @@ public class Utils {
         }
         sb.append("]");
         return sb.toString();
-    }
-
-    public static String toString(int[] a, int width) {
-        return toString(new int[][]{a}, width);
-    }
-
-    public static String toString(int[] a) {
-        return toString(new int[][]{a}, 1);
-    }
-
-    public static String toString(int[][] mx) {
-        return toString(mx, 1);
     }
 
     public static String toString(char[][] mx) {
