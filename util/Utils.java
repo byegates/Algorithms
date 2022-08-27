@@ -1,5 +1,6 @@
 package util;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,10 @@ public class Utils {
         int[] a = new int[]{1, 2,};
         System.out.println(Utils.toString(a));
         System.out.println(Utils.toString(a, 3));
+
+        int[] a2 = new int[] {1, 2, -1, 3};
+        System.out.println(toString(a2, 2));
+        System.out.println(toString(toIntegerArray(a2), 2));
     }
 
     public static String toString(int e, int radix) {
@@ -164,6 +169,29 @@ public class Utils {
         return sb.append("\n").toString();
     }
 
+    public static String toString(long[] mx, int width) {
+        return toString(new long[][]{mx}, width);
+    }
+
+    public static String toString(long[][] mx, int width) {
+        int m = mx.length, n = mx[0].length;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < m; i++) {
+            var row = mx[i];
+            sb.append('[');
+            for (int j = 0; j < n; j++) {
+                sb.append(String.format("%" + width + "s", row[j]));
+                if (j != n - 1) sb.append(", ");
+            }
+            sb.append(i == m - 1 ? "]" : "]\n");
+        }
+        return sb.append("\n").toString();
+    }
+
+    public static String toString(boolean[] mx, int width) {
+        return toString(new boolean[][]{mx}, width);
+    }
+
     public static String toString(boolean[][] mx, int width) {
         int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
@@ -179,6 +207,10 @@ public class Utils {
         return sb.append("\n").toString();
     }
 
+    public static String toString(char[] mx, int width) {
+        return toString(new char[][]{mx}, width);
+    }
+
     public static String toString(char[][] mx, int width) {
         int m = mx.length, n = mx[0].length;
         StringBuilder sb = new StringBuilder();
@@ -192,6 +224,12 @@ public class Utils {
             sb.append(i == m - 1 ? "]" : "]\n");
         }
         return sb.append("\n").toString();
+    }
+
+    public static <T> String toString(T[] mx, int width) {
+        T[][] _mx = (T[][]) Array.newInstance(mx.getClass().getComponentType(), 1, mx.length);
+        _mx[0] = mx;
+        return toString(_mx, width);
     }
 
     public static <T> String toString(T[][] mx, int width) {
