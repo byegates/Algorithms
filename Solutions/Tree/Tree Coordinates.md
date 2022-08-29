@@ -1,15 +1,57 @@
 # Table of Content
-1. [LaiCode 296. Right View Of Binary Tree](#296-Right-View-Of-Binary-Tree)
-2. [LaiCode 297. Top View Of Binary Tree](#297-Top-View-Of-Binary-Tree)
-3. [LaiCode 298. Vertical List Of Binary Tree](#298-Vertical-List-Of-Binary-Tree)
-4. [LaiCode 426. Binary Tree Vertical Order Traversal](#426-Binary-Tree-Vertical-Order-Traversal)
-5. [LaiCode 406. Diagonal Sum of a Binary Tree](#406-Diagonal-Sum-of-a-Binary-Tree)
-6. [LaiCode 316. Border View Of Binary Tree](#316-Border-View-Of-Binary-Tree)
+1. [366. Find Leaves of Binary Tree](#366-Find-Leaves-of-Binary-Tree)
+2. [LaiCode 296. Right View Of Binary Tree](#296-Right-View-Of-Binary-Tree)
+3. [LaiCode 297. Top View Of Binary Tree](#297-Top-View-Of-Binary-Tree)
+4. [LaiCode 298. Vertical List Of Binary Tree](#298-Vertical-List-Of-Binary-Tree)
+5. [LaiCode 426. Binary Tree Vertical Order Traversal](#426-Binary-Tree-Vertical-Order-Traversal)
+6. [LaiCode 406. Diagonal Sum of a Binary Tree](#406-Diagonal-Sum-of-a-Binary-Tree)
+7. [LaiCode 316. Border View Of Binary Tree](#316-Border-View-Of-Binary-Tree)
 
 # Quick Note
 This series is pretty much about assign coordinates to each node in Binary Tree,
 x coordinate is the level/depth of each node and
 y coordinate decrease by 1 when go left, increase by 1 when go right
+
+# [366-Find-Leaves-of-Binary-Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
+TC: O(n) traverse the tree once, SC: O(h), height of tree, on call stack
+
+The problem says to remove leaf nodes, you don't really need to do that to get the final result.
+
+This problem eventually is to count level from bottom (leaf) level as index of result list
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> findLeaves(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(root, res);
+        return res;
+    }
+    
+    private int dfs(TreeNode root, List<List<Integer>> res) {
+        if (root == null) return 0;
+        int lvl = 1;
+        lvl += Math.max(dfs(root.left, res), dfs(root.right, res));
+        if (lvl-1 == res.size()) res.add(new ArrayList<>());
+        res.get(lvl-1).add(root.val);
+        // root.left = root.right = null;
+        return lvl;
+    }
+}
+```
 
 # 296-Right-View-Of-Binary-Tree
 [LaiCode 296. Right View Of Binary Tree](https://app.laicode.io/app/problem/296)
