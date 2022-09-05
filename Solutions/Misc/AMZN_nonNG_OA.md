@@ -1,5 +1,94 @@
 # Amazon, non-NG, OA
 
+## 9/5/22
+### #1
+<pre>num of closest points to (0, 0), you may see same question but input and output are list, which are the same</pre>
+
+#### Simply way
+```java
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+class Solution {
+    public List<int[]> xClosest(int[][] allLocations, int num) {
+        List<int[]> res = new ArrayList<>();
+        // max heap of k size
+        Queue<int[]> q = new PriorityQueue<>((a, b) -> {
+            int d1 = a[0]*a[0] + a[1]*a[1];
+            int d2 = b[0]*b[0] + b[1]*b[1];
+            return d1 == d2 ? a[0] - b[0] : d1 - d2;
+        });
+        
+        for (var a : allLocations) q.offer(a);
+        
+        while (num-- > 0 && !q.isEmpty()) res.add(q.poll());
+
+        return res;
+    }
+}
+```
+#### max heap, technically more efficient
+
+```java
+import java.util.*;
+
+class Solution {
+//    record Cell(int x, int y, int d) { // you can use this for java 14 and above
+//    }
+    
+    static class Cell {
+        int x, y, d;
+        public Cell (int _x, int _y, int _d) { // before java 14
+            x = _x;
+            y = _y;
+            d = _d;
+        }
+    }
+
+    public List<List<Integer>> xClosest(List<List<Integer>> list, int num) {
+        if (list == null || list.size() == 0 || num == 0) return List.of(new ArrayList<>());
+        int n = list.size();
+        Cell[] cells = new Cell[n];
+        for (int i = 0; i < n; i++) {
+            var l = list.get(i);
+            int x = l.get(0), y = l.get(1);
+            cells[i] = new Cell(x, y, x*x + y*y);
+        }
+
+        // max heap
+        Queue<Cell> q = new PriorityQueue<>((a, b) -> a.d == b.d ? b.x - a.x : b.d - a.d);
+
+        for (Cell c : cells) {
+            if (q.size() < num) q.offer(c);
+            else if (c.d < q.peek().d) {
+                q.poll();
+                q.offer(c);
+            }
+        }
+
+        List<List<Integer>> res = new LinkedList<>();
+        while (!q.isEmpty()) {
+            Cell c = q.poll();
+            res.add(0, List.of(c.x, c.y));
+        }
+        return res;
+    }
+}
+
+// debug
+public class DebugSolution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.xClosest(List.of(List.of(1, 2), List.of(3,4), List.of(1,-1)), 2)); // output: [[1, -1], [1, 2]]
+        System.out.println(sol.xClosest(List.of(List.of(100, 100), List.of(90, 90), List.of(80, 80), List.of(70, 70), List.of(60, 60), List.of(1,-1)), 4)); // [[1, -1], [50, 50], [60, 60], [70, 70], [80, 80]]
+        System.out.println(sol.xClosest(new ArrayList<>(), 0)); // [[]]
+        System.out.println(sol.xClosest(List.of(new ArrayList<>()), 0)); // [[]]
+    }
+}
+```
+### #2 same as below 6/29/22 #2
+
 ## 8/22/22
 ### #1 Array merge and max
 <pre>
@@ -208,27 +297,25 @@ value 1 is good
 class Solution {
     private static final int[][] dirs = new int[][] {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
     public int distanceTraversed(List<List<Integer>> lot) {
+        if (lot.size() == 0 || lot.get(0).size() == 0) return -1;
         Queue<int[]> q = new ArrayDeque<>();
         int m = lot.size(), n = lot.get(0).size();
-        boolean[][] visited = new boolean[m][n];
+        if (lot.get(0).get(0) == 9) return 0;
         q.offer(new int[] {0, 0});
-        visited[0][0] = true;
+        lot.get(0).set(0, 0);
 
-        int step = 0;
-        while (!q.isEmpty()) {
-            int size = q.size();
-            while (size-- > 0) {
+        for (int step = 1; !q.isEmpty(); step++) {
+            for (int size = q.size(); size > 0; size--) {
                 int[] cur = q.poll();
                 int i = cur[0], j = cur[1];
-                if (lot.get(i).get(j) == 9) return step;
                 for (var dir : dirs) {
                     int i2 = i + dir[0], j2 = j + dir[1];
-                    if (!isValid(i2, j2, m, n) || visited[i2][j2] || lot.get(i2).get(j2) == 0) continue;
+                    if (!isValid(i2, j2, m, n) || lot.get(i2).get(j2) == 0) continue;
+                    if (lot.get(i2).get(j2) == 9) return step;
+                    lot.get(i2).set(j2, 0);
                     q.offer(new int[] {i2, j2});
-                    visited[i2][j2] = true;
                 }
             }
-            step++;
         }
 
         return -1;
@@ -237,5 +324,15 @@ class Solution {
     private boolean isValid(int i, int j, int m, int n) {
         return i >= 0 && j >= 0 && i < m && j < n;
     }
+}
+
+public class DebugSolution {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.distanceTraversed(Arrays.asList(Arrays.asList(1, 0, 0), Arrays.asList(1, 0, 0), Arrays.asList(1, 9, 1)))); // 3
+        System.out.println(sol.distanceTraversed(Arrays.asList(Arrays.asList(9, 0, 0), Arrays.asList(1, 0, 0), Arrays.asList(1, 0, 1)))); // 0
+        System.out.println(sol.distanceTraversed(Arrays.asList(Arrays.asList(1, 9, 0), Arrays.asList(1, 0, 0), Arrays.asList(1, 1, 1)))); // 1
+        System.out.println(sol.distanceTraversed(List.of(new ArrayList<>()))); // -1
+        System.out.println(sol.distanceTraversed(new ArrayList<>())); // -1    }
 }
 ```
