@@ -1,5 +1,53 @@
 # Amazon, non-NG, OA
 
+## 9/11/22
+### #1
+reter to 8/22/22 #1 below
+### #2
+[2281. Sum of Total Strength of Wizards](https://leetcode.com/problems/sum-of-total-strength-of-wizards/) 变种
+#### O(n) Solution is all over LeetCode
+#### O(n^2) Solution, easy to understand or explain to others, can pass 68/82 cases on LeetCode then TLE, but fails HackerRank 3 cases
+```java
+class Solution1 {
+    public int totalStrength(List<Integer> list) {
+        int n = list.size(), M = 1_000_000_007;
+        int[] psum = new int[n+1];
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            psum[i+1] = (psum[i] + list.get(i)) % M;
+        }
+
+        for (int i = 0; i < n; i++) {
+            int min = list.get(i);
+            for (int j = i; j < n; j++) {
+                min = Math.min(min, list.get(j));
+                res = (res + (psum[j+1]-psum[i]) * min % M) % M;
+            }
+        }
+
+        return res;
+    }
+
+    public int totalStrength(int[] a) {
+        int n = a.length, M = 1_000_000_007;
+        int[] psum = new int[n+1];
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            psum[i+1] = (psum[i] + a[i]) % M;
+        }
+
+        for (int i = 0; i < n; i++) {
+            int min = a[i];
+            for (int j = i; j < n; j++) {
+                min = Math.min(min, a[j]);
+                res = (res + (psum[j+1]-psum[i]) * min % M) % M;
+            }
+        }
+
+        return res;
+    }
+}
+```
 ## 9/5/22
 ### #1
 <pre>num of closest points to (0, 0), you may see same question but input and output are list, which are the same</pre>
@@ -100,18 +148,37 @@ return max value now
 class DebugSolution {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.printf("Max: %d\n", sol.maxAfterMerge(new int[]{20, 8, 2, 7}));
-        System.out.printf("Max: %d\n", sol.maxAfterMerge(new int[]{20, 8, 2, 13}));
-    }
+        System.out.printf("Max: %d", sol.maxAfterMerge(new int[]{20, 8, 2, 7})); // 20
+        System.out.printf(", %d", sol.maxAfterMerge(new int[]{20, 8, 2, 13})); // 43
+        System.out.printf(", %d", sol.maxAfterMerge(new int[]{4, 30, 15, 5, 9})); // 34
+        System.out.printf(", %d\n", sol.maxAfterMerge(new int[]{4, 20, 13, 8, 9})); // 54
 
+        System.out.printf("Max: %d", sol.maxAfterMerge(Arrays.asList(20, 8, 2, 7))); // 20
+        System.out.printf(", %d", sol.maxAfterMerge(List.of(20, 8, 2, 13))); // 43
+        System.out.printf(", %d", sol.maxAfterMerge(List.of(4, 30, 15, 5, 9))); // 34
+        System.out.printf(", %d\n", sol.maxAfterMerge(List.of(4, 20, 13, 8, 9))); // 54
+    }
 }
 
 class Solution {
-    public int maxAfterMerge(int[] a) {
-        for (int i = a.length - 2; i >= 0; i--)
-            if (a[i+1] > a[i]) a[i] += a[i+1];
-        int res = a[0];
-        for (int x : a) if (x > res) res = x;
+    public long maxAfterMerge(List<Integer> l) { // input as list
+        int n = l.size();
+        long res = l.get(0), pre = l.get(n-1);
+        for (int i = n - 2; i >= 0; i--) {
+            pre = pre > l.get(i) ? l.get(i) + pre : l.get(i);
+            if (pre > res) res = pre;
+        }
+
+        return res;
+    }
+
+    public long maxAfterMerge(int[] a) {
+        long res = a[0], pre = a[a.length-1];
+        for (int i = a.length - 2; i >= 0; i--) {
+            pre = pre > a[i] ? a[i] + pre : a[i];
+            if (pre > res) res = pre;
+        }
+
         return res;
     }
 }
