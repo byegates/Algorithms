@@ -1,5 +1,11 @@
 # Amazon, non-NG, OA
 
+## 9/12/22
+### #1
+Same problem as [937. Reorder Data in Log Files](https://leetcode.com/problems/reorder-data-in-log-files/) with different description
+### #2
+[Optimal Utilization](https://leetcode.com/discuss/interview-question/373202/amazon-oa-2019-optimal-utilization)
+
 ## 9/11/22
 ### #1
 reter to 8/22/22 #1 below
