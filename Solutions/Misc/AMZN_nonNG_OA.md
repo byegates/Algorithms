@@ -1,5 +1,12 @@
 # Amazon, non-NG, OA
 
+## 9/16/22
+### #1
+same as 9/5/22, #1 Similar to [973. K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/)
+
+### #2
+BFS to find 9, refer to 6/29/22 #2
+
 ## 9/12/22
 ### #1
 Same problem as [937. Reorder Data in Log Files](https://leetcode.com/problems/reorder-data-in-log-files/) with different description
@@ -55,9 +62,105 @@ class Solution1 {
 }
 ```
 ## 9/5/22
-### #1
+### #1 k closest restaurants
+Similar to [973. K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/)
+But not the same. When distances are the same, return smaller x
 <pre>num of closest points to (0, 0), you may see same question but input and output are list, which are the same</pre>
+#### quickSelect
+TC: O(n), SC: O(logn)
+```java
+class Solution {
+    record Cell(int x, int y, int d) implements Comparable<Cell> {
+        @Override
+        public int compareTo(Cell o) {
+            return d == o.d ? x - o.x : d - o.d;
+        }
+    }
 
+    public List<List<Integer>> kClosest(List<List<Integer>> list, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (list.size() == 0 || list.get(0).size() == 0) {
+            res.add(new ArrayList<>());
+            return res;
+        }
+
+        int[][] mx = new int[list.size()][2];
+        for (int i = 0; i < mx.length; i++) mx[i] = new int[] {list.get(i).get(0), list.get(i).get(1)};
+        for (var a : kClosest(mx, k)) {
+            if (a.length == 0) res.add(new ArrayList<>());
+            else res.add(List.of(a[0], a[1]));
+        }
+
+        return res;
+    }
+
+    public int[][] kClosest(int[][] points, int k) {
+        quickSort(points, 0, points.length - 1, k - 1);  // set k-1
+        return Arrays.copyOf(points, k);
+    }
+
+    private void quickSort(int[][] points, int l, int r, int k) {
+        if (l > r) return;  // must check out of bound or not
+        int pivot = partition(l, r, points);
+        if (pivot < k) quickSort(points, pivot + 1, r, k);
+        else if (pivot > k) quickSort(points, l, pivot - 1, k);
+    }
+
+    private int partition(int l, int r, int[][] points) {
+        int p = getPivot(l, r);
+        Cell pivot = getCell(points[p]);
+        swap(p, r, points);
+        int i = l, j = r-1;
+        while (i <= j) {
+            Cell ci = getCell(points[i]);
+            Cell cj = getCell(points[j]);
+            if (ci.compareTo(pivot) <= 0) i++;
+            else if (cj.compareTo(pivot) > 0) j--;
+            else swap(i++, j--, points);
+        }
+        swap(i, r, points);
+        return i;
+    }
+
+    private void swap(int i, int j, int[][] points) {
+        int[] temp = points[i];
+        points[i] = points[j];
+        points[j] = temp;
+    }
+
+    private Cell getCell(int[] a) {
+        return new Cell(a[0], a[1], a[0] * a[0] + a[1] * a[1]);
+    }
+
+    private int getPivot(int l, int r) {
+        return l + (int) (Math.random() * (r - l));
+    }
+}
+```
+#### minHeap
+```java
+import java.util.ArrayList;
+
+class Solution {
+    public List<List<Integer>> kClosestRestaurant(List<List<Integer>> allLocations, int numRestaurants) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (allLocations == null || allLocations.size() == 0 || numRestaurants == 0) {
+            res.add(new ArrayList<>());
+            return res;
+        }
+        Queue<int[]> pq = new PriorityQueue<>((a, b) -> a[2] == b[2] ? a[1] - b[1] : a[2] < b[2] ? -1 : 1);
+        for (List<Integer> loc : allLocations) {
+            int x = loc.get(0), y = loc.get(1);
+            pq.offer(new int[]{x, y, x * x + y * y});
+        }
+        for (int i = 0; i < numRestaurants; i++) {
+            int[] cur = pq.poll();
+            res.add(Arrays.asList(cur[0], cur[1]));
+        }
+        return res;
+    }
+}
+```
 #### Simply way
 ```java
 import java.util.ArrayList;
@@ -83,7 +186,6 @@ class Solution {
 }
 ```
 #### max heap, technically more efficient
-
 ```java
 import java.util.*;
 
@@ -130,14 +232,14 @@ class Solution {
     }
 }
 
-// debug
 public class DebugSolution {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.println(sol.xClosest(List.of(List.of(1, 2), List.of(3,4), List.of(1,-1)), 2)); // output: [[1, -1], [1, 2]]
-        System.out.println(sol.xClosest(List.of(List.of(100, 100), List.of(90, 90), List.of(80, 80), List.of(70, 70), List.of(60, 60), List.of(1,-1)), 4)); // [[1, -1], [50, 50], [60, 60], [70, 70], [80, 80]]
-        System.out.println(sol.xClosest(new ArrayList<>(), 0)); // [[]]
-        System.out.println(sol.xClosest(List.of(new ArrayList<>()), 0)); // [[]]
+        System.out.println(sol.kClosestRestaurant(List.of(List.of(-2, -2), List.of(2, 2), List.of(3, 3)), 2)); // output: [[1, -1], [1, 2]]
+        System.out.println(sol.kClosestRestaurant(List.of(List.of(1, 2), List.of(3, 4), List.of(1, -1)), 2)); // output: [[1, -1], [1, 2]]
+        System.out.println(sol.kClosestRestaurant(List.of(List.of(100, 100), List.of(90, 90), List.of(80, 80), List.of(70, 70), List.of(60, 60), List.of(1, -1)), 4)); // [[1, -1], [60, 60], [70, 70], [80, 80]]
+        System.out.println(sol.kClosestRestaurant(new ArrayList<>(), 0)); // [[]]
+        System.out.println(sol.kClosestRestaurant(List.of(new ArrayList<>()), 0)); // [[]]
     }
 }
 ```
