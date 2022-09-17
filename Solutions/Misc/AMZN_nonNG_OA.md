@@ -1,5 +1,17 @@
 # Amazon, non-NG, OA
 
+## 9/17/22
+### #1 same as 9/16, 9/5 #1
+不同的马甲:
+
+Amazon alexa team optimization good vegetarian restaurants nearby?
+
+Amazon Fresh backend optimizes track delivery distance
+
+### #2, same as 9/16/22 and 6/29/22 #2
+bfs to find 9, 不同的马甲:
+Amazon fresh is a grocery delivery 
+
 ## 9/16/22
 ### #1
 same as 9/5/22, #1 Similar to [973. K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/)
@@ -508,6 +520,7 @@ public class DebugSolution {
         System.out.println(sol.distanceTraversed(Arrays.asList(Arrays.asList(9, 0, 0), Arrays.asList(1, 0, 0), Arrays.asList(1, 0, 1)))); // 0
         System.out.println(sol.distanceTraversed(Arrays.asList(Arrays.asList(1, 9, 0), Arrays.asList(1, 0, 0), Arrays.asList(1, 1, 1)))); // 1
         System.out.println(sol.distanceTraversed(List.of(new ArrayList<>()))); // -1
-        System.out.println(sol.distanceTraversed(new ArrayList<>())); // -1    }
+        System.out.println(sol.distanceTraversed(new ArrayList<>())); // -1
+    }
 }
 ```
