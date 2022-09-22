@@ -1,5 +1,41 @@
 # Amazon, non-NG, OA
 
+## 9/22/22
+### #1 Amazon music, Pair songs together on bus xxx etc...
+two sum problem, for dup answers:
+1. Return the one with the longest songs (max val), if there's still dup:
+2. return smallest index
+
+If no answer: return (-1, -1)
+
+```java
+import java.util.HashMap;
+import java.util.List;
+
+class Solution {
+    public List<Integer> getPair(List<Integer> list, int duration) {
+        int target = duration - 30, max = -1;
+        Map<Integer, Integer> map = new HashMap<>();
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            int preVal = target - list.get(i);
+            Integer preIdx = map.get(preVal);
+            if (preIdx != null) {
+                int curMax = Math.max(preVal, list.get(i));
+                if (curMax > max) {
+                    max = curMax;
+                    res = Arrays.asList(preIdx, i);
+                }
+            }
+            map.putIfAbsent(list.get(i), i);
+        }
+        return res.size() == 0 ? Arrays.asList(-1, -1) : res;
+    }
+}
+```
+### #2 
+BFS to find 9, refer to 6/29/22 #2
+
 ## 9/17/22
 ### #1 same as 9/16, 9/5 #1
 不同的马甲:
