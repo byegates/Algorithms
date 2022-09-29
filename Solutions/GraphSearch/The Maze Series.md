@@ -223,26 +223,22 @@ class Solution {
 Still use priorityQueue, but use a Cell matrix to de-dup
 ```java
 class Solution {
-
     private static final int[][] dirs = new int[][] {{1, 0}, {0, -1}, {0, 1}, {-1, 0}};
-    private static final char[]  dirc = new char[] {'d', 'l', 'r', 'u'};
+    private static final char[]  dirc = new  char[] {'d',    'l',     'r',     'u'};
 
     record Cell(int i, int j, int steps, String path) implements Comparable<Cell>{
         @Override
         public int compareTo(Cell other) {
-            if (steps == other.steps) return path.compareTo(other.path);
-            return steps - other.steps;
+            return steps == other.steps ? path.compareTo(other.path) : Integer.compare(steps, other.steps);
         }
     }
 
     public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
-        int m = maze.length, n = maze[0].length, i0, j0, iz = hole[0], jz = hole[1];
-        PriorityQueue<Cell> q = new PriorityQueue<>();
-
+        int m = maze.length, n = maze[0].length, i0 = ball[0], j0 = ball[1], iz = hole[0], jz = hole[1];
+        Queue<Cell> q = new PriorityQueue<>();
         Cell[][] cells = new Cell[m][n];
 
-        cells[i0 = ball[0]][j0 = ball[1]] = new Cell(i0, j0, 0, "");
-        q.offer(cells[i0][j0]);
+        q.offer(cells[i0][j0] = new Cell(i0, j0, 0, ""));
 
         while (!q.isEmpty()) {
             Cell cur = q.poll();
@@ -250,26 +246,23 @@ class Solution {
 
             for (int k = 0; k < dirc.length; k++) {
                 int count = 0, i2 = cur.i, j2 = cur.j, di = dirs[k][0],  dj = dirs[k][1];
-                while (valid(i2 + di, j2 + dj, m, n) && maze[i2 + di][j2 + dj] != 1) {
-                    i2 += di;
-                    j2 += dj;
+                while (valid(i2 + di, j2 + dj, m, n, maze)) {
+                    i2 += di; j2 += dj;
                     count++;
                     if (i2 == iz && j2 == jz) break;
                 }
 
                 Cell next = new Cell(i2, j2, cur.steps + count, cur.path + dirc[k]);
-                if (cells[i2][j2] == null || next.compareTo(cells[i2][j2]) < 0) {
-                    cells[i2][j2] = next;
-                    q.offer(next);
-                }
+                if (cells[i2][j2] == null || next.compareTo(cells[i2][j2]) < 0)
+                    q.offer(cells[i2][j2] = next);
             }
         }
 
         return "impossible";
     }
 
-    public boolean valid(int i, int j, int m, int n) {
-        return i >= 0 && j >= 0 && i < m && j < n;
+    public boolean valid(int i, int j, int m, int n, int[][] maze) {
+        return i >= 0 && j >= 0 && i < m && j < n && maze[i][j] != 1;
     }
 }
 ```
