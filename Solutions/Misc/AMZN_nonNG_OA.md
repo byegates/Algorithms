@@ -1,5 +1,8 @@
 # Amazon, non-NG, OA
 
+## 10/4/22, L4
+Two questions same as 9/12/22
+
 ## 9/22/22
 ### #1 Amazon music, Pair songs together on bus xxx etc...
 two sum problem, for dup answers:
@@ -36,15 +39,15 @@ class Solution {
 ### #2 
 BFS to find 9, refer to 6/29/22 #2
 
-## 9/17/22
-### #1 same as 9/16, 9/5 #1
+## 9/17/22 Exactly same as 9/16
+### #1
 不同的马甲:
 
 Amazon alexa team optimization good vegetarian restaurants nearby?
 
 Amazon Fresh backend optimizes track delivery distance
 
-### #2, same as 9/16/22 and 6/29/22 #2
+### #2:
 bfs to find 9, 不同的马甲:
 Amazon fresh is a grocery delivery 
 
@@ -59,7 +62,55 @@ BFS to find 9, refer to 6/29/22 #2
 ### #1
 Same problem as [937. Reorder Data in Log Files](https://leetcode.com/problems/reorder-data-in-log-files/) with different description
 ### #2
+Talks a lot about max flight utilization etc., real problem: max sum <= target
 [Optimal Utilization](https://leetcode.com/discuss/interview-question/373202/amazon-oa-2019-optimal-utilization)
+#### Complexity
+<pre>
+say m is size of list1, n is size of list2
+two sort will yield us nlog(n) + mlog(m) for sure
+For the result collection phase:
+if values are unique in l1 and l2 respectively: O(m+n), this is our lower bound
+if values are all duplicates in l1 and l2 respectively, say l1 is: [5,5,5,5,5], l2 is : [5,5,5,5] and the target is 10,
+the results size and our TC are both O(m*n), this is our upper bound.
+
+So final complexity:
+O(max(nlog(n)+mlog(m), m*n)
+</pre>
+
+#### code, Pure List Version, Java
+```java
+import java.util.ArrayList;
+
+class Solution {
+    private List<List<Integer>> getPairs(int target, List<List<Integer>> a, List<List<Integer>> b) {
+        a.sort(Comparator.comparingInt(l -> l.get(1)));
+        b.sort(Comparator.comparingInt(l -> l.get(1)));
+        List<List<Integer>> res = new ArrayList<>();
+        int m = a.size(), n = b.size(), max = Integer.MIN_VALUE;
+        for (i = 0, j = n - 1; i < m && j >= 0; ) {
+            int sum = a.get(i).get(1) + b.get(j).get(1);
+            if (sum > target) --j;
+            else {
+                if (max <= sum) {
+                    if (max < sum) {
+                        max = sum;
+                        res.clear();
+                    }
+                    res.add(List.of(a.get(i).get(0), b.get(j).get(0)));
+                    
+                    for (idx = j - 1; idx >= 0 && b.get(idx).get(1) == b.get(idx + 1).get(1); idx--)
+                        res.add(List.of(a.get(i).get(0), b.get(idx).get(0)));
+                }
+                ++i;
+            }
+        }
+
+        if (res.size() == 0) res.add(new ArrayList<>()); // Attention! 
+
+        return res;
+    }
+}
+```
 
 ## 9/11/22
 ### #1
