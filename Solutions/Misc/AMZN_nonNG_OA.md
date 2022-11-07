@@ -1,5 +1,10 @@
 # Amazon, non-NG, OA
 
+## 11/6/22, L5
+### 1
+refer to 8/22/22 #1
+### 2
+[2272. Substring With Largest Variance](https://leetcode.com/problems/substring-with-largest-variance/)
 ## 10/4/22, L4
 Two questions same as 9/12/22
 
